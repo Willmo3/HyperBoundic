@@ -5,6 +5,8 @@
 #include <cmath>
 
 #include "LaxFriedrichsSolver.h"
+
+#include <cassert>
 /*
  * Stencils
  */
@@ -18,6 +20,9 @@ double lax_friedrichs_stencil_simple(double u_i_plus_1, double u_i_minus_1, doub
 // Insight: conservation law formulation, hence = 0 -- very convenient!
 //  -- sum energy in system cannot change.
 PdeDiscretization lax_friedrichs_solver(const double* initial_state, uint32_t discretization_size, uint32_t num_timesteps, double delta_t, double delta_x) {
+    assert(delta_t > 0 && delta_t < INFINITY);
+    assert(delta_x > 0 && delta_x < INFINITY);
+
     auto k = delta_t / delta_x * 1/2;
     auto solution = PdeDiscretization(discretization_size, num_timesteps, initial_state);
 

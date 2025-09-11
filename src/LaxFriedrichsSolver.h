@@ -12,8 +12,8 @@
  *
  * @param initial_state Array of size discretization_size representing the initial state of the system
  * @param num_timesteps Number of timesteps for the approximation.
- * @param delta_t Time discretization... i.e. how much time is passing logically for each step.
- * @param delta_x Space discretization... i.e. how much space is passing logically for each step.
+ * @param delta_t Time discretization... i.e. how much time is passing logically for each step. Must be > 0, < INFINITY
+ * @param delta_x Space discretization... i.e. how much space is passing logically for each step. Must be > 0, < INFINITY
  * @return a discretization of the partial differential equation system.
  */
 PdeDiscretization lax_friedrichs_solver(const double* initial_state, uint32_t discretization_size, uint32_t num_timesteps, double delta_t, double delta_x);
