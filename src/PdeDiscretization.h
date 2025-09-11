@@ -7,13 +7,22 @@
 #include <array>
 #include <cstdint>
 
-
+/**
+ * Discretization of a physical system represented by a partial differential equation.
+ */
 class PdeDiscretization {
 public:
     /*
      * Constructors
      */
-    PdeDiscretization(uint32_t discretization_size, uint32_t num_timesteps, const double *constinitial_conditions);
+
+    /**
+     *
+     * @param discretization_size Size of discretization, > 0.
+     * @param num_timesteps Number of timesteps for this discretization.
+     * @param initial_conditions Array of starting conditions for the system, of len discretization_size.
+     */
+    PdeDiscretization(uint32_t discretization_size, uint32_t num_timesteps, const double *initial_conditions);
     ~PdeDiscretization();
 
     /*

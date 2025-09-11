@@ -15,6 +15,8 @@
  */
 PdeDiscretization::PdeDiscretization(uint32_t discretization_size, uint32_t num_timesteps, const double* const initial_conditions)
     :_discretization_size(discretization_size),  _num_timesteps(num_timesteps) {
+    assert(discretization_size > 0);
+    assert(num_timesteps > 0);
 
     system = static_cast<double *>(calloc(sizeof(double), num_timesteps * discretization_size));
     assert(system);
