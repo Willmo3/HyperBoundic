@@ -4,8 +4,8 @@
 #include <cstdint>
 #include <iostream>
 
-#include "src/LaxFriedrichsSolver.h"
-#include "src/PdeDiscretization.h"
+#include "LaxFriedrichsSolver.h"
+#include "PdeDiscretization.h"
 
 
 int main() {
