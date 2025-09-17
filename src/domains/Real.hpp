@@ -30,7 +30,9 @@ private:
     double _value;
 };
 
-std::ostream& operator<<(std::ostream& os, Real &rhs);
+// Note: cannot use reference for rhs because we want to be able to print shortlived values
+// i.e. std::cout << Real(a) + Real(b) << std::endl;
+std::ostream& operator<<(std::ostream& os, Real rhs);
 
 
 #endif //PDEAPPROX_REAL_H
