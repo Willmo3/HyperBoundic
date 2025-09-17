@@ -3,8 +3,12 @@ project(PDEapprox)
 
 set(CMAKE_CXX_STANDARD 20)
 
+add_subdirectory(Winterval)
+
 add_executable(PDEapprox src/main.cpp
-        src/PdeDiscretization.cpp
-        src/PdeDiscretization.h
-        src/LaxFriedrichsSolver.cpp
-        src/LaxFriedrichsSolver.h)
+        src/domains/Real.cpp
+        src/domains/Real.hpp
+        src/domains/Numeric.hpp
+        src/solvers/LaxFriedrichsSolver.hpp
+        src/discretizations/PdeDiscretization.hpp
+)
