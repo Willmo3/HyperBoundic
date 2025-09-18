@@ -21,7 +21,10 @@ TEST(friedrichs, real_approx) {
     initial_conditions[3] = 4.0;
 
     auto solution_matrix = LaxFriedrichsSolver<Real>::solve(initial_conditions, discretization_size, num_timesteps, delta_t, delta_x, LaxFriedrichsSolver<Real>::cubic_flux);
-    solution_matrix.print_system();
+    ASSERT_EQ(solution_matrix.get(2, 0), 2355);
+    ASSERT_EQ(solution_matrix.get(2, 1), 22711);
+    ASSERT_EQ(solution_matrix.get(2, 2), -2351);
+    ASSERT_EQ(solution_matrix.get(2, 3), -22705);
 
     free(initial_conditions);
     initial_conditions = nullptr;

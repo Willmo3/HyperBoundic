@@ -23,6 +23,7 @@ public:
     Real operator-(const Real& right) const;
     Real operator*(const Real& right) const;
     Real operator/(const Real& right) const;
+    bool operator==(const Real& right) const;
 
     Real tanh() const;
     Real pow(uint32_t power) const;
