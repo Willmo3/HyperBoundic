@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+
+echo "installing and updating PDEapprox dependencies"
+
+parentname="$(basename "$(pwd)")"
+if [ ! $parentname = "PDEapprox" ]; then
+  echo "Attempted setup from wrong directory -- move to PDEapprox root!"
+  exit 1
+fi
+
+if [ ! -d 'Winterval' ]; then 
+  git clone "https://github.com/Willmo3/Winterval" 
+fi
+
+cd "Winterval"
+git pull
