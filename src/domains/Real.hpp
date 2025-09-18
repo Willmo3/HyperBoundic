@@ -18,12 +18,13 @@ public:
 
     /*
      * Operations
+     * NOTE: do not use reference so that temporary values can be applied in the way e.g. doubles are.
      */
-    Real operator+(const Real& right) const;
-    Real operator-(const Real& right) const;
-    Real operator*(const Real& right) const;
-    Real operator/(const Real& right) const;
-    bool operator==(const Real& right) const;
+    Real operator+(Real right) const;
+    Real operator-(Real right) const;
+    Real operator*(Real right) const;
+    Real operator/(Real right) const;
+    bool operator==(Real right) const;
 
     Real tanh() const;
     Real pow(uint32_t power) const;
