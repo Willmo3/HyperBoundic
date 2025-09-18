@@ -34,7 +34,6 @@ public:
         auto solution = PdeDiscretization<T>(discretization_size, num_timesteps, initial_state);
 
         // copy initial state into solution
-
         for (auto timestep = 0; timestep < num_timesteps - 1; timestep++) {
             for (auto x = 1; x < discretization_size - 1; x++) {
                 auto u_x_plus_1 = solution.get(timestep, x + 1);
@@ -62,7 +61,7 @@ private:
      * Internal helpers
      */
     static T lax_friedrichs_stencil(T u_i_plus_1, T u_i_minus_1, double k, const std::function<T(T)>& flux) {
-        return u_i_plus_1 + u_i_minus_1;
+        return (u_i_plus_1 + u_i_minus_1) * 0.5 - (flux(u_i_plus_1) - flux(u_i_minus_1)) * k;
     }
     static T cubic_flux(T value) {
         return value.pow(3);

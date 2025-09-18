@@ -12,3 +12,5 @@ add_executable(PDEapprox src/main.cpp
         src/solvers/LaxFriedrichsSolver.hpp
         src/discretizations/PdeDiscretization.hpp
 )
+
+target_link_libraries(PDEapprox winterval)

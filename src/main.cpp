@@ -8,7 +8,7 @@
 #include "../Winterval/src/Winterval.h"
 #include "domains/Real.hpp"
 
-void test_lf() {
+void test_lf_scalar() {
     uint32_t discretization_size = 4;
     uint32_t num_timesteps = 4;
     double delta_x = 1; // Spatial discretization. Assuming total space of four split into 4 parts = 1.
@@ -29,7 +29,28 @@ void test_lf() {
     initial_conditions = nullptr;
 }
 
+void test_lf_interval() {
+    uint32_t discretization_size = 4;
+    uint32_t num_timesteps = 4;
+    double delta_x = 1;
+    double delta_t = 1;
+
+    auto initial_conditions = static_cast<Winterval *>(calloc(discretization_size, sizeof(Winterval)));
+    assert(initial_conditions);
+
+    initial_conditions[0] = Winterval(0, 1);
+    initial_conditions[1] = Winterval(1, 2);
+    initial_conditions[2] = Winterval(2, 3);
+    initial_conditions[3] = Winterval(3, 4);
+
+    auto solution_matrix = LaxFriedrichsSolver<Winterval>::solve(initial_conditions, discretization_size, num_timesteps, delta_t, delta_x);
+    solution_matrix.print_system();
+
+    free(initial_conditions);
+    initial_conditions = nullptr;
+}
+
 int main() {
-    test_lf();
+    test_lf_interval();
     return 0;
 }

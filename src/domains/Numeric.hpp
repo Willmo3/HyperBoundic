@@ -9,14 +9,29 @@
  * Numeric data suitable for approximation schemes.
  */
 template<typename T>
-concept Numeric = requires(T a, uint32_t power, std::ostream& out)
+concept Numeric = requires(T a, uint32_t power, double scalar, std::ostream& out)
 {
+    /*
+     * Interval-interval operations
+     */
     a + a;
     a - a;
     a / a;
     a * a;
     a.tanh();
     a.pow(power);
+
+    /*
+     * Interval-scalar operations
+     */
+    a * scalar;
+    a + scalar;
+    a - scalar;
+    a / scalar;
+
+    /*
+     * Other utility operations
+     */
     out << a;
 };
 
