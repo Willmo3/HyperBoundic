@@ -3,6 +3,8 @@ add_library(lf
         domains/Real.hpp
         domains/Numeric.hpp
         solvers/LaxFriedrichsSolver.hpp
+        solvers/flux/FluxFunction.hpp
+        solvers/flux/CubicFlux.hpp
         discretizations/PdeDiscretization.hpp)
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ../../out)

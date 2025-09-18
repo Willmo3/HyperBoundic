@@ -4,11 +4,13 @@
 
 #ifndef PDEAPPROX_LAXFRIEDRICHSSOLVER_H
 #define PDEAPPROX_LAXFRIEDRICHSSOLVER_H
-#include <functional>
+
+#include <cmath>
 
 #include "../domains/Numeric.hpp"
 #include "../discretizations/PdeDiscretization.hpp"
-#include <cmath>
+
+#include "flux/FluxFunction.hpp"
 
 // Using template classes to ease instantiation.
 template<typename T>
@@ -28,14 +30,13 @@ public:
      * @param flux Flux function to use for this approximation.
      * @return a discretization of the partial differential equation system.
      */
-    static PdeDiscretization<T> solve(const T* initial_state, uint32_t discretization_size, uint32_t num_timesteps, double delta_t, double delta_x, const std::function<T(T)>& flux) {
+    static PdeDiscretization<T> solve(const T* initial_state, uint32_t discretization_size, uint32_t num_timesteps, double delta_t, double delta_x, FluxFunction<T>* flux) {
         assert(delta_t > 0 && delta_t < INFINITY);
         assert(delta_x > 0 && delta_x < INFINITY);
 
         auto k = delta_t / delta_x * 1/2;
         auto solution = PdeDiscretization<T>(discretization_size, num_timesteps, initial_state);
 
-        // copy initial state into solution
         for (auto timestep = 0; timestep < num_timesteps - 1; timestep++) {
             for (auto x = 1; x < discretization_size - 1; x++) {
                 auto u_x_plus_1 = solution.get(timestep, x + 1);
@@ -58,22 +59,12 @@ public:
 
         return solution;
     }
-
-    /*
-     * Pre-defined flux functions.
-     */
-    static T cubic_flux(T value) {
-        return value.pow(3);
-    }
-    static T unit_flux(T value) {
-        return value;
-    }
 private:
     /*
      * Internal helpers
      */
-    static T lax_friedrichs_stencil(T u_i_plus_1, T u_i_minus_1, double k, const std::function<T(T)>& flux) {
-        return (u_i_plus_1 + u_i_minus_1) * 0.5 - (flux(u_i_plus_1) - flux(u_i_minus_1)) * k;
+    static T lax_friedrichs_stencil(T u_i_plus_1, T u_i_minus_1, double k, FluxFunction<T> *flux) {
+        return (u_i_plus_1 + u_i_minus_1) * 0.5 - (flux->flux(u_i_plus_1) - flux->flux(u_i_minus_1)) * k;
     }
 };
 

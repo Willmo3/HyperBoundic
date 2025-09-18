@@ -5,6 +5,7 @@
 #include <gtest/gtest.h>
 #include "../src/domains/Real.hpp"
 #include "../src/solvers/LaxFriedrichsSolver.hpp"
+#include "../src/solvers/flux/CubicFlux.hpp"
 #include "../Winterval/src/Winterval.h"
 
 TEST(friedrichs, real_approx) {
@@ -21,7 +22,7 @@ TEST(friedrichs, real_approx) {
     initial_conditions[2] = 3.0;
     initial_conditions[3] = 4.0;
 
-    auto solution_matrix = LaxFriedrichsSolver<Real>::solve(initial_conditions, discretization_size, num_timesteps, delta_t, delta_x, LaxFriedrichsSolver<Real>::cubic_flux);
+    auto solution_matrix = LaxFriedrichsSolver<Real>::solve(initial_conditions, discretization_size, num_timesteps, delta_t, delta_x, new CubicFlux<Real>());
     // test the third row of the discretization.
     ASSERT_EQ(solution_matrix.get(2, 0), 2355);
     ASSERT_EQ(solution_matrix.get(2, 1), 22711);
@@ -46,7 +47,7 @@ TEST(friedrichs, interval_approx) {
     initial_conditions[2] = Winterval(2, 3);
     initial_conditions[3] = Winterval(3, 4);
 
-    auto solution_matrix = LaxFriedrichsSolver<Winterval>::solve(initial_conditions, discretization_size, num_timesteps, delta_t, delta_x, LaxFriedrichsSolver<Winterval>::cubic_flux);
+    auto solution_matrix = LaxFriedrichsSolver<Winterval>::solve(initial_conditions, discretization_size, num_timesteps, delta_t, delta_x, new CubicFlux<Winterval>());
     ASSERT_EQ(solution_matrix.get(2, 0), Winterval(43.25, 2845.5));
     ASSERT_EQ(solution_matrix.get(2, 1), Winterval(888.75, 33382));
     ASSERT_EQ(solution_matrix.get(2, 2), Winterval(-2842.5, -40.25));
