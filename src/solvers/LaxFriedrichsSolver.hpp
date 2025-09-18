@@ -9,6 +9,7 @@
 
 #include "../domains/Numeric.hpp"
 #include "../discretizations/PdeDiscretization.hpp"
+#include "cfl/cfl_check.hpp"
 
 #include "flux/FluxFunction.hpp"
 
@@ -37,6 +38,8 @@ public:
         auto k = delta_t / delta_x * 1/2;
         auto solution = PdeDiscretization<T>(discretization_size, num_timesteps, initial_state);
 
+        // CFL condition check
+        // at each timestep, ensure condition met.
         for (auto timestep = 0; timestep < num_timesteps - 1; timestep++) {
             for (auto x = 1; x < discretization_size - 1; x++) {
                 auto u_x_plus_1 = solution.get(timestep, x + 1);
@@ -55,6 +58,11 @@ public:
                 solution.get(timestep, 0),
                 solution.get(timestep, discretization_size - 2),
                 k, flux));
+
+            // After each run through, check that CFL satisfied.
+            for (auto point = 0; point < discretization_size; point++) {
+                assert(cfl_check(flux, solution.get(timestep, point), delta_t, delta_x));
+            }
         }
 
         return solution;

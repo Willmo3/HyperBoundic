@@ -34,6 +34,18 @@ Real Real::operator/(Real right) const {
 bool Real::operator==(Real right) const {
     return _value == right._value;
 }
+bool Real::operator<=(Real right) const {
+    return _value <= right._value;
+}
+bool Real::operator<(Real right) const {
+    return _value < right._value;
+}
+bool Real::operator>=(Real right) const {
+    return _value >= right._value;
+}
+bool Real::operator>(Real right) const {
+    return _value > right._value;
+}
 
 std::ostream& operator<<(std::ostream& os, Real rhs) {
     os << std::to_string(rhs.value());

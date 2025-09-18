@@ -21,11 +21,8 @@ void test_lf_unit_flux() {
 void test_lf_scalar() {
     uint32_t discretization_size = 4;
     uint32_t num_timesteps = 4;
-    // TODO: must satisfy CFL condition.
-    // cmax = 1
-    // solver checks CFL at every step
     double delta_x = 1; // Spatial discretization. Assuming total space of four split into 4 parts = 1.
-    double delta_t = 0.05; // Spacing of time. Assuming operating over 4 logical time split into 4 timesteps = 1.
+    double delta_t = 0.02; // Spacing of time. Assuming operating over 4 logical time split into 4 timesteps = 1.
 
     auto initial_conditions = static_cast<Real *>(calloc(discretization_size, sizeof(double)));
     assert(initial_conditions);
@@ -46,7 +43,7 @@ void test_lf_interval() {
     uint32_t discretization_size = 4;
     uint32_t num_timesteps = 4;
     double delta_x = 1;
-    double delta_t = 0.05;
+    double delta_t = 0.02;
 
     auto initial_conditions = static_cast<Winterval *>(calloc(discretization_size, sizeof(Winterval)));
     assert(initial_conditions);

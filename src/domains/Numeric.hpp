@@ -28,6 +28,10 @@ concept Numeric = requires(T a, uint32_t power, double scalar, std::ostream& out
     a + scalar;
     a - scalar;
     a / scalar;
+    a < scalar;
+    a <= scalar;
+    a > scalar;
+    a >= scalar;
 
     /*
      * Other utility operations
