@@ -22,7 +22,7 @@ void test_lf_scalar() {
     initial_conditions[2] = 3.0;
     initial_conditions[3] = 4.0;
 
-    auto solution_matrix = LaxFriedrichsSolver<Real>::solve(initial_conditions, discretization_size, num_timesteps, delta_t, delta_x);
+    auto solution_matrix = LaxFriedrichsSolver<Real>::solve(initial_conditions, discretization_size, num_timesteps, delta_t, delta_x, LaxFriedrichsSolver<Real>::cubic_flux);
     solution_matrix.print_system();
 
     free(initial_conditions);
@@ -43,7 +43,7 @@ void test_lf_interval() {
     initial_conditions[2] = Winterval(2, 3);
     initial_conditions[3] = Winterval(3, 4);
 
-    auto solution_matrix = LaxFriedrichsSolver<Winterval>::solve(initial_conditions, discretization_size, num_timesteps, delta_t, delta_x);
+    auto solution_matrix = LaxFriedrichsSolver<Winterval>::solve(initial_conditions, discretization_size, num_timesteps, delta_t, delta_x, LaxFriedrichsSolver<Winterval>::cubic_flux);
     solution_matrix.print_system();
 
     free(initial_conditions);
@@ -51,6 +51,9 @@ void test_lf_interval() {
 }
 
 int main() {
+    std::cout << "Scalar:" << std::endl;
+    test_lf_scalar();
+    std::cout << std::endl << "Interval:" << std::endl;
     test_lf_interval();
     return 0;
 }
