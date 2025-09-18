@@ -8,6 +8,7 @@
 
 #include "../domains/Numeric.hpp"
 #include "../discretizations/PdeDiscretization.hpp"
+#include <cmath>
 
 // Using template classes to ease instantiation.
 template<typename T>

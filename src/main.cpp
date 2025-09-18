@@ -8,6 +8,15 @@
 #include "../Winterval/src/Winterval.h"
 #include "domains/Real.hpp"
 
+/**
+ * Test a Lax Friedrichs approximation over the scalar and interval domains.
+ */
+void test_lf_unit_flux() {
+    /*
+     * Shared constants
+     */
+}
+
 void test_lf_scalar() {
     uint32_t discretization_size = 4;
     uint32_t num_timesteps = 4;
