@@ -12,4 +12,4 @@ add_executable(test_friedrichs test_friedrichs.cpp)
 target_link_libraries(test_friedrichs GTest::gtest_main)
 include(GoogleTest)
 
-target_link_libraries(test_friedrichs lf)
+target_link_libraries(test_friedrichs lf winterval)
