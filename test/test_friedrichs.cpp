@@ -6,7 +6,7 @@
 #include "../src/domains/Real.hpp"
 #include "../src/solvers/LaxFriedrichsSolver.hpp"
 #include "../src/solvers/flux/CubicFlux.hpp"
-#include "../Winterval/src/Winterval.h"
+#include "../lib/Winterval/src/Winterval.h"
 
 TEST(friedrichs, real_approx) {
     uint32_t discretization_size = 4;

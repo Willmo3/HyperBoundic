@@ -5,7 +5,7 @@
 #include <iostream>
 
 #include "solvers/LaxFriedrichsSolver.hpp"
-#include "../Winterval/src/Winterval.h"
+#include "../lib/Winterval/src/Winterval.h"
 #include "domains/Real.hpp"
 #include "solvers/flux/CubicFlux.hpp"
 

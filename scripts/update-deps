@@ -10,9 +10,21 @@ if [ ! $parentname = "PDEapprox" ]; then
   exit 1
 fi
 
+
+# Dependencies contained in lib directory.
+if [ ! -d 'lib' ]; then
+  mkdir lib
+fi
+cd lib
+
 if [ ! -d 'Winterval' ]; then 
   git clone "https://github.com/Willmo3/Winterval" 
 fi
-
 cd "Winterval"
 git pull
+cd ..
+
+if [ ! -d 'matplotplusplus' ]; then
+  git clone https://github.com/alandefreitas/matplotplusplus/
+fi
+# Note: we do not automatically update matplot++, as it's a larger project outside of our control.
