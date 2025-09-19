@@ -13,4 +13,5 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ../../out)
 add_executable(PDEapprox main.cpp)
 target_link_libraries(PDEapprox lf)
 target_link_libraries(PDEapprox winterval)
+target_link_libraries(PDEapprox matplot)
 

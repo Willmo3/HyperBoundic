@@ -7,6 +7,9 @@
 #include "solvers/LaxFriedrichsSolver.hpp"
 #include "../lib/Winterval/src/Winterval.h"
 #include "domains/Real.hpp"
+#include "matplot/axes_objects/surface.h"
+#include "matplot/freestanding/plot.h"
+#include "matplot/util/common.h"
 #include "solvers/flux/CubicFlux.hpp"
 
 /**
@@ -34,6 +37,22 @@ void test_lf_scalar() {
 
     auto solution_matrix = LaxFriedrichsSolver<Real>::solve(initial_conditions, discretization_size, num_timesteps, delta_t, delta_x, new CubicFlux<Real>());
     solution_matrix.print_system();
+
+    // Graphing:
+    // TODO: better encapsulate
+    // TODO: namespacing for our code in general.
+    using namespace matplot;
+    auto [X, Y] = meshgrid(iota(0, 1, 3));
+    auto Z = transform(X, Y, [&solution_matrix](double x_coord, double y_coord) {
+        auto x_int = static_cast<uint32_t>(x_coord);
+        auto y_int = static_cast<uint32_t>(y_coord);
+        return solution_matrix.get(x_int, y_int).value();
+    });
+    auto data = surfc(X, Y, Z)->edge_color("none");
+    xlabel("timestep");
+    ylabel("space");
+    zlabel("wave height");
+    show();
 
     free(initial_conditions);
     initial_conditions = nullptr;
