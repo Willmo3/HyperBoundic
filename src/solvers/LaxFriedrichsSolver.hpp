@@ -61,7 +61,10 @@ public:
 
             // After each run through, check that CFL satisfied.
             for (auto point = 0; point < discretization_size; point++) {
-                assert(cfl_check(flux, solution.get(timestep, point), delta_t, delta_x));
+                if (!cfl_check(flux, solution.get(timestep, point), delta_t, delta_x)) {
+                    std::cerr << "System blowup detected, exiting." << std::endl;
+                    exit(1);
+                }
             }
         }
 
