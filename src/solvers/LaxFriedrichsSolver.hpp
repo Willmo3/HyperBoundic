@@ -9,7 +9,7 @@
 
 #include "../domains/Numeric.hpp"
 #include "../discretizations/PdeDiscretization.hpp"
-#include "cfl/cfl_check.hpp"
+#include "cfl/CflCheck.hpp"
 
 #include "flux/FluxFunction.hpp"
 

@@ -9,7 +9,7 @@ add_library(lf
         solvers/LaxFriedrichsSolver.hpp
         solvers/flux/FluxFunction.hpp
         solvers/flux/CubicFlux.hpp
-        solvers/cfl/cfl_check.hpp
+        solvers/cfl/CflCheck.hpp
         discretizations/PdeDiscretization.hpp
 )
 target_link_libraries(lf domains)
