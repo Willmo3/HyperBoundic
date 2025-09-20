@@ -1,17 +1,22 @@
-add_library(lf
+add_library(domains
         domains/Real.cpp
         domains/Real.hpp
         domains/Numeric.hpp
+)
+target_link_libraries(domains winterval)
+
+add_library(lf
         solvers/LaxFriedrichsSolver.hpp
         solvers/flux/FluxFunction.hpp
         solvers/flux/CubicFlux.hpp
         solvers/cfl/cfl_check.hpp
-        discretizations/PdeDiscretization.hpp)
+        discretizations/PdeDiscretization.hpp
+)
+target_link_libraries(lf domains)
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ../../out)
 
 add_executable(PDEapprox main.cpp)
 target_link_libraries(PDEapprox lf)
-target_link_libraries(PDEapprox winterval)
 target_link_libraries(PDEapprox matplot)
 
