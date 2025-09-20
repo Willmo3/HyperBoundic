@@ -20,6 +20,7 @@ concept Numeric = requires(T a, uint32_t power, double scalar, std::ostream& out
     a * a;
     a.tanh();
     a.pow(power);
+    // TODO: abs
 
     /*
      * Interval-scalar operations

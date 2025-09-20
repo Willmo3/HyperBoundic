@@ -16,7 +16,7 @@ target_link_libraries(lf domains)
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ../../out)
 
-add_executable(PDEapprox main.cpp)
+add_executable(PDEapprox main.cpp visualization/DiscretizationVisualizers.hpp)
 target_link_libraries(PDEapprox lf)
 target_link_libraries(PDEapprox matplot)
 
