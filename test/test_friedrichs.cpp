@@ -6,7 +6,7 @@
 #include "../src/domains/Real.hpp"
 #include "../src/solvers/LaxFriedrichsSolver.hpp"
 #include "../src/solvers/flux/CubicFlux.hpp"
-#include "../lib/Winterval/src/Winterval.h"
+#include "../lib/Winterval/src/Winterval.hpp"
 
 void assert_eq_bounded_interval(Winterval a, Winterval b) {
     ASSERT_NEAR(a.min(), b.min(), 1e-5);

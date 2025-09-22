@@ -12,7 +12,7 @@ template<typename T>
 concept Numeric = requires(T a, uint32_t power, double scalar, std::ostream& out)
 {
     /*
-     * Interval-interval operations
+     * Numeric-numeric operations
      */
     a + a;
     a - a;
@@ -20,10 +20,10 @@ concept Numeric = requires(T a, uint32_t power, double scalar, std::ostream& out
     a * a;
     a.tanh();
     a.pow(power);
-    // TODO: abs
+    a.abs();
 
     /*
-     * Interval-scalar operations
+     * Numeric-scalar operations
      */
     a * scalar;
     a + scalar;

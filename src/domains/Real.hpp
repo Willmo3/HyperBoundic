@@ -32,6 +32,7 @@ public:
 
     Real tanh() const;
     Real pow(uint32_t power) const;
+    Real abs() const;
 private:
     double _value;
 };

@@ -58,3 +58,6 @@ Real Real::tanh() const {
 Real Real::pow(uint32_t power) const {
     return { std::pow(_value, power) };
 }
+Real Real::abs() const {
+    return { std::abs(_value) };
+}
