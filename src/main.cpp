@@ -25,22 +25,17 @@ void test_lf_scalar() {
     double delta_x = 1; // Spatial discretization. Assuming total space of four split into 4 parts = 1.
     double delta_t = 0.02; // Spacing of time. Assuming operating over 4 logical time split into 4 timesteps = 1.
 
-    auto initial_conditions = static_cast<Real *>(calloc(discretization_size, sizeof(double)));
+    auto initial_conditions = std::unique_ptr<Real>(static_cast<Real *>(calloc(discretization_size, sizeof(double))));
     assert(initial_conditions);
 
-    initial_conditions[0] = 1.0;
-    initial_conditions[1] = 2.0;
-    initial_conditions[2] = 3.0;
-    initial_conditions[3] = 4.0;
+    initial_conditions.get()[0] = 1.0;
+    initial_conditions.get()[1] = 2.0;
+    initial_conditions.get()[2] = 3.0;
+    initial_conditions.get()[3] = 4.0;
 
     auto solution_matrix = LaxFriedrichsSolver<Real>::solve(initial_conditions, discretization_size, num_timesteps, delta_t, delta_x, new CubicFlux<Real>());
     solution_matrix.print_system();
-
-    // TODO: support interval visualization.
     show_real_surface(&solution_matrix);
-
-    free(initial_conditions);
-    initial_conditions = nullptr;
 }
 
 void test_lf_interval() {
@@ -49,19 +44,16 @@ void test_lf_interval() {
     double delta_x = 1;
     double delta_t = 0.02;
 
-    auto initial_conditions = static_cast<Winterval *>(calloc(discretization_size, sizeof(Winterval)));
+    auto initial_conditions = std::unique_ptr<Winterval>(static_cast<Winterval *>(calloc(discretization_size, sizeof(Winterval))));
     assert(initial_conditions);
 
-    initial_conditions[0] = Winterval(0, 1);
-    initial_conditions[1] = Winterval(1, 2);
-    initial_conditions[2] = Winterval(2, 3);
-    initial_conditions[3] = Winterval(3, 4);
+    initial_conditions.get()[0] = Winterval(0, 1);
+    initial_conditions.get()[1] = Winterval(1, 2);
+    initial_conditions.get()[2] = Winterval(2, 3);
+    initial_conditions.get()[3] = Winterval(3, 4);
 
     auto solution_matrix = LaxFriedrichsSolver<Winterval>::solve(initial_conditions, discretization_size, num_timesteps, delta_t, delta_x, new CubicFlux<Winterval>());
     solution_matrix.print_system();
-
-    free(initial_conditions);
-    initial_conditions = nullptr;
 }
 
 int main() {

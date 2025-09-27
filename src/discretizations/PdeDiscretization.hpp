@@ -8,6 +8,7 @@
 #include <cstdint>
 #include <cstring>
 #include <iostream>
+#include <memory>
 
 #include "../domains/Numeric.hpp"
 
@@ -28,8 +29,9 @@ public:
      * @param discretization_size Size of discretization, > 0.
      * @param num_timesteps Number of timesteps for this discretization.
      * @param initial_conditions Array of starting conditions for the system, of len discretization_size.
+     * This must be a unique pointer, since values will be consumed by this function.
      */
-    PdeDiscretization(uint32_t discretization_size, uint32_t num_timesteps, const T *initial_conditions)
+    PdeDiscretization(uint32_t discretization_size, uint32_t num_timesteps, std::unique_ptr<T> &initial_conditions)
         :_discretization_size(discretization_size),  _num_timesteps(num_timesteps){
         assert(discretization_size > 0);
         assert(num_timesteps > 0);
@@ -38,7 +40,9 @@ public:
         assert(system);
 
         // Copy initial values into solution matrix
-        assert(memcpy(system, initial_conditions, discretization_size * sizeof(T)));
+        for (auto i = 0; i < discretization_size; i++) {
+            system[i] = initial_conditions.get()[i];
+        }
     }
     ~PdeDiscretization() {
         free(system);

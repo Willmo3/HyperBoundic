@@ -31,7 +31,7 @@ public:
      * @param flux Flux function to use for this approximation.
      * @return a discretization of the partial differential equation system.
      */
-    static PdeDiscretization<T> solve(const T* initial_state, uint32_t discretization_size, uint32_t num_timesteps, double delta_t, double delta_x, FluxFunction<T>* flux) {
+    static PdeDiscretization<T> solve(std::unique_ptr<T> &initial_state, uint32_t discretization_size, uint32_t num_timesteps, double delta_t, double delta_x, FluxFunction<T>* flux) {
         assert(delta_t > 0 && delta_t < INFINITY);
         assert(delta_x > 0 && delta_x < INFINITY);
 
