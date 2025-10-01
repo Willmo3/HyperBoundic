@@ -24,7 +24,14 @@ cd "Winterval"
 git pull
 cd ..
 
+if [ ! -d 'Waffine' ]; then
+  git clone "https://github.com/Willmo3/Waffine"
+fi
+cd "Waffine"
+git pull
+cd ..
+
 if [ ! -d 'matplotplusplus' ]; then
-  git clone https://github.com/alandefreitas/matplotplusplus/
+  git clone "https://github.com/alandefreitas/matplotplusplus"
 fi
 # Note: we do not automatically update matplot++, as it's a larger project outside of our control.

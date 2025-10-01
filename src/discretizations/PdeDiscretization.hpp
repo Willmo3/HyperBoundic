@@ -40,6 +40,7 @@ public:
         assert(system);
 
         // Copy initial values into solution matrix
+        // TODO: should be doable with memcpy
         for (auto i = 0; i < discretization_size; i++) {
             system[i] = initial_conditions.get()[i];
         }

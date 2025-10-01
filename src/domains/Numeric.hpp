@@ -18,7 +18,8 @@ concept Numeric = requires(T a, uint32_t power, double scalar, std::ostream& out
     a - a;
     a / a;
     a * a;
-    a.tanh();
+    // Will require tanh later when affine domain supports.
+    // a.tanh();
     a.pow(power);
     a.abs();
 
