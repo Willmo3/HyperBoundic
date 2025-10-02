@@ -3,6 +3,8 @@
 //
 
 #include <gtest/gtest.h>
+
+#include "../lib/Waffine/src/WaffineForm.hpp"
 #include "../src/domains/Real.hpp"
 #include "../src/solvers/LaxFriedrichsSolver.hpp"
 #include "../src/solvers/flux/CubicFlux.hpp"
@@ -42,7 +44,6 @@ TEST(friedrichs, interval_approx) {
     double delta_x = 1;
 
     auto initial_conditions = std::unique_ptr<Winterval>(static_cast<Winterval *>(calloc(discretization_size, sizeof(Winterval))));
-    assert(initial_conditions);
 
     initial_conditions.get()[0] = Winterval(0, 1);
     initial_conditions.get()[1] = Winterval(1, 2);
@@ -54,4 +55,24 @@ TEST(friedrichs, interval_approx) {
     assert_eq_bounded_interval(solution_matrix.get(2, 1), Winterval(1.663154, 3.672608));
     assert_eq_bounded_interval(solution_matrix.get(2, 2), Winterval(0.786919, 2.159640));
     assert_eq_bounded_interval(solution_matrix.get(2, 3),  Winterval(1.327392, 3.336846));
+}
+
+TEST(friedrichs, affine_approx) {
+    uint32_t discretization_size = 4;
+    uint32_t num_timesteps = 4;
+    double delta_t = 0.02;
+    double delta_x = 1;
+
+    auto initial_conditions = std::unique_ptr<WaffineForm>(static_cast<WaffineForm *>(calloc(discretization_size, sizeof(WaffineForm))));
+
+    initial_conditions.get()[0] = WaffineForm(Winterval(0, 1));
+    initial_conditions.get()[1] = WaffineForm(Winterval(1, 2));
+    initial_conditions.get()[2] = WaffineForm(Winterval(2, 3));
+    initial_conditions.get()[3] = WaffineForm(Winterval(3, 4));
+
+    auto solution_matrix = LaxFriedrichsSolver<WaffineForm>::solve(initial_conditions, discretization_size, num_timesteps, delta_t, delta_x, new CubicFlux<WaffineForm>());
+    assert_eq_bounded_interval(solution_matrix.get(2, 0).to_interval(), Winterval(0.939509, 2.102490));
+    assert_eq_bounded_interval(solution_matrix.get(2, 1).to_interval(), Winterval(1.932881, 3.365835));
+    assert_eq_bounded_interval(solution_matrix.get(2, 2).to_interval(), Winterval(0.951364, 2.006637));
+    assert_eq_bounded_interval(solution_matrix.get(2, 3).to_interval(), Winterval(1.877454, 2.823831));
 }
