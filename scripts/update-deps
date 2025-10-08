@@ -20,8 +20,8 @@ cd lib
 if [ -d 'Winterval' ]; then 
   rm -r 'Winterval'
 fi
-wget 'https://github.com/Willmo3/Winterval/raw/refs/heads/main/release/winterval-v0.0.2.tar.gz'
-tar -xzf 'winterval-v0.0.2.tar.gz' && rm 'winterval-v0.0.2.tar.gz'
+wget 'https://github.com/Willmo3/Winterval/raw/refs/heads/main/release/winterval-v0.0.3.tar.gz'
+tar -xzf 'winterval-v0.0.3.tar.gz' && rm 'winterval-v0.0.3.tar.gz'
 
 if [ -d 'Waffine' ]; then
   rm -r 'Waffine'
