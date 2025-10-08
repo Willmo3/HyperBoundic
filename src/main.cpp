@@ -5,8 +5,8 @@
 #include <iostream>
 
 #include "solvers/LaxFriedrichsSolver.hpp"
-#include "../lib/Winterval/src/Winterval.hpp"
-#include "../lib/Waffine/src/WaffineForm.hpp"
+#include "../lib/Winterval/Winterval.hpp"
+#include "../lib/Waffine/WaffineForm.hpp"
 #include "domains/Real.hpp"
 #include "solvers/flux/CubicFlux.hpp"
 #include "visualization/DiscretizationVisualizers.hpp"
@@ -55,6 +55,7 @@ void test_lf_interval() {
     auto solution_matrix = LaxFriedrichsSolver<Winterval>::solve(initial_conditions, discretization_size, num_timesteps, delta_t, delta_x, new CubicFlux<Winterval>());
     solution_matrix.print_system();
 }
+// TODO: leapfrog, reduced product
 
 void test_lf_affine() {
     uint32_t discretization_size = 4;

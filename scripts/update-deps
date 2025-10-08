@@ -17,19 +17,17 @@ if [ ! -d 'lib' ]; then
 fi
 cd lib
 
-if [ ! -d 'Winterval' ]; then 
-  git clone "https://github.com/Willmo3/Winterval" 
+if [ -d 'Winterval' ]; then 
+  rm -r 'Winterval'
 fi
-cd "Winterval"
-git pull
-cd ..
+wget 'https://github.com/Willmo3/Winterval/raw/refs/heads/main/release/winterval-v0.0.2.tar.gz'
+tar -xzf 'winterval-v0.0.2.tar.gz' && rm 'winterval-v0.0.2.tar.gz'
 
-if [ ! -d 'Waffine' ]; then
-  git clone "https://github.com/Willmo3/Waffine"
+if [ -d 'Waffine' ]; then
+  rm -r 'Waffine'
 fi
-cd "Waffine"
-git pull
-cd ..
+wget 'https://github.com/Willmo3/Waffine/raw/refs/heads/main/release/waffine-v0.0.2.tar.gz'
+tar -xzf 'waffine-v0.0.2.tar.gz' && rm 'waffine-v0.0.2.tar.gz'
 
 if [ ! -d 'matplotplusplus' ]; then
   git clone "https://github.com/alandefreitas/matplotplusplus"

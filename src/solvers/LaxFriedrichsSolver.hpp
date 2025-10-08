@@ -75,7 +75,6 @@ private:
      * Internal helpers
      */
     static T lax_friedrichs_stencil(T u_i_plus_1, T u_i_minus_1, double k, FluxFunction<T> *flux) {
-        // Keeping these as separate variables allows more complex domains to be operated on as references, rather than values.
         return (u_i_plus_1 + u_i_minus_1) * 0.5 - (flux->flux(u_i_plus_1) - flux->flux(u_i_minus_1)) * k;
     }
 };

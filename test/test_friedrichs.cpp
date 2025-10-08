@@ -4,11 +4,11 @@
 
 #include <gtest/gtest.h>
 
-#include "../lib/Waffine/src/WaffineForm.hpp"
+#include "../lib/Waffine/WaffineForm.hpp"
 #include "../src/domains/Real.hpp"
 #include "../src/solvers/LaxFriedrichsSolver.hpp"
 #include "../src/solvers/flux/CubicFlux.hpp"
-#include "../lib/Winterval/src/Winterval.hpp"
+#include "../lib/Winterval/Winterval.hpp"
 
 void assert_eq_bounded_interval(Winterval a, Winterval b) {
     ASSERT_NEAR(a.min(), b.min(), 1e-5);

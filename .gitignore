@@ -3,5 +3,7 @@ CMakeFiles
 cmake-build-debug-system
 .cmake
 
-lib
+lib/Waffine
+lib/Winterval
+lib/matplotplusplus
 out
