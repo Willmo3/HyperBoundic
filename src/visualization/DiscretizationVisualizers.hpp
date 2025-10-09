@@ -12,7 +12,7 @@
  * Note: we use individual functions, as opposed to a shared class,
  * to allow the transform lambda to capture the system.
  */
-void show_real_surface(PdeDiscretization<Real> *system) {
+inline void show_real_surface(PdeDiscretization<Real> *system) {
     using namespace matplot;
     auto [X, Y] = meshgrid(iota(0, 1, 3));
 
