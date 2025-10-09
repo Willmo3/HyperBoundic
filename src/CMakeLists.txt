@@ -3,7 +3,7 @@ add_library(domains
         domains/Real.hpp
         domains/Numeric.hpp
 )
-target_link_libraries(domains winterval waffine)
+target_link_libraries(domains winterval waffine wixed)
 
 add_library(lf
         solvers/LaxFriedrichsSolver.hpp
