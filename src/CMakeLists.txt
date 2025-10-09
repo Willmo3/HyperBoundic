@@ -7,6 +7,7 @@ target_link_libraries(domains winterval waffine wixed)
 
 add_library(lf
         solvers/LaxFriedrichsSolver.hpp
+        solvers/LeapfrogSolver.hpp
         solvers/flux/FluxFunction.hpp
         solvers/flux/CubicFlux.hpp
         solvers/cfl/CflCheck.hpp
