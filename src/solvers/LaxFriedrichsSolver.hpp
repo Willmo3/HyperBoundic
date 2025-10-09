@@ -38,8 +38,6 @@ public:
         auto k = delta_t / delta_x * 1/2;
         auto solution = PdeDiscretization<T>(discretization_size, num_timesteps, initial_state);
 
-        // CFL condition check
-        // at each timestep, ensure condition met.
         for (auto timestep = 0; timestep < num_timesteps - 1; timestep++) {
             for (auto x = 1; x < discretization_size - 1; x++) {
                 auto u_x_plus_1 = solution.get(timestep, x + 1);

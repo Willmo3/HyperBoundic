@@ -43,6 +43,7 @@ public:
         for (auto x = 0; x < discretization_size; x++) {
             solution.set(1, x, first_row.get(1, x));
         }
+        solution.cfl_check_row(flux, delta_t, delta_x, 1);
 
         // With first timestep primed, move to leapfrog.
         for (auto timestep = 1; timestep < num_timesteps - 1; timestep++) {
