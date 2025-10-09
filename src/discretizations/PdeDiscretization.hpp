@@ -6,10 +6,10 @@
 #define PDEAPPROX_SYSTEMAPPROXIMATION_H
 #include <cassert>
 #include <cstdint>
-#include <cstring>
 #include <iostream>
 #include <memory>
 
+#include "../solvers/flux/FluxFunction.hpp"
 #include "../domains/Numeric.hpp"
 
 /**
@@ -68,6 +68,27 @@ public:
         assert(timestep < _num_timesteps);
         assert(index < _discretization_size);
         system[timestep * _discretization_size + index] = value;
+    }
+
+    /*
+     * Validators
+     */
+
+    /**
+     *
+     * @param flux Flux function to use for CFL check.
+     * @param delta_t Logical time discretization of the solver.
+     * @param delta_x Logical space discretization of the solver.
+     * @param timestep Timestep to evaluate.
+     */
+    void cfl_check_row(FluxFunction<T> *flux, double delta_t, double delta_x, int timestep) {
+        assert(timestep >= 0 && timestep < _num_timesteps);
+        for (auto point = 0; point < _discretization_size; point++) {
+            if (!cfl_check(flux, get(timestep, point), delta_t, delta_x)) {
+                std::cerr << "System blowup detected, exiting." << std::endl;
+                exit(1);
+            }
+        }
     }
 
     /*
