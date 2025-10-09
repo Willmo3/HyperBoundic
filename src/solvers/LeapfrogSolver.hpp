@@ -23,7 +23,7 @@ public:
      * Approximate the values of the system at different points in time using the second-order leapfrog method.
      *
      * @param initial_state Array of size discretization_size representing the initial state of the system
-     * @param num_timesteps Number of timesteps for the approximation. (num rows)
+     * @param num_timesteps Number of timesteps for the approximation. (num rows). Must be >= 2 to prime with Lax-Friedrichs.
      * @param discretization_size Size of space being approximated. (num cols)
      * @param delta_t Time discretization... i.e. how much time is passing logically for each step. Must be > 0, < INFINITY
      * @param delta_x Space discretization... i.e. how much space is passing logically for each step. Must be > 0, < INFINITY
@@ -33,7 +33,7 @@ public:
     static PdeDiscretization<T> solve(std::unique_ptr<T> &initial_state, uint32_t discretization_size, uint32_t num_timesteps, double delta_t, double delta_x, FluxFunction<T>* flux) {
         assert(delta_t > 0 && delta_t < INFINITY);
         assert(delta_x > 0 && delta_x < INFINITY);
-        // TODO: check that we have sufficient timesteps w/ assertion -- should be done to LaxFriedrichs as well.
+        assert(num_timesteps >= 2); // Need at least two timesteps to prime with Lax-Friedrichs.
 
         auto k = delta_t / delta_x;
         auto solution = PdeDiscretization<T>(discretization_size, num_timesteps, initial_state);
