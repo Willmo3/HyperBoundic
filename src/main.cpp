@@ -108,6 +108,23 @@ void test_frog_scalar() {
     // show_real_surface(&solution_matrix);
 }
 
+void test_frog_interval() {
+    uint32_t discretization_size = 4;
+    uint32_t num_timesteps = 4;
+    double delta_x = 1;
+    double delta_t = 0.02;
+
+    auto initial_conditions = std::unique_ptr<Winterval>(static_cast<Winterval *>(calloc(discretization_size, sizeof(Winterval))));
+
+    initial_conditions.get()[0] = Winterval(0, 1);
+    initial_conditions.get()[1] = Winterval(1, 2);
+    initial_conditions.get()[2] = Winterval(2, 3);
+    initial_conditions.get()[3] = Winterval(3, 4);
+
+    auto solution_matrix = LeapfrogSolver<Winterval>::solve(initial_conditions, discretization_size, num_timesteps, delta_t, delta_x, new CubicFlux<Winterval>());
+    solution_matrix.print_system();
+}
+
 int main() {
     // std::cout << "Scalar:" << std::endl;
     // test_lf_scalar();
@@ -119,7 +136,9 @@ int main() {
     // test_lf_mixed();
     // std::cout << "Lax-Friedrichs Scalar:" << std::endl;
     // test_lf_scalar();
-    std::cout << std::endl << "Leapfrog Scalar:" << std::endl;
-    test_frog_scalar();
+    // std::cout << std::endl << "Leapfrog Scalar:" << std::endl;
+    // test_frog_scalar();
+    std::cout << std::endl << "Leapfrog Interval:" << std::endl;
+    test_frog_interval();
     return 0;
 }

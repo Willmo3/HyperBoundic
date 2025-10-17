@@ -10,6 +10,11 @@
 #include "../lib/Wixed/WixedForm.hpp"
 #include "gtest/gtest.h"
 
+void assert_eq_bounded_interval(Winterval a, Winterval b) {
+    ASSERT_NEAR(a.min(), b.min(), 1e-5);
+    ASSERT_NEAR(a.max(), b.max(), 1e-5);
+}
+
 TEST(leapfrog, real_approx) {
     uint32_t discretization_size = 4;
     uint32_t num_timesteps = 4;
@@ -29,4 +34,24 @@ TEST(leapfrog, real_approx) {
     ASSERT_NEAR(solution_matrix.get(2, 1).value(), 2.611825, 0.001);
     ASSERT_NEAR(solution_matrix.get(2, 2).value(), 2.874497, 0.001);
     ASSERT_NEAR(solution_matrix.get(2, 3).value(), 3.388175, 0.001);
+}
+
+TEST(leapfrog, interval_approx) {
+    uint32_t discretization_size = 4;
+    uint32_t num_timesteps = 4;
+    double delta_t = 0.02;
+    double delta_x = 1;
+
+    auto initial_conditions = std::unique_ptr<Winterval>(static_cast<Winterval *>(calloc(discretization_size, sizeof(Winterval))));
+
+    initial_conditions.get()[0] = Winterval(0, 1);
+    initial_conditions.get()[1] = Winterval(1, 2);
+    initial_conditions.get()[2] = Winterval(2, 3);
+    initial_conditions.get()[3] = Winterval(3, 4);
+
+    auto solution_matrix = LeapfrogSolver<Winterval>::solve(initial_conditions, discretization_size, num_timesteps, delta_t, delta_x, new CubicFlux<Winterval>());
+    assert_eq_bounded_interval(Winterval(-0.119280, 1.226161), solution_matrix.get(2, 0));
+    assert_eq_bounded_interval(Winterval(0.766308, 2.905216), solution_matrix.get(2, 1));
+    assert_eq_bounded_interval(Winterval(1.773839, 3.119280), solution_matrix.get(2, 2));
+    assert_eq_bounded_interval(Winterval(2.094784, 4.233692), solution_matrix.get(2, 3));
 }
