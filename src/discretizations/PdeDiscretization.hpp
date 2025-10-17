@@ -6,6 +6,7 @@
 #define PDEAPPROX_SYSTEMAPPROXIMATION_H
 #include <cassert>
 #include <cstdint>
+#include <cstring>
 #include <iostream>
 #include <memory>
 
@@ -39,11 +40,8 @@ public:
         system = static_cast<T *>(calloc(sizeof(T), num_timesteps * discretization_size));
         assert(system);
 
-        // Copy initial values into solution matrix
-        // TODO: should be doable with memcpy
-        for (auto i = 0; i < discretization_size; i++) {
-            system[i] = initial_conditions.get()[i];
-        }
+        // Bring in initial discretization.
+        assert(memcpy(system, initial_conditions.get(), sizeof(T) * discretization_size));
     }
     ~PdeDiscretization() {
         free(system);
