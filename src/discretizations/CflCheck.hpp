@@ -10,7 +10,7 @@
 #include "../solvers/flux/FluxFunction.hpp"
 
 /*
- * For hyperbolic schemes, c_max is defined as one.
+ * For explicit schemes, c_max is defined as one.
  */
 const uint32_t c_max = 1;
 
