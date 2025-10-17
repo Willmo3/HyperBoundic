@@ -9,7 +9,7 @@
 #include "LaxFriedrichsSolver.hpp"
 #include "../domains/Numeric.hpp"
 #include "../discretizations/PdeDiscretization.hpp"
-#include "cfl/CflCheck.hpp"
+#include "../discretizations/CflCheck.hpp"
 
 #include "flux/FluxFunction.hpp"
 

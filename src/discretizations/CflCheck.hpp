@@ -6,8 +6,8 @@
 #define PDEAPPROX_CFL_CHECK_H
 #include <cstdint>
 
-#include "../../domains/Numeric.hpp"
-#include "../flux/FluxFunction.hpp"
+#include "../domains/Numeric.hpp"
+#include "../solvers/flux/FluxFunction.hpp"
 
 /*
  * For hyperbolic schemes, c_max is defined as one.
