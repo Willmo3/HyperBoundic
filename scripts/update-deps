@@ -32,8 +32,8 @@ tar -xzf 'waffine-v0.0.2.tar.gz' && rm 'waffine-v0.0.2.tar.gz'
 if [ -d 'Wixed' ]; then
   rm -r 'Wixed'
 fi
-wget 'https://github.com/Willmo3/Wixed/raw/refs/heads/main/release/wixed-v0.0.1.tar.gz'
-tar -xzf 'wixed-v0.0.1.tar.gz' && rm 'wixed-v0.0.1.tar.gz'
+wget 'https://github.com/Willmo3/Wixed/raw/refs/heads/main/release/wixed-v0.0.2.tar.gz'
+tar -xzf 'wixed-v0.0.2.tar.gz' && rm 'wixed-v0.0.2.tar.gz'
 
 if [ ! -d 'matplotplusplus' ]; then
   git clone "https://github.com/alandefreitas/matplotplusplus"
