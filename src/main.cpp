@@ -142,6 +142,23 @@ void test_frog_affine() {
     solution_matrix.print_system();
 }
 
+void test_frog_mixed() {
+    uint32_t discretization_size = 4;
+    uint32_t num_timesteps = 4;
+    double delta_x = 1;
+    double delta_t = 0.02;
+
+    auto initial_conditions = std::unique_ptr<WixedForm>(static_cast<WixedForm *>(calloc(discretization_size, sizeof(WixedForm))));
+
+    initial_conditions.get()[0] = WixedForm(Winterval(0, 1));
+    initial_conditions.get()[1] = WixedForm(Winterval(1, 2));
+    initial_conditions.get()[2] = WixedForm(Winterval(2, 3));
+    initial_conditions.get()[3] = WixedForm(Winterval(3, 4));
+
+    auto solution_matrix = LeapfrogSolver<WixedForm>::solve(initial_conditions, discretization_size, num_timesteps, delta_t, delta_x, new CubicFlux<WixedForm>());
+    solution_matrix.print_system();
+}
+
 int main() {
     // std::cout << "Scalar:" << std::endl;
     // test_lf_scalar();
@@ -157,7 +174,9 @@ int main() {
     // test_frog_scalar();
     // std::cout << std::endl << "Leapfrog Interval:" << std::endl;
     // test_frog_interval();
-    std::cout << std::endl << "Leapfrog Affine:" << std::endl;
-    test_frog_affine();
+    // std::cout << std::endl << "Leapfrog Affine:" << std::endl;
+    // test_frog_affine();
+    std::cout << "Leapfrog Mixed:" << std::endl;
+    test_frog_mixed();
     return 0;
 }

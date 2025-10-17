@@ -75,3 +75,23 @@ TEST(leapfrog, affine_approx) {
     assert_eq_bounded_interval(solution_matrix.get(2, 2).to_interval(), Winterval(1.918658, 2.997344));
     assert_eq_bounded_interval(solution_matrix.get(2, 3).to_interval(), Winterval(2.728068, 3.674502));
 }
+
+TEST(leapfrog, affine_approx_mixed) {
+    uint32_t discretization_size = 4;
+    uint32_t num_timesteps = 4;
+    double delta_x = 1;
+    double delta_t = 0.02;
+
+    auto initial_conditions = std::unique_ptr<WixedForm>(static_cast<WixedForm *>(calloc(discretization_size, sizeof(WixedForm))));
+
+    initial_conditions.get()[0] = WixedForm(Winterval(0, 1));
+    initial_conditions.get()[1] = WixedForm(Winterval(1, 2));
+    initial_conditions.get()[2] = WixedForm(Winterval(2, 3));
+    initial_conditions.get()[3] = WixedForm(Winterval(3, 4));
+
+    auto solution_matrix = LeapfrogSolver<WixedForm>::solve(initial_conditions, discretization_size, num_timesteps, delta_t, delta_x, new CubicFlux<WixedForm>());
+    assert_eq_bounded_interval(solution_matrix.get(2, 0).interval_bounds(), Winterval(-0.076409,1.160407));
+    assert_eq_bounded_interval(solution_matrix.get(2, 1).interval_bounds(), Winterval(0.924492, 2.672938));
+    assert_eq_bounded_interval(solution_matrix.get(2, 2).interval_bounds(), Winterval(1.918658, 2.997344));
+    assert_eq_bounded_interval(solution_matrix.get(2, 3).interval_bounds(), Winterval(2.728068, 3.674502));
+}
