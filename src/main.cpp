@@ -18,7 +18,7 @@
  */
 void test_lf_scalar() {
     uint32_t discretization_size = 4;
-    uint32_t num_timesteps = 4;
+    uint32_t num_timesteps = 40000000;
     double delta_x = 1; // Spatial discretization. Assuming total space of four split into 4 parts = 1.
     double delta_t = 0.02; // Spacing of time. Assuming operating over 4 logical time split into 4 timesteps = 1.
 
@@ -117,8 +117,8 @@ int main() {
     // test_lf_affine();
     // std::cout << std::endl << "Mixed:" << std::endl;
     // test_lf_mixed();
-    std::cout << "Lax-Friedrichs Scalar:" << std::endl;
-    test_lf_scalar();
+    // std::cout << "Lax-Friedrichs Scalar:" << std::endl;
+    // test_lf_scalar();
     std::cout << std::endl << "Leapfrog Scalar:" << std::endl;
     test_frog_scalar();
     return 0;
