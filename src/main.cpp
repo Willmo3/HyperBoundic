@@ -125,6 +125,23 @@ void test_frog_interval() {
     solution_matrix.print_system();
 }
 
+void test_frog_affine() {
+    uint32_t discretization_size = 4;
+    uint32_t num_timesteps = 4;
+    double delta_x = 1;
+    double delta_t = 0.02;
+
+    auto initial_conditions = std::unique_ptr<WaffineForm>(static_cast<WaffineForm *>(calloc(discretization_size, sizeof(WaffineForm))));
+
+    initial_conditions.get()[0] = WaffineForm(Winterval(0, 1));
+    initial_conditions.get()[1] = WaffineForm(Winterval(1, 2));
+    initial_conditions.get()[2] = WaffineForm(Winterval(2, 3));
+    initial_conditions.get()[3] = WaffineForm(Winterval(3, 4));
+
+    auto solution_matrix = LeapfrogSolver<WaffineForm>::solve(initial_conditions, discretization_size, num_timesteps, delta_t, delta_x, new CubicFlux<WaffineForm>());
+    solution_matrix.print_system();
+}
+
 int main() {
     // std::cout << "Scalar:" << std::endl;
     // test_lf_scalar();
@@ -138,7 +155,9 @@ int main() {
     // test_lf_scalar();
     // std::cout << std::endl << "Leapfrog Scalar:" << std::endl;
     // test_frog_scalar();
-    std::cout << std::endl << "Leapfrog Interval:" << std::endl;
-    test_frog_interval();
+    // std::cout << std::endl << "Leapfrog Interval:" << std::endl;
+    // test_frog_interval();
+    std::cout << std::endl << "Leapfrog Affine:" << std::endl;
+    test_frog_affine();
     return 0;
 }

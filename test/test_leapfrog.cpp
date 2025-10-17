@@ -55,3 +55,23 @@ TEST(leapfrog, interval_approx) {
     assert_eq_bounded_interval(Winterval(1.773839, 3.119280), solution_matrix.get(2, 2));
     assert_eq_bounded_interval(Winterval(2.094784, 4.233692), solution_matrix.get(2, 3));
 }
+
+TEST(leapfrog, affine_approx) {
+    uint32_t discretization_size = 4;
+    uint32_t num_timesteps = 4;
+    double delta_x = 1;
+    double delta_t = 0.02;
+
+    auto initial_conditions = std::unique_ptr<WaffineForm>(static_cast<WaffineForm *>(calloc(discretization_size, sizeof(WaffineForm))));
+
+    initial_conditions.get()[0] = WaffineForm(Winterval(0, 1));
+    initial_conditions.get()[1] = WaffineForm(Winterval(1, 2));
+    initial_conditions.get()[2] = WaffineForm(Winterval(2, 3));
+    initial_conditions.get()[3] = WaffineForm(Winterval(3, 4));
+
+    auto solution_matrix = LeapfrogSolver<WaffineForm>::solve(initial_conditions, discretization_size, num_timesteps, delta_t, delta_x, new CubicFlux<WaffineForm>());
+    assert_eq_bounded_interval(solution_matrix.get(2, 0).to_interval(), Winterval(-0.076409, 1.160407));
+    assert_eq_bounded_interval(solution_matrix.get(2, 1).to_interval(), Winterval(0.924492, 2.672938));
+    assert_eq_bounded_interval(solution_matrix.get(2, 2).to_interval(), Winterval(1.918658, 2.997344));
+    assert_eq_bounded_interval(solution_matrix.get(2, 3).to_interval(), Winterval(2.728068, 3.674502));
+}
