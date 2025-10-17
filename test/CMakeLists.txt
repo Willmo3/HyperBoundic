@@ -20,3 +20,6 @@ target_link_libraries(test_leapfrog lf)
 # Visualization executables
 add_executable(visualize_leapfrog viz/visualize_leapfrog.cpp)
 target_link_libraries(visualize_leapfrog lf matplot)
+
+add_executable(visualize_friedrichs viz/visualize_friedrichs.cpp)
+target_link_libraries(visualize_friedrichs lf matplot)
