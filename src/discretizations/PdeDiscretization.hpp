@@ -102,6 +102,8 @@ public:
         }
     }
 private:
+    // we don't use a unique ptr here because if we did, then we would only be able to pass discretizations as pointers
+    // because the system would be deleted if we tried to pass by value.
     T *system;
     const uint32_t _discretization_size;
     const uint32_t _num_timesteps;
