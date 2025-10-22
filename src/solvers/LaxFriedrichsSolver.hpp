@@ -7,10 +7,8 @@
 
 #include <cmath>
 
-#include "../domains/Numeric.hpp"
-#include "../discretizations/PdeDiscretization.hpp"
-#include "../discretizations/CflCheck.hpp"
-
+#include "domains/Numeric.hpp"
+#include "discretizations/PdeDiscretization.hpp"
 #include "flux/FluxFunction.hpp"
 
 // Using template classes to ease instantiation.

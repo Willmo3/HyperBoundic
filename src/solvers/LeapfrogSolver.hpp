@@ -7,10 +7,9 @@
 #include <cmath>
 
 #include "LaxFriedrichsSolver.hpp"
-#include "../domains/Numeric.hpp"
-#include "../discretizations/PdeDiscretization.hpp"
-#include "../discretizations/CflCheck.hpp"
-
+#include "domains/Numeric.hpp"
+#include "discretizations/PdeDiscretization.hpp"
+#include "discretizations/CflCheck.hpp"
 #include "flux/FluxFunction.hpp"
 
 template<typename T>

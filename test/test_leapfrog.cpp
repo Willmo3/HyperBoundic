@@ -2,12 +2,12 @@
 // Created by will on 10/17/25.
 //
 
-#include "../lib/Waffine/WaffineForm.hpp"
+#include "Waffine/WaffineForm.hpp"
 #include "../src/domains/Real.hpp"
 #include "../src/solvers/LeapfrogSolver.hpp"
 #include "../src/solvers/flux/CubicFlux.hpp"
-#include "../lib/Winterval/Winterval.hpp"
-#include "../lib/Wixed/WixedForm.hpp"
+#include "Winterval/Winterval.hpp"
+#include "Wixed/WixedForm.hpp"
 #include "gtest/gtest.h"
 
 void assert_eq_bounded_interval(Winterval a, Winterval b) {

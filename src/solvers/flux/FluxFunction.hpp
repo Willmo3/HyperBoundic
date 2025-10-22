@@ -5,7 +5,7 @@
 #ifndef PDEAPPROX_FLUXFUNCTION_H
 #define PDEAPPROX_FLUXFUNCTION_H
 
-#include "../../domains/Numeric.hpp"
+#include "domains/Numeric.hpp"
 
 template<typename T>
 requires Numeric<T>

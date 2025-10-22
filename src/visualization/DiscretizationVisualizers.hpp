@@ -4,7 +4,7 @@
 
 #ifndef PDEAPPROX_DISCRETIZATIONVISUALIZER_H
 #define PDEAPPROX_DISCRETIZATIONVISUALIZER_H
-#include "../discretizations/PdeDiscretization.hpp"
+#include "discretizations/PdeDiscretization.hpp"
 #include "matplot/freestanding/plot.h"
 #include "matplot/util/common.h"
 

@@ -10,8 +10,9 @@
 #include <iostream>
 #include <memory>
 
-#include "../solvers/flux/FluxFunction.hpp"
-#include "../domains/Numeric.hpp"
+#include "solvers/flux/FluxFunction.hpp"
+#include "domains/Numeric.hpp"
+#include "CflCheck.hpp"
 
 /**
  * Discretization of a physical system represented by a partial differential equation.
