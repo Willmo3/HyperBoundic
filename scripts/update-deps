@@ -20,22 +20,31 @@ cd lib
 if [ -d 'Winterval' ]; then 
   rm -r 'Winterval'
 fi
-wget 'https://github.com/Willmo3/Winterval/raw/refs/heads/main/release/winterval-v0.0.4.tar.gz'
-tar -xzf 'winterval-v0.0.4.tar.gz' && rm 'winterval-v0.0.4.tar.gz'
+wget 'https://github.com/Willmo3/Winterval/raw/refs/heads/main/release/winterval-v0.0.5.tar.gz'
+tar -xzf 'winterval-v0.0.5.tar.gz' && rm 'winterval-v0.0.5.tar.gz'
 
 if [ -d 'Waffine' ]; then
   rm -r 'Waffine'
 fi
-wget 'https://github.com/Willmo3/Waffine/raw/refs/heads/main/release/waffine-v0.0.2.tar.gz'
-tar -xzf 'waffine-v0.0.2.tar.gz' && rm 'waffine-v0.0.2.tar.gz'
+wget 'https://github.com/Willmo3/Waffine/raw/refs/heads/main/release/waffine-v0.0.3.tar.gz'
+tar -xzf 'waffine-v0.0.3.tar.gz' && rm 'waffine-v0.0.3.tar.gz'
 
 if [ -d 'Wixed' ]; then
   rm -r 'Wixed'
 fi
-wget 'https://github.com/Willmo3/Wixed/raw/refs/heads/main/release/wixed-v0.0.2.tar.gz'
-tar -xzf 'wixed-v0.0.2.tar.gz' && rm 'wixed-v0.0.2.tar.gz'
+wget 'https://github.com/Willmo3/Wixed/raw/refs/heads/main/release/wixed-v0.0.3.tar.gz'
+tar -xzf 'wixed-v0.0.3.tar.gz' && rm 'wixed-v0.0.3.tar.gz'
 
+# Cereal is required for wixed, waffine, and winterval
+if [[ -d "cereal" ]]; then
+  rm -r "cereal"
+fi
+
+wget "https://github.com/USCiLab/cereal/archive/v1.3.2.tar.gz" && tar -xf "v1.3.2.tar.gz" && mv "cereal-1.3.2/include/cereal/" "." && rm -r cereal-1.3.2 v1.3.2.tar.gz
+
+# Download Matplotplusplus if not already present
 if [ ! -d 'matplotplusplus' ]; then
   git clone "https://github.com/alandefreitas/matplotplusplus"
 fi
 # Note: we do not automatically update matplot++, as it's a larger project outside of our control.
+
