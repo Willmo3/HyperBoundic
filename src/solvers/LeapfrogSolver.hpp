@@ -35,7 +35,8 @@ public:
         assert(num_timesteps >= 2); // Need at least two timesteps to prime with Lax-Friedrichs.
 
         auto k = delta_t / delta_x;
-        auto solution = PdeDiscretization<T>(discretization_size, num_timesteps, initial_state);
+        auto solution = PdeDiscretization<T>(discretization_size, num_timesteps);
+        solution.copy_initial_conditions(initial_state);
 
         auto first_row = LaxFriedrichsSolver<T>::solve(initial_state, discretization_size, 2, delta_t, delta_x, flux);
         // Copy first row of Lax-Friedrichs solution into our solution matrix.

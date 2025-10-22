@@ -34,7 +34,8 @@ public:
         assert(delta_x > 0 && delta_x < INFINITY);
 
         auto k = delta_t / delta_x * 1/2;
-        auto solution = PdeDiscretization<T>(discretization_size, num_timesteps, initial_state);
+        auto solution = PdeDiscretization<T>(discretization_size, num_timesteps);
+        solution.copy_initial_conditions(initial_state);
 
         for (auto timestep = 0; timestep < num_timesteps - 1; timestep++) {
             for (auto x = 1; x < discretization_size - 1; x++) {

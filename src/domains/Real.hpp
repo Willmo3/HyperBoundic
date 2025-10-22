@@ -7,6 +7,9 @@
 #include <cstdint>
 #include <iosfwd>
 
+#include "cereal/archives/json.hpp"
+
+
 /**
  * Wrapper class for real numbers, compliant with template requirements of abstract domain.
  */
@@ -32,6 +35,14 @@ public:
     Real tanh() const;
     Real pow(uint32_t power) const;
     Real abs() const;
+
+    /*
+     * Serialization support through cereal.
+     */
+    template<class Archive>
+    void serialize(Archive & archive) {
+        archive(_value);
+    }
 private:
     double _value;
 };

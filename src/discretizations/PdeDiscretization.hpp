@@ -27,26 +27,44 @@ public:
      */
 
     /**
-     *
-     * @param discretization_size Size of discretization, > 0.
+     * Empty discretization matrix.
+     * @param discretization_size Number of spatial discretization points, > 0.
      * @param num_timesteps Number of timesteps for this discretization.
-     * @param initial_conditions Array of starting conditions for the system, of len discretization_size.
-     * This must be a unique pointer, since values will be consumed by this function.
      */
-    PdeDiscretization(uint32_t discretization_size, uint32_t num_timesteps, std::unique_ptr<T> &initial_conditions)
-        :_discretization_size(discretization_size),  _num_timesteps(num_timesteps){
+    PdeDiscretization(uint32_t discretization_size, uint32_t num_timesteps)
+        :_discretization_size(discretization_size),  _num_timesteps(num_timesteps) {
         assert(discretization_size > 0);
         assert(num_timesteps > 0);
 
-        system = static_cast<T *>(calloc(sizeof(T), num_timesteps * discretization_size));
-        assert(system);
-
-        // Bring in initial discretization.
-        assert(memcpy(system, initial_conditions.get(), sizeof(T) * discretization_size));
+        _system = static_cast<T *>(calloc(sizeof(T), num_timesteps * discretization_size));
+        assert(_system);
     }
+
+    /**
+     * Copy initial conditions into discretization matrix.
+     * @param initial_conditions Array of starting conditions for the system, of len discretization_size.
+     */
+    void copy_initial_conditions(std::unique_ptr<T> &initial_conditions) {
+        assert(initial_conditions);
+        assert(memcpy(_system, initial_conditions.get(), sizeof(T) * _discretization_size));
+    }
+
+    /**
+     * Explicit value constructor.
+     *
+     * @param discretization_size Size of discretization, > 0.
+     * @param num_timesteps Number of timesteps for this discretization.
+     * @param system Array of starting conditions for the system, of len discretization_size.
+     */
+    PdeDiscretization(uint32_t discretization_size, uint32_t num_timesteps, const T *system)
+        :_system(system), _discretization_size(discretization_size), _num_timesteps(num_timesteps) {}
+
+    /**
+     * Destructor
+     */
     ~PdeDiscretization() {
-        free(system);
-        system = nullptr;
+        free(_system);
+        _system = nullptr;
     }
 
     /*
@@ -61,12 +79,12 @@ public:
     T get(uint32_t timestep, uint32_t index) const {
         assert(timestep < _num_timesteps);
         assert(index < _discretization_size);
-        return system[timestep * _discretization_size + index];
+        return _system[timestep * _discretization_size + index];
     }
     void set(uint32_t timestep, uint32_t index, T value) {
         assert(timestep < _num_timesteps);
         assert(index < _discretization_size);
-        system[timestep * _discretization_size + index] = value;
+        _system[timestep * _discretization_size + index] = value;
     }
 
     /*
@@ -97,15 +115,14 @@ public:
         for (auto t = 0; t < _num_timesteps; t++) {
             std::cout << "T" << t << ": ";
             for (auto i = 0; i < _discretization_size; i++) {
-                std::cout << system[_discretization_size * t + i] << " ";
+                std::cout << _system[_discretization_size * t + i] << " ";
             }
             std::cout << std::endl;
         }
     }
 private:
-    // we don't use a unique ptr here because if we did, then we would only be able to pass discretizations as pointers
-    // because the system would be deleted if we tried to pass by value.
-    T *system;
+    // Using raw pointer to enable low-level mem management -- i.e. transfer to GPU
+    T *_system;
     const uint32_t _discretization_size;
     const uint32_t _num_timesteps;
 };
