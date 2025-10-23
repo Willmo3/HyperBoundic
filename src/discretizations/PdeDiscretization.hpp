@@ -205,7 +205,9 @@ private:
          */
         template<class Archive>
         void serialize(Archive & archive) {
-            archive(discretization_size, num_timesteps, system);
+            archive(cereal::make_nvp("discretization_size", discretization_size),
+                cereal::make_nvp("num_timesteps", num_timesteps),
+                cereal::make_nvp("system", system));
         }
     };
 
