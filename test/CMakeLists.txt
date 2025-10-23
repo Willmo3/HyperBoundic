@@ -12,10 +12,13 @@ add_executable(test_friedrichs test_friedrichs.cpp)
 target_link_libraries(test_friedrichs GTest::gtest_main)
 add_executable(test_leapfrog test_leapfrog.cpp)
 target_link_libraries(test_leapfrog GTest::gtest_main)
+add_executable(test_serialization test_serialization.cpp)
+target_link_libraries(test_serialization GTest::gtest_main)
 include(GoogleTest)
 
 target_link_libraries(test_friedrichs friedrichs)
 target_link_libraries(test_leapfrog leapfrog)
+target_link_libraries(test_serialization friedrichs)
 
 # Visualization executables
 add_executable(visualize_leapfrog viz/visualize_leapfrog.cpp)

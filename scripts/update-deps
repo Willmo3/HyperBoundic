@@ -20,20 +20,20 @@ cd lib
 if [ -d 'Winterval' ]; then 
   rm -r 'Winterval'
 fi
-wget 'https://github.com/Willmo3/Winterval/raw/refs/heads/main/release/winterval-v0.0.5.tar.gz'
-tar -xzf 'winterval-v0.0.5.tar.gz' && rm 'winterval-v0.0.5.tar.gz'
+wget 'https://github.com/Willmo3/Winterval/raw/refs/heads/main/release/winterval-v0.0.6.tar.gz'
+tar -xzf 'winterval-v0.0.6.tar.gz' && rm 'winterval-v0.0.6.tar.gz'
 
 if [ -d 'Waffine' ]; then
   rm -r 'Waffine'
 fi
-wget 'https://github.com/Willmo3/Waffine/raw/refs/heads/main/release/waffine-v0.0.3.tar.gz'
-tar -xzf 'waffine-v0.0.3.tar.gz' && rm 'waffine-v0.0.3.tar.gz'
+wget 'https://github.com/Willmo3/Waffine/raw/refs/heads/main/release/waffine-v0.0.5.tar.gz'
+tar -xzf 'waffine-v0.0.5.tar.gz' && rm 'waffine-v0.0.5.tar.gz'
 
 if [ -d 'Wixed' ]; then
   rm -r 'Wixed'
 fi
-wget 'https://github.com/Willmo3/Wixed/raw/refs/heads/main/release/wixed-v0.0.3.tar.gz'
-tar -xzf 'wixed-v0.0.3.tar.gz' && rm 'wixed-v0.0.3.tar.gz'
+wget 'https://github.com/Willmo3/Wixed/raw/refs/heads/main/release/wixed-v0.0.4.tar.gz'
+tar -xzf 'wixed-v0.0.4.tar.gz' && rm 'wixed-v0.0.4.tar.gz'
 
 # Cereal is required for wixed, waffine, and winterval
 if [[ -d "cereal" ]]; then

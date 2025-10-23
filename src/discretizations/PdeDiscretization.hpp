@@ -5,7 +5,6 @@
 #ifndef PDEAPPROX_SYSTEMAPPROXIMATION_H
 #define PDEAPPROX_SYSTEMAPPROXIMATION_H
 #include <cassert>
-#include <cstdint>
 #include <cstring>
 #include <iostream>
 #include <memory>
@@ -13,6 +12,12 @@
 #include "solvers/flux/FluxFunction.hpp"
 #include "domains/Numeric.hpp"
 #include "CflCheck.hpp"
+
+#include "cereal/archives/json.hpp"
+#include "cereal/types/memory.hpp"
+#include "cereal/types/vector.hpp"
+#include "cereal/types/unordered_map.hpp"
+#include "Waffine/WaffineForm.hpp"
 
 /**
  * Discretization of a physical system represented by a partial differential equation.
@@ -29,7 +34,7 @@ public:
     /**
      * Empty discretization matrix.
      * @param discretization_size Number of spatial discretization points, > 0.
-     * @param num_timesteps Number of timesteps for this discretization.
+     * @param num_timesteps Number of timesteps for this discretization->
      */
     PdeDiscretization(uint32_t discretization_size, uint32_t num_timesteps)
         :_discretization_size(discretization_size),  _num_timesteps(num_timesteps) {
@@ -39,7 +44,6 @@ public:
         _system = static_cast<T *>(calloc(sizeof(T), num_timesteps * discretization_size));
         assert(_system);
     }
-
     /**
      * Copy initial conditions into discretization matrix.
      * @param initial_conditions Array of starting conditions for the system, of len discretization_size.
@@ -48,17 +52,6 @@ public:
         assert(initial_conditions);
         assert(memcpy(_system, initial_conditions.get(), sizeof(T) * _discretization_size));
     }
-
-    /**
-     * Explicit value constructor.
-     *
-     * @param discretization_size Size of discretization, > 0.
-     * @param num_timesteps Number of timesteps for this discretization.
-     * @param system Array of starting conditions for the system, of len discretization_size.
-     */
-    PdeDiscretization(uint32_t discretization_size, uint32_t num_timesteps, const T *system)
-        :_system(system), _discretization_size(discretization_size), _num_timesteps(num_timesteps) {}
-
     /**
      * Destructor
      */
@@ -109,8 +102,50 @@ public:
     }
 
     /*
-     * Helpers
+     * Serialization
      */
+
+    /**
+     * @return A json representation of this data.
+     */
+    std::string to_json_string() {
+        std::ostringstream ss;
+        // Inner scope needed to ensure proper flushing.
+        {
+            cereal::JSONOutputArchive o(ss);
+            o(PdeDataTuple(this));
+            ss.flush();
+        }
+        return ss.str();
+    }
+
+    /**
+     * @param strrep JSON string representation of a discretization.
+     * @return A new discretization object created from this string.
+     */
+    static PdeDiscretization from_json_string(const std::string &strrep) {
+        auto input = std::istringstream(strrep);
+        PdeDataTuple data_tuple = PdeDataTuple();
+        // Place in inner scope to ensure proper flushing.
+        {
+            cereal::JSONInputArchive archive(input);
+            archive(data_tuple);
+        }
+
+        // Manual deep copy to handle unordered maps in affine forms.
+        // NOTE: simple memcpy does not cut it -- we need to call copy constructor!
+        auto data = static_cast<T *>(calloc(data_tuple.discretization_size * data_tuple.num_timesteps, sizeof(T)));
+        for (auto i = 0; i < data_tuple.discretization_size * data_tuple.num_timesteps; i++) {
+            data[i] = data_tuple.system[i];
+        }
+
+        return PdeDiscretization(data_tuple.discretization_size, data_tuple.num_timesteps, data);
+    }
+
+    /*
+     * Assorted helpers
+     */
+
     void print_system() const {
         for (auto t = 0; t < _num_timesteps; t++) {
             std::cout << "T" << t << ": ";
@@ -120,11 +155,71 @@ public:
             std::cout << std::endl;
         }
     }
+    bool equals(const PdeDiscretization &other) const {
+        if (other._discretization_size != _discretization_size || other._num_timesteps != _num_timesteps) {
+            return false;
+        }
+
+        for (auto i = 0; i < _discretization_size * _num_timesteps; i++) {
+            if (other._system[i] != _system[i]) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
 private:
     // Using raw pointer to enable low-level mem management -- i.e. transfer to GPU
     T *_system;
     const uint32_t _discretization_size;
     const uint32_t _num_timesteps;
+
+    /**
+     * Internal data tuple for reading/writing
+     */
+    struct PdeDataTuple {
+        uint32_t discretization_size;
+        uint32_t num_timesteps;
+        std::vector<T> system;
+
+        /**
+         * @param discretization Discretization to construct into serializable form.
+         */
+        explicit PdeDataTuple(const PdeDiscretization *discretization):
+            discretization_size(discretization->discretization_size()), num_timesteps(discretization->num_timesteps()),
+            system(std::vector<T>(discretization->discretization_size() * discretization->num_timesteps())) {
+
+            for (auto i = 0; i < discretization->discretization_size() * discretization->num_timesteps(); i++) {
+                system[i] = discretization->_system[i];
+            }
+        }
+
+        /**
+         * Dummy constructor for reading in deserialized values.
+         */
+        PdeDataTuple(): discretization_size(0), num_timesteps(0), system(std::vector<T>()) {}
+
+        /*
+         * Serialization support
+         */
+        template<class Archive>
+        void serialize(Archive & archive) {
+            archive(discretization_size, num_timesteps, system);
+        }
+    };
+
+    /**
+     * Explicit value constructor -- internal only!
+     *
+     * @param discretization_size Size of discretization, > 0.
+     * @param num_timesteps Number of timesteps for this discretization->
+     * @param system Array of starting conditions for the system, of len discretization_size.
+     */
+    PdeDiscretization(uint32_t discretization_size, uint32_t num_timesteps, T *system):
+        _discretization_size(discretization_size), _num_timesteps(num_timesteps), _system(system) {
+        assert(system);
+    }
 };
 
 #endif //PDEAPPROX_SYSTEMAPPROXIMATION_H

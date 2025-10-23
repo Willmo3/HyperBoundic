@@ -7,7 +7,7 @@
 #include <cstdint>
 #include <iosfwd>
 
-#include "cereal/archives/json.hpp"
+#include "cereal/archives/binary.hpp"
 
 
 /**
@@ -15,6 +15,7 @@
  */
 class Real {
 public:
+    Real() = default;
     Real(double value);
     ~Real();
     double value() const;
