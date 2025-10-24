@@ -6,10 +6,10 @@
 #include <cassert>
 #include <cstdint>
 #include <memory>
-#include "solvers/LeapfrogSolver.hpp"
+#include "../../src/solvers/difference/LeapfrogSolver.hpp"
 #include "domains/Real.hpp"
 #include "solvers/flux/CubicFlux.hpp"
-#include "visualization/DiscretizationVisualizers.hpp"
+#include "visualization/MeshVisualizer.hpp"
 
 int main() {
     uint32_t discretization_size = 4;

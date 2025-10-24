@@ -6,7 +6,7 @@
 
 #include "domains/Real.hpp"
 #include "gtest/gtest.h"
-#include "solvers/LaxFriedrichsSolver.hpp"
+#include "../../src/solvers/difference/LaxFriedrichsSolver.hpp"
 #include "solvers/flux/CubicFlux.hpp"
 #include "Waffine/WaffineForm.hpp"
 #include "Winterval/Winterval.hpp"
@@ -36,7 +36,7 @@ TEST(serialization, serialize_real) {
 
     auto strrep = solution_matrix.to_json_string();
 
-    auto deserialized_matrix = PdeDiscretization<Real>::from_json_string(strrep);
+    auto deserialized_matrix = FixedSpaceMesh<Real>::from_json_string(strrep);
     ASSERT_TRUE(solution_matrix.equals(deserialized_matrix));
 }
 
@@ -59,7 +59,7 @@ TEST(serialization, serialize_interval) {
 
     auto strrep = solution_matrix.to_json_string();
 
-    auto deserialized_matrix = PdeDiscretization<Winterval>::from_json_string(strrep);
+    auto deserialized_matrix = FixedSpaceMesh<Winterval>::from_json_string(strrep);
     ASSERT_TRUE(solution_matrix.equals(deserialized_matrix));
 }
 
@@ -82,7 +82,7 @@ TEST(serialization, serialize_affine) {
 
     auto strrep = solution_matrix.to_json_string();
 
-    auto deserialized_matrix = PdeDiscretization<WaffineForm>::from_json_string(strrep);
+    auto deserialized_matrix = FixedSpaceMesh<WaffineForm>::from_json_string(strrep);
     ASSERT_TRUE(solution_matrix.equals(deserialized_matrix));
 }
 
@@ -102,6 +102,6 @@ TEST(serialization, serialize_mixed) {
 
     auto strrep = solution_matrix.to_json_string();
 
-    auto deserialized_matrix = PdeDiscretization<WixedForm>::from_json_string(strrep);
+    auto deserialized_matrix = FixedSpaceMesh<WixedForm>::from_json_string(strrep);
     ASSERT_TRUE(solution_matrix.equals(deserialized_matrix));
 }

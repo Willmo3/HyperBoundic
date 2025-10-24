@@ -13,21 +13,21 @@ add_library(fluxes
 set_target_properties(fluxes PROPERTIES LINKER_LANGUAGE CXX)
 
 add_library(discretizations
-        discretizations/PdeDiscretization.hpp
-        discretizations/CflCheck.hpp
+        meshes/FixedSpaceMesh.hpp
+        meshes/CflCheck.hpp
         domains/Numeric.hpp
 )
 set_target_properties(discretizations PROPERTIES LINKER_LANGUAGE CXX)
 
 # Simulations
-add_library(friedrichs solvers/LaxFriedrichsSolver.hpp)
+add_library(friedrichs solvers/difference/LaxFriedrichsSolver.hpp)
 target_link_libraries(friedrichs domains fluxes discretizations)
 
-add_library(leapfrog solvers/LeapfrogSolver.hpp)
+add_library(leapfrog solvers/difference/LeapfrogSolver.hpp)
 target_link_libraries(leapfrog domains fluxes discretizations)
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ../../out)
 
-add_executable(PDEapprox main.cpp visualization/DiscretizationVisualizers.hpp)
+add_executable(PDEapprox main.cpp visualization/MeshVisualizer.hpp)
 target_link_libraries(PDEapprox friedrichs leapfrog)
 target_link_libraries(PDEapprox matplot)

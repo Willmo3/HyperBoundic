@@ -3,9 +3,9 @@
 //
 
 #include "Waffine/WaffineForm.hpp"
-#include "../src/domains/Real.hpp"
-#include "../src/solvers/LeapfrogSolver.hpp"
-#include "../src/solvers/flux/CubicFlux.hpp"
+#include "../../src/domains/Real.hpp"
+#include "../../src/solvers/difference/LeapfrogSolver.hpp"
+#include "../../src/solvers/flux/CubicFlux.hpp"
 #include "Winterval/Winterval.hpp"
 #include "Wixed/WixedForm.hpp"
 #include "gtest/gtest.h"

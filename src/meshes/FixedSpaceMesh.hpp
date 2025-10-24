@@ -20,12 +20,13 @@
 #include "Waffine/WaffineForm.hpp"
 
 /**
- * Discretization of a physical system represented by a partial differential equation.
+ * Discretization of a physical system represented by a hyperbolic PDE.
+ * This mesh uses a fixed spatial dimension, ideal for finite difference methods.
  * @param T numeric type to approximate system.
  */
 template<typename T>
 requires Numeric<T>
-class PdeDiscretization {
+class FixedSpaceMesh {
 public:
     /*
      * Constructors
@@ -36,7 +37,7 @@ public:
      * @param discretization_size Number of spatial discretization points, > 0.
      * @param num_timesteps Number of timesteps for this discretization->
      */
-    PdeDiscretization(uint32_t discretization_size, uint32_t num_timesteps)
+    FixedSpaceMesh(uint32_t discretization_size, uint32_t num_timesteps)
         :_discretization_size(discretization_size),  _num_timesteps(num_timesteps) {
         assert(discretization_size > 0);
         assert(num_timesteps > 0);
@@ -55,7 +56,7 @@ public:
     /**
      * Destructor
      */
-    ~PdeDiscretization() {
+    ~FixedSpaceMesh() {
         free(_system);
         _system = nullptr;
     }
@@ -113,7 +114,7 @@ public:
         // Inner scope needed to ensure proper flushing.
         {
             cereal::JSONOutputArchive o(ss);
-            o(PdeDataTuple(this));
+            o(FixedMeshData(this));
             ss.flush();
         }
         return ss.str();
@@ -123,9 +124,9 @@ public:
      * @param strrep JSON string representation of a discretization.
      * @return A new discretization object created from this string.
      */
-    static PdeDiscretization from_json_string(const std::string &strrep) {
+    static FixedSpaceMesh from_json_string(const std::string &strrep) {
         auto input = std::istringstream(strrep);
-        PdeDataTuple data_tuple = PdeDataTuple();
+        FixedMeshData data_tuple = FixedMeshData();
         // Place in inner scope to ensure proper flushing.
         {
             cereal::JSONInputArchive archive(input);
@@ -139,7 +140,7 @@ public:
             data[i] = data_tuple.system[i];
         }
 
-        return PdeDiscretization(data_tuple.discretization_size, data_tuple.num_timesteps, data);
+        return FixedSpaceMesh(data_tuple.discretization_size, data_tuple.num_timesteps, data);
     }
 
     /*
@@ -155,7 +156,7 @@ public:
             std::cout << std::endl;
         }
     }
-    bool equals(const PdeDiscretization &other) const {
+    bool equals(const FixedSpaceMesh &other) const {
         if (other._discretization_size != _discretization_size || other._num_timesteps != _num_timesteps) {
             return false;
         }
@@ -178,7 +179,7 @@ private:
     /**
      * Internal data tuple for reading/writing
      */
-    struct PdeDataTuple {
+    struct FixedMeshData {
         uint32_t discretization_size;
         uint32_t num_timesteps;
         std::vector<T> system;
@@ -186,7 +187,7 @@ private:
         /**
          * @param discretization Discretization to construct into serializable form.
          */
-        explicit PdeDataTuple(const PdeDiscretization *discretization):
+        explicit FixedMeshData(const FixedSpaceMesh *discretization):
             discretization_size(discretization->discretization_size()), num_timesteps(discretization->num_timesteps()),
             system(std::vector<T>(discretization->discretization_size() * discretization->num_timesteps())) {
 
@@ -198,7 +199,7 @@ private:
         /**
          * Dummy constructor for reading in deserialized values.
          */
-        PdeDataTuple(): discretization_size(0), num_timesteps(0), system(std::vector<T>()) {}
+        FixedMeshData(): discretization_size(0), num_timesteps(0), system(std::vector<T>()) {}
 
         /*
          * Serialization support
@@ -218,7 +219,7 @@ private:
      * @param num_timesteps Number of timesteps for this discretization->
      * @param system Array of starting conditions for the system, of len discretization_size.
      */
-    PdeDiscretization(uint32_t discretization_size, uint32_t num_timesteps, T *system):
+    FixedSpaceMesh(uint32_t discretization_size, uint32_t num_timesteps, T *system):
         _discretization_size(discretization_size), _num_timesteps(num_timesteps), _system(system) {
         assert(system);
     }

@@ -6,7 +6,7 @@
 
 #include "Waffine/WaffineForm.hpp"
 #include "domains/Real.hpp"
-#include "solvers/LaxFriedrichsSolver.hpp"
+#include "../../src/solvers/difference/LaxFriedrichsSolver.hpp"
 #include "solvers/flux/CubicFlux.hpp"
 #include "Winterval/Winterval.hpp"
 #include "Wixed/WixedForm.hpp"
