@@ -26,7 +26,7 @@
  */
 template<typename T>
 requires Numeric<T>
-class FixedSpaceMesh {
+class RectangularMesh {
 public:
     /*
      * Constructors
@@ -37,7 +37,7 @@ public:
      * @param discretization_size Number of spatial discretization points, > 0.
      * @param num_timesteps Number of timesteps for this discretization->
      */
-    FixedSpaceMesh(uint32_t discretization_size, uint32_t num_timesteps)
+    RectangularMesh(uint32_t discretization_size, uint32_t num_timesteps)
         :_discretization_size(discretization_size),  _num_timesteps(num_timesteps) {
         assert(discretization_size > 0);
         assert(num_timesteps > 0);
@@ -56,7 +56,7 @@ public:
     /**
      * Destructor
      */
-    ~FixedSpaceMesh() {
+    ~RectangularMesh() {
         free(_system);
         _system = nullptr;
     }
@@ -82,27 +82,6 @@ public:
     }
 
     /*
-     * Validators
-     */
-
-    /**
-     *
-     * @param flux Flux function to use for CFL check.
-     * @param delta_t Logical time discretization of the solver.
-     * @param delta_x Logical space discretization of the solver.
-     * @param timestep Timestep to evaluate.
-     */
-    void cfl_check_row(FluxFunction<T> *flux, double delta_t, double delta_x, int timestep) {
-        assert(timestep >= 0 && timestep < _num_timesteps);
-        for (auto point = 0; point < _discretization_size; point++) {
-            if (!cfl_check(flux, get(timestep, point), delta_t, delta_x)) {
-                std::cerr << "System blowup detected, exiting." << std::endl;
-                exit(1);
-            }
-        }
-    }
-
-    /*
      * Serialization
      */
 
@@ -124,7 +103,7 @@ public:
      * @param strrep JSON string representation of a discretization.
      * @return A new discretization object created from this string.
      */
-    static FixedSpaceMesh from_json_string(const std::string &strrep) {
+    static RectangularMesh from_json_string(const std::string &strrep) {
         auto input = std::istringstream(strrep);
         FixedMeshData data_tuple = FixedMeshData();
         // Place in inner scope to ensure proper flushing.
@@ -140,7 +119,7 @@ public:
             data[i] = data_tuple.system[i];
         }
 
-        return FixedSpaceMesh(data_tuple.discretization_size, data_tuple.num_timesteps, data);
+        return RectangularMesh(data_tuple.discretization_size, data_tuple.num_timesteps, data);
     }
 
     /*
@@ -156,7 +135,8 @@ public:
             std::cout << std::endl;
         }
     }
-    bool equals(const FixedSpaceMesh &other) const {
+
+    bool equals(const RectangularMesh &other) const {
         if (other._discretization_size != _discretization_size || other._num_timesteps != _num_timesteps) {
             return false;
         }
@@ -187,7 +167,7 @@ private:
         /**
          * @param discretization Discretization to construct into serializable form.
          */
-        explicit FixedMeshData(const FixedSpaceMesh *discretization):
+        explicit FixedMeshData(const RectangularMesh *discretization):
             discretization_size(discretization->discretization_size()), num_timesteps(discretization->num_timesteps()),
             system(std::vector<T>(discretization->discretization_size() * discretization->num_timesteps())) {
 
@@ -219,7 +199,7 @@ private:
      * @param num_timesteps Number of timesteps for this discretization->
      * @param system Array of starting conditions for the system, of len discretization_size.
      */
-    FixedSpaceMesh(uint32_t discretization_size, uint32_t num_timesteps, T *system):
+    RectangularMesh(uint32_t discretization_size, uint32_t num_timesteps, T *system):
         _discretization_size(discretization_size), _num_timesteps(num_timesteps), _system(system) {
         assert(system);
     }

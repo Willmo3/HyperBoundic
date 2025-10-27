@@ -8,8 +8,9 @@
 #include <cmath>
 
 #include "domains/Numeric.hpp"
-#include "meshes/FixedSpaceMesh.hpp"
+#include "meshes/RectangularMesh.hpp"
 #include "../flux/FluxFunction.hpp"
+#include "DifferenceHelpers.hpp"
 
 // Using template classes to ease instantiation.
 template<typename T>
@@ -29,12 +30,12 @@ public:
      * @param flux Flux function to use for this approximation.
      * @return a discretization of the partial differential equation system.
      */
-    static FixedSpaceMesh<T> solve(std::unique_ptr<T> &initial_state, uint32_t discretization_size, uint32_t num_timesteps, double delta_t, double delta_x, FluxFunction<T>* flux) {
+    static RectangularMesh<T> solve(std::unique_ptr<T> &initial_state, uint32_t discretization_size, uint32_t num_timesteps, double delta_t, double delta_x, FluxFunction<T>* flux) {
         assert(delta_t > 0 && delta_t < INFINITY);
         assert(delta_x > 0 && delta_x < INFINITY);
 
         auto k = delta_t / delta_x * 1/2;
-        auto solution = FixedSpaceMesh<T>(discretization_size, num_timesteps);
+        auto solution = RectangularMesh<T>(discretization_size, num_timesteps);
         solution.copy_initial_conditions(initial_state);
 
         for (auto timestep = 0; timestep < num_timesteps - 1; timestep++) {
@@ -56,7 +57,7 @@ public:
                 k, flux));
 
             // After each run through, check that CFL satisfied.
-            solution.cfl_check_row(flux, delta_t, delta_x, timestep);
+            cfl_check_row<T>(solution, flux, delta_t, delta_x, timestep);
         }
 
         return solution;

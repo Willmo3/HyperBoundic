@@ -36,7 +36,7 @@ TEST(serialization, serialize_real) {
 
     auto strrep = solution_matrix.to_json_string();
 
-    auto deserialized_matrix = FixedSpaceMesh<Real>::from_json_string(strrep);
+    auto deserialized_matrix = RectangularMesh<Real>::from_json_string(strrep);
     ASSERT_TRUE(solution_matrix.equals(deserialized_matrix));
 }
 
@@ -59,7 +59,7 @@ TEST(serialization, serialize_interval) {
 
     auto strrep = solution_matrix.to_json_string();
 
-    auto deserialized_matrix = FixedSpaceMesh<Winterval>::from_json_string(strrep);
+    auto deserialized_matrix = RectangularMesh<Winterval>::from_json_string(strrep);
     ASSERT_TRUE(solution_matrix.equals(deserialized_matrix));
 }
 
@@ -82,7 +82,7 @@ TEST(serialization, serialize_affine) {
 
     auto strrep = solution_matrix.to_json_string();
 
-    auto deserialized_matrix = FixedSpaceMesh<WaffineForm>::from_json_string(strrep);
+    auto deserialized_matrix = RectangularMesh<WaffineForm>::from_json_string(strrep);
     ASSERT_TRUE(solution_matrix.equals(deserialized_matrix));
 }
 
@@ -102,6 +102,6 @@ TEST(serialization, serialize_mixed) {
 
     auto strrep = solution_matrix.to_json_string();
 
-    auto deserialized_matrix = FixedSpaceMesh<WixedForm>::from_json_string(strrep);
+    auto deserialized_matrix = RectangularMesh<WixedForm>::from_json_string(strrep);
     ASSERT_TRUE(solution_matrix.equals(deserialized_matrix));
 }

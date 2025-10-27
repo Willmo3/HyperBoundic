@@ -8,9 +8,9 @@
 
 #include "LaxFriedrichsSolver.hpp"
 #include "domains/Numeric.hpp"
-#include "meshes/FixedSpaceMesh.hpp"
-#include "meshes/CflCheck.hpp"
+#include "meshes/RectangularMesh.hpp"
 #include "../flux/FluxFunction.hpp"
+#include "DifferenceHelpers.hpp"
 
 template<typename T>
 requires Numeric<T>
@@ -29,13 +29,13 @@ public:
      * @param flux Flux function to use for this approximation.
      * @return a discretization of the partial differential equation system.
      */
-    static FixedSpaceMesh<T> solve(std::unique_ptr<T> &initial_state, uint32_t discretization_size, uint32_t num_timesteps, double delta_t, double delta_x, FluxFunction<T>* flux) {
+    static RectangularMesh<T> solve(std::unique_ptr<T> &initial_state, uint32_t discretization_size, uint32_t num_timesteps, double delta_t, double delta_x, FluxFunction<T>* flux) {
         assert(delta_t > 0 && delta_t < INFINITY);
         assert(delta_x > 0 && delta_x < INFINITY);
         assert(num_timesteps >= 2); // Need at least two timesteps to prime with Lax-Friedrichs.
 
         auto k = delta_t / delta_x;
-        auto solution = FixedSpaceMesh<T>(discretization_size, num_timesteps);
+        auto solution = RectangularMesh<T>(discretization_size, num_timesteps);
         solution.copy_initial_conditions(initial_state);
 
         auto first_row = LaxFriedrichsSolver<T>::solve(initial_state, discretization_size, 2, delta_t, delta_x, flux);
@@ -43,7 +43,7 @@ public:
         for (auto x = 0; x < discretization_size; x++) {
             solution.set(1, x, first_row.get(1, x));
         }
-        solution.cfl_check_row(flux, delta_t, delta_x, 1);
+        cfl_check_row<T>(solution, flux, delta_t, delta_x, 1);
 
         // With first timestep primed, move to leapfrog.
         for (auto timestep = 1; timestep < num_timesteps - 1; timestep++) {
@@ -67,7 +67,7 @@ public:
                 k, flux));
 
             // After each run through, check that CFL satisfied.
-            solution.cfl_check_row(flux, delta_t, delta_x, timestep);
+            cfl_check_row<T>(solution, flux, delta_t, delta_x, timestep);
         }
 
         return solution;

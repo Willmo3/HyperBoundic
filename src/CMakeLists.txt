@@ -13,7 +13,7 @@ add_library(fluxes
 set_target_properties(fluxes PROPERTIES LINKER_LANGUAGE CXX)
 
 add_library(discretizations
-        meshes/FixedSpaceMesh.hpp
+        meshes/RectangularMesh.hpp
         meshes/CflCheck.hpp
         domains/Numeric.hpp
 )

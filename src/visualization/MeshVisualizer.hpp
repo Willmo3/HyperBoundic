@@ -4,7 +4,7 @@
 
 #ifndef PDEAPPROX_DISCRETIZATIONVISUALIZER_H
 #define PDEAPPROX_DISCRETIZATIONVISUALIZER_H
-#include "meshes/FixedSpaceMesh.hpp"
+#include "meshes/RectangularMesh.hpp"
 #include "matplot/freestanding/plot.h"
 #include "matplot/util/common.h"
 
@@ -12,7 +12,7 @@
  * Note: we use individual functions, as opposed to a shared class,
  * to allow the transform lambda to capture the system.
  */
-inline void show_real_surface(FixedSpaceMesh<Real> *system) {
+inline void show_real_surface(RectangularMesh<Real> *system) {
     using namespace matplot;
     auto [X, Y] = meshgrid(iota(0, 1, 3));
 
