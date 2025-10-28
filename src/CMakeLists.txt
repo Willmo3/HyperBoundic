@@ -26,8 +26,11 @@ target_link_libraries(friedrichs domains fluxes discretizations)
 add_library(leapfrog solvers/difference/LeapfrogSolver.hpp)
 target_link_libraries(leapfrog domains fluxes discretizations)
 
+add_library(local_friedrichs solvers/volume/LocalLaxFriedrichsSolver.hpp)
+target_link_libraries(local_friedrichs domains fluxes discretizations)
+
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ../../out)
 
 add_executable(PDEapprox main.cpp visualization/MeshVisualizer.hpp)
-target_link_libraries(PDEapprox friedrichs leapfrog)
+target_link_libraries(PDEapprox friedrichs leapfrog local_friedrichs)
 target_link_libraries(PDEapprox matplot)
