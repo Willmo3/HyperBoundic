@@ -11,11 +11,11 @@ void test_llf_real() {
     auto discretization_size = 4;
     auto num_timesteps = 4;
 
-    auto initial_conditions = std::unique_ptr<Real>(static_cast<Real *>(calloc(discretization_size, sizeof(double))));
-    initial_conditions.get()[0] = 1.0;
-    initial_conditions.get()[1] = 2.0;
-    initial_conditions.get()[2] = 3.0;
-    initial_conditions.get()[3] = 4.0;
+    auto initial_conditions = std::vector<Real>(discretization_size);
+    initial_conditions[0] = 1.0;
+    initial_conditions[1] = 2.0;
+    initial_conditions[2] = 3.0;
+    initial_conditions[3] = 4.0;
 
     // Mesh more fine grained in the center.
     auto delta_t = 0.02;

@@ -26,9 +26,8 @@ public:
      * @param flux Flux function to approximate system with.
      * @return The approximation of the system.
      */
-    static RectangularMesh<T> solve(std::unique_ptr<T> &initial_state, const std::vector<double> &width_values, uint32_t discretization_size,
+    static RectangularMesh<T> solve(const std::vector<T> &initial_state, const std::vector<double> &width_values, uint32_t discretization_size,
                                     uint32_t num_timesteps, double delta_t, FluxFunction<T> *flux) {
-        // TODO: stop using unique_ptr for initial conditions
         assert(delta_t > 0 && delta_t < INFINITY);
         // Each point in the discretization must have a corresponding delta_x
         assert(width_values.size() == discretization_size);

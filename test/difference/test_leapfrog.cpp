@@ -21,12 +21,12 @@ TEST(leapfrog, real_approx) {
     double delta_t = 0.02; // Spacing of time. Assuming operating over 4 logical time split into 4 timesteps = 1.
     double delta_x = 1; // Spatial discretization. Assuming total space of four split into 4 parts = 1.
 
-    auto initial_conditions = std::unique_ptr<Real>(static_cast<Real *>(calloc(discretization_size, sizeof(double))));
+    auto initial_conditions = std::vector<Real>(discretization_size);
 
-    initial_conditions.get()[0] = 1.0;
-    initial_conditions.get()[1] = 2.0;
-    initial_conditions.get()[2] = 3.0;
-    initial_conditions.get()[3] = 4.0;
+    initial_conditions[0] = 1.0;
+    initial_conditions[1] = 2.0;
+    initial_conditions[2] = 3.0;
+    initial_conditions[3] = 4.0;
 
     auto solution_matrix = LeapfrogSolver<Real>::solve(initial_conditions, discretization_size, num_timesteps, delta_t, delta_x, new CubicFlux<Real>());
     // test the third row of the discretization.
@@ -42,12 +42,12 @@ TEST(leapfrog, interval_approx) {
     double delta_t = 0.02;
     double delta_x = 1;
 
-    auto initial_conditions = std::unique_ptr<Winterval>(static_cast<Winterval *>(calloc(discretization_size, sizeof(Winterval))));
+    auto initial_conditions = std::vector<Winterval>(discretization_size);
 
-    initial_conditions.get()[0] = Winterval(0, 1);
-    initial_conditions.get()[1] = Winterval(1, 2);
-    initial_conditions.get()[2] = Winterval(2, 3);
-    initial_conditions.get()[3] = Winterval(3, 4);
+    initial_conditions[0] = Winterval(0, 1);
+    initial_conditions[1] = Winterval(1, 2);
+    initial_conditions[2] = Winterval(2, 3);
+    initial_conditions[3] = Winterval(3, 4);
 
     auto solution_matrix = LeapfrogSolver<Winterval>::solve(initial_conditions, discretization_size, num_timesteps, delta_t, delta_x, new CubicFlux<Winterval>());
     assert_eq_bounded_interval(Winterval(-0.119280, 1.226161), solution_matrix.get(2, 0));
@@ -62,12 +62,12 @@ TEST(leapfrog, affine_approx) {
     double delta_x = 1;
     double delta_t = 0.02;
 
-    auto initial_conditions = std::unique_ptr<WaffineForm>(static_cast<WaffineForm *>(calloc(discretization_size, sizeof(WaffineForm))));
+    auto initial_conditions = std::vector<WaffineForm>(discretization_size);
 
-    initial_conditions.get()[0] = WaffineForm(Winterval(0, 1));
-    initial_conditions.get()[1] = WaffineForm(Winterval(1, 2));
-    initial_conditions.get()[2] = WaffineForm(Winterval(2, 3));
-    initial_conditions.get()[3] = WaffineForm(Winterval(3, 4));
+    initial_conditions[0] = WaffineForm(Winterval(0, 1));
+    initial_conditions[1] = WaffineForm(Winterval(1, 2));
+    initial_conditions[2] = WaffineForm(Winterval(2, 3));
+    initial_conditions[3] = WaffineForm(Winterval(3, 4));
 
     auto solution_matrix = LeapfrogSolver<WaffineForm>::solve(initial_conditions, discretization_size, num_timesteps, delta_t, delta_x, new CubicFlux<WaffineForm>());
     assert_eq_bounded_interval(solution_matrix.get(2, 0).to_interval(), Winterval(-0.076409, 1.160407));
@@ -82,12 +82,12 @@ TEST(leapfrog, affine_approx_mixed) {
     double delta_x = 1;
     double delta_t = 0.02;
 
-    auto initial_conditions = std::unique_ptr<WixedForm>(static_cast<WixedForm *>(calloc(discretization_size, sizeof(WixedForm))));
+    auto initial_conditions = std::vector<WixedForm>(discretization_size);
 
-    initial_conditions.get()[0] = WixedForm(Winterval(0, 1));
-    initial_conditions.get()[1] = WixedForm(Winterval(1, 2));
-    initial_conditions.get()[2] = WixedForm(Winterval(2, 3));
-    initial_conditions.get()[3] = WixedForm(Winterval(3, 4));
+    initial_conditions[0] = WixedForm(Winterval(0, 1));
+    initial_conditions[1] = WixedForm(Winterval(1, 2));
+    initial_conditions[2] = WixedForm(Winterval(2, 3));
+    initial_conditions[3] = WixedForm(Winterval(3, 4));
 
     auto solution_matrix = LeapfrogSolver<WixedForm>::solve(initial_conditions, discretization_size, num_timesteps, delta_t, delta_x, new CubicFlux<WixedForm>());
     assert_eq_bounded_interval(solution_matrix.get(2, 0).interval_bounds(), Winterval(-0.076409,1.160407));

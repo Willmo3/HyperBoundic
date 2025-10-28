@@ -48,10 +48,13 @@ public:
     /**
      * Copy initial conditions into discretization matrix.
      * @param initial_conditions Array of starting conditions for the system, of len discretization_size.
+     * We manually assign each element to ensure copy constructors are called.
      */
-    void copy_initial_conditions(std::unique_ptr<T> &initial_conditions) {
-        assert(initial_conditions);
-        assert(memcpy(_system, initial_conditions.get(), sizeof(T) * _discretization_size));
+    void copy_initial_conditions(const std::vector<T> &initial_conditions) {
+        assert(initial_conditions.size() == discretization_size());
+        for (auto timestep = 0; timestep < _num_timesteps; timestep++) {
+            _system[timestep] = initial_conditions[timestep];
+        }
     }
     /**
      * Destructor
