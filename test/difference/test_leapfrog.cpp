@@ -2,7 +2,7 @@
 // Created by will on 10/17/25.
 //
 
-#include "Waffine/WaffineForm.hpp"
+#include "Caffeine/AffineForm.hpp"
 #include "../../src/domains/Real.hpp"
 #include "../../src/solvers/difference/LeapfrogSolver.hpp"
 #include "../../src/solvers/flux/CubicFlux.hpp"
@@ -62,14 +62,14 @@ TEST(leapfrog, affine_approx) {
     double delta_x = 1;
     double delta_t = 0.02;
 
-    auto initial_conditions = std::vector<WaffineForm>(discretization_size);
+    auto initial_conditions = std::vector<AffineForm>(discretization_size);
 
-    initial_conditions[0] = WaffineForm(Winterval(0, 1));
-    initial_conditions[1] = WaffineForm(Winterval(1, 2));
-    initial_conditions[2] = WaffineForm(Winterval(2, 3));
-    initial_conditions[3] = WaffineForm(Winterval(3, 4));
+    initial_conditions[0] = AffineForm(Winterval(0, 1));
+    initial_conditions[1] = AffineForm(Winterval(1, 2));
+    initial_conditions[2] = AffineForm(Winterval(2, 3));
+    initial_conditions[3] = AffineForm(Winterval(3, 4));
 
-    auto solution_matrix = LeapfrogSolver<WaffineForm>::solve(initial_conditions, discretization_size, num_timesteps, delta_t, delta_x, new CubicFlux<WaffineForm>());
+    auto solution_matrix = LeapfrogSolver<AffineForm>::solve(initial_conditions, discretization_size, num_timesteps, delta_t, delta_x, new CubicFlux<AffineForm>());
     assert_eq_bounded_interval(solution_matrix.get(2, 0).to_interval(), Winterval(-0.076409, 1.160407));
     assert_eq_bounded_interval(solution_matrix.get(2, 1).to_interval(), Winterval(0.924492, 2.672938));
     assert_eq_bounded_interval(solution_matrix.get(2, 2).to_interval(), Winterval(1.918658, 2.997344));

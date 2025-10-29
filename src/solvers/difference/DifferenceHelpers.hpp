@@ -6,6 +6,7 @@
 #define PDEAPPROX_DIFFERENCEHELPERS_H
 #include "domains/Numeric.hpp"
 #include "meshes/RectangularMesh.hpp"
+#include "meshes/CflCheck.hpp"
 
 /**
  * @brief Perform the CFL check on a row of data.

@@ -7,17 +7,14 @@
 #include <cassert>
 #include <cstring>
 #include <iostream>
-#include <memory>
 
-#include "solvers/flux/FluxFunction.hpp"
 #include "domains/Numeric.hpp"
-#include "CflCheck.hpp"
 
 #include "cereal/archives/json.hpp"
 #include "cereal/types/memory.hpp"
 #include "cereal/types/vector.hpp"
 #include "cereal/types/unordered_map.hpp"
-#include "Waffine/WaffineForm.hpp"
+#include "Caffeine/AffineForm.hpp"
 
 /**
  * Discretization of a physical system represented by a hyperbolic PDE.

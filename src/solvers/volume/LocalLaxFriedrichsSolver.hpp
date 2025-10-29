@@ -7,6 +7,7 @@
 #include <cmath>
 
 #include "meshes/RectangularMesh.hpp"
+#include "meshes/CflCheck.hpp"
 
 template<typename T>
 requires Numeric<T>

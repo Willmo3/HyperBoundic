@@ -4,6 +4,7 @@
 
 #ifndef PDEAPPROX_NUMERIC_H
 #define PDEAPPROX_NUMERIC_H
+#include <cstdint>
 
 /**
  * Numeric data suitable for approximation schemes.

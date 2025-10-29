@@ -8,7 +8,7 @@
 #include "gtest/gtest.h"
 #include "../../src/solvers/difference/LaxFriedrichsSolver.hpp"
 #include "solvers/flux/CubicFlux.hpp"
-#include "Waffine/WaffineForm.hpp"
+#include "Caffeine/AffineForm.hpp"
 #include "Winterval/Winterval.hpp"
 #include "Wixed/WixedForm.hpp"
 
@@ -69,20 +69,20 @@ TEST(serialization, serialize_affine) {
     double delta_x = 1;
     double delta_t = 0.02;
 
-    auto initial_conditions = std::vector<WaffineForm>(discretization_size);
+    auto initial_conditions = std::vector<AffineForm>(discretization_size);
 
-    initial_conditions[0] = WaffineForm(Winterval(0, 1));
-    initial_conditions[1] = WaffineForm(Winterval(1, 2));
-    initial_conditions[2] = WaffineForm(Winterval(2, 3));
-    initial_conditions[3] = WaffineForm(Winterval(3, 4));
+    initial_conditions[0] = AffineForm(Winterval(0, 1));
+    initial_conditions[1] = AffineForm(Winterval(1, 2));
+    initial_conditions[2] = AffineForm(Winterval(2, 3));
+    initial_conditions[3] = AffineForm(Winterval(3, 4));
 
-    auto solution_matrix = LaxFriedrichsSolver<WaffineForm>::solve(initial_conditions, discretization_size, num_timesteps, delta_t, delta_x, new CubicFlux<WaffineForm>());
+    auto solution_matrix = LaxFriedrichsSolver<AffineForm>::solve(initial_conditions, discretization_size, num_timesteps, delta_t, delta_x, new CubicFlux<AffineForm>());
 
     // Now, serialize this.
 
     auto strrep = solution_matrix.to_json_string();
 
-    auto deserialized_matrix = RectangularMesh<WaffineForm>::from_json_string(strrep);
+    auto deserialized_matrix = RectangularMesh<AffineForm>::from_json_string(strrep);
     ASSERT_TRUE(solution_matrix.equals(deserialized_matrix));
 }
 
