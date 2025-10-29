@@ -29,11 +29,11 @@ fi
 wget 'https://github.com/Willmo3/Caffeine/raw/refs/heads/main/release/caffeine-v0.0.1.tar.gz'
 tar -xzf 'caffeine-v0.0.1.tar.gz' && rm 'caffeine-v0.0.1.tar.gz'
 
-if [ -d 'Wixed' ]; then
-  rm -r 'Wixed'
+if [ -d 'DualDomain' ]; then
+  rm -r 'DualDomain'
 fi
-wget 'https://github.com/Willmo3/Wixed/raw/refs/heads/main/release/wixed-v0.0.6.tar.gz'
-tar -xzf 'wixed-v0.0.6.tar.gz' && rm 'wixed-v0.0.6.tar.gz'
+wget 'https://github.com/Willmo3/DualDomain/raw/refs/heads/main/release/dualdomain-v0.0.1.tar.gz'
+tar -xzf 'dualdomain-v0.0.1.tar.gz' && rm 'dualdomain-v0.0.1.tar.gz'
 
 # Cereal is required for wixed, waffine, and winterval
 if [[ -d "cereal" ]]; then

@@ -5,7 +5,7 @@ cmake-build-debug-system
 
 lib/Caffeine
 lib/Winterval
-lib/Wixed
+lib/DualDomain
 lib/matplotplusplus
 lib/cereal
 out

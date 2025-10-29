@@ -7,7 +7,7 @@
 #include "../../src/solvers/difference/LeapfrogSolver.hpp"
 #include "../../src/solvers/flux/CubicFlux.hpp"
 #include "Winterval/Winterval.hpp"
-#include "Wixed/WixedForm.hpp"
+#include "DualDomain/MixedForm.hpp"
 #include "gtest/gtest.h"
 
 void assert_eq_bounded_interval(Winterval a, Winterval b) {
@@ -82,14 +82,14 @@ TEST(leapfrog, affine_approx_mixed) {
     double delta_x = 1;
     double delta_t = 0.02;
 
-    auto initial_conditions = std::vector<WixedForm>(discretization_size);
+    auto initial_conditions = std::vector<MixedForm>(discretization_size);
 
-    initial_conditions[0] = WixedForm(Winterval(0, 1));
-    initial_conditions[1] = WixedForm(Winterval(1, 2));
-    initial_conditions[2] = WixedForm(Winterval(2, 3));
-    initial_conditions[3] = WixedForm(Winterval(3, 4));
+    initial_conditions[0] = MixedForm(Winterval(0, 1));
+    initial_conditions[1] = MixedForm(Winterval(1, 2));
+    initial_conditions[2] = MixedForm(Winterval(2, 3));
+    initial_conditions[3] = MixedForm(Winterval(3, 4));
 
-    auto solution_matrix = LeapfrogSolver<WixedForm>::solve(initial_conditions, discretization_size, num_timesteps, delta_t, delta_x, new CubicFlux<WixedForm>());
+    auto solution_matrix = LeapfrogSolver<MixedForm>::solve(initial_conditions, discretization_size, num_timesteps, delta_t, delta_x, new CubicFlux<MixedForm>());
     assert_eq_bounded_interval(solution_matrix.get(2, 0).interval_bounds(), Winterval(-0.076409,1.160407));
     assert_eq_bounded_interval(solution_matrix.get(2, 1).interval_bounds(), Winterval(0.924492, 2.672938));
     assert_eq_bounded_interval(solution_matrix.get(2, 2).interval_bounds(), Winterval(1.918658, 2.997344));

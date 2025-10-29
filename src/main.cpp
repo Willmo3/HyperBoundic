@@ -5,7 +5,7 @@
 #include "domains/Real.hpp"
 #include "solvers/flux/CubicFlux.hpp"
 #include "solvers/volume/LocalLaxFriedrichsSolver.hpp"
-#include "Wixed/WixedForm.hpp"
+#include "DualDomain/MixedForm.hpp"
 
 void test_llf_real() {
     auto discretization_size = 4;

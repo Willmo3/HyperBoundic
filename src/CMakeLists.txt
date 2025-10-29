@@ -3,7 +3,7 @@ add_library(domains
         domains/Real.hpp
         domains/Numeric.hpp
 )
-target_link_libraries(domains winterval caffeine wixed)
+target_link_libraries(domains winterval caffeine dualdomain)
 
 add_library(fluxes
         solvers/flux/FluxFunction.hpp

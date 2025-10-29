@@ -9,7 +9,7 @@
 #include "../../src/solvers/difference/LaxFriedrichsSolver.hpp"
 #include "solvers/flux/CubicFlux.hpp"
 #include "Winterval/Winterval.hpp"
-#include "Wixed/WixedForm.hpp"
+#include "DualDomain/MixedForm.hpp"
 
 void assert_eq_bounded_interval(Winterval a, Winterval b) {
     ASSERT_NEAR(a.min(), b.min(), 1e-5);
@@ -84,13 +84,13 @@ TEST(friedrichs, mixed_approx) {
     double delta_t = 0.02;
     double delta_x = 1;
 
-    auto initial_conditions = std::vector<WixedForm>(discretization_size);
-    initial_conditions[0] = WixedForm(Winterval(0, 1));
-    initial_conditions[1] = WixedForm(Winterval(1, 2));
-    initial_conditions[2] = WixedForm(Winterval(2, 3));
-    initial_conditions[3] = WixedForm(Winterval(3, 4));
+    auto initial_conditions = std::vector<MixedForm>(discretization_size);
+    initial_conditions[0] = MixedForm(Winterval(0, 1));
+    initial_conditions[1] = MixedForm(Winterval(1, 2));
+    initial_conditions[2] = MixedForm(Winterval(2, 3));
+    initial_conditions[3] = MixedForm(Winterval(3, 4));
 
-    auto solution_matrix = LaxFriedrichsSolver<WixedForm>::solve(initial_conditions, discretization_size, num_timesteps, delta_t, delta_x, new CubicFlux<WixedForm>());
+    auto solution_matrix = LaxFriedrichsSolver<MixedForm>::solve(initial_conditions, discretization_size, num_timesteps, delta_t, delta_x, new CubicFlux<MixedForm>());
     // Notice that mixed approximation is slighly tighter than pure affine at index (2,0).
     assert_eq_bounded_interval(solution_matrix.get(2, 0).interval_bounds(), Winterval(0.951795, 2.102490));
     assert_eq_bounded_interval(solution_matrix.get(2, 1).interval_bounds(), Winterval(1.932881, 3.365835));

@@ -10,7 +10,7 @@
 #include "solvers/flux/CubicFlux.hpp"
 #include "Caffeine/AffineForm.hpp"
 #include "Winterval/Winterval.hpp"
-#include "Wixed/WixedForm.hpp"
+#include "DualDomain/MixedForm.hpp"
 
 /**
  * Serialize a real system approximation.
@@ -92,16 +92,16 @@ TEST(serialization, serialize_mixed) {
     double delta_t = 0.02;
     double delta_x = 1;
 
-    auto initial_conditions = std::vector<WixedForm>(discretization_size);
-    initial_conditions[0] = WixedForm(Winterval(0, 1));
-    initial_conditions[1] = WixedForm(Winterval(1, 2));
-    initial_conditions[2] = WixedForm(Winterval(2, 3));
-    initial_conditions[3] = WixedForm(Winterval(3, 4));
+    auto initial_conditions = std::vector<MixedForm>(discretization_size);
+    initial_conditions[0] = MixedForm(Winterval(0, 1));
+    initial_conditions[1] = MixedForm(Winterval(1, 2));
+    initial_conditions[2] = MixedForm(Winterval(2, 3));
+    initial_conditions[3] = MixedForm(Winterval(3, 4));
 
-    auto solution_matrix = LaxFriedrichsSolver<WixedForm>::solve(initial_conditions, discretization_size, num_timesteps, delta_t, delta_x, new CubicFlux<WixedForm>());
+    auto solution_matrix = LaxFriedrichsSolver<MixedForm>::solve(initial_conditions, discretization_size, num_timesteps, delta_t, delta_x, new CubicFlux<MixedForm>());
 
     auto strrep = solution_matrix.to_json_string();
 
-    auto deserialized_matrix = RectangularMesh<WixedForm>::from_json_string(strrep);
+    auto deserialized_matrix = RectangularMesh<MixedForm>::from_json_string(strrep);
     ASSERT_TRUE(solution_matrix.equals(deserialized_matrix));
 }
