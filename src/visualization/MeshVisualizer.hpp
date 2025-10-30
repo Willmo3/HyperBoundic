@@ -2,8 +2,8 @@
 // Created by will on 9/20/25.
 //
 
-#ifndef PDEAPPROX_DISCRETIZATIONVISUALIZER_H
-#define PDEAPPROX_DISCRETIZATIONVISUALIZER_H
+#ifndef PDENCLOSE_DISCRETIZATIONVISUALIZER_H
+#define PDENCLOSE_DISCRETIZATIONVISUALIZER_H
 #include "meshes/RectangularMesh.hpp"
 #include "matplot/freestanding/plot.h"
 #include "matplot/util/common.h"
@@ -29,4 +29,4 @@ inline void show_real_surface(RectangularMesh<Real> *system) {
     show();
 }
 
-#endif //PDEAPPROX_DISCRETIZATIONVISUALIZER_H
+#endif //PDENCLOSE_DISCRETIZATIONVISUALIZER_H

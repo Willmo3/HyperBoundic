@@ -2,8 +2,8 @@
 // Created by will on 9/18/25.
 //
 
-#ifndef PDEAPPROX_FLUXFUNCTION_H
-#define PDEAPPROX_FLUXFUNCTION_H
+#ifndef PDENCLOSE_FLUXFUNCTION_H
+#define PDENCLOSE_FLUXFUNCTION_H
 
 #include "domains/Numeric.hpp"
 
@@ -18,4 +18,4 @@ public:
     virtual T derivative_flux(T value) = 0;
 };
 
-#endif //PDEAPPROX_FLUXFUNCTION_H
+#endif //PDENCLOSE_FLUXFUNCTION_H

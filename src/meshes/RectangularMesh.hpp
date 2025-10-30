@@ -2,8 +2,8 @@
 // Created by will on 9/11/25.
 //
 
-#ifndef PDEAPPROX_SYSTEMAPPROXIMATION_H
-#define PDEAPPROX_SYSTEMAPPROXIMATION_H
+#ifndef PDENCLOSE_RECTANGULARMESH_H
+#define PDENCLOSE_RECTANGULARMESH_H
 #include <cassert>
 #include <cstring>
 #include <iostream>
@@ -205,4 +205,4 @@ private:
     }
 };
 
-#endif //PDEAPPROX_SYSTEMAPPROXIMATION_H
+#endif //PDENCLOSE_RECTANGULARMESH_H

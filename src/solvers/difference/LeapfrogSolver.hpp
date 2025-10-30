@@ -2,8 +2,8 @@
 // Created by will on 10/9/25.
 //
 
-#ifndef PDEAPPROX_LEAPFROGSOLVER_H
-#define PDEAPPROX_LEAPFROGSOLVER_H
+#ifndef PDENCLOSE_LEAPFROGSOLVER_H
+#define PDENCLOSE_LEAPFROGSOLVER_H
 #include <cmath>
 
 #include "LaxFriedrichsSolver.hpp"
@@ -81,4 +81,4 @@ public:
     }
 };
 
-#endif //PDEAPPROX_LEAPFROGSOLVER_H
+#endif //PDENCLOSE_LEAPFROGSOLVER_H

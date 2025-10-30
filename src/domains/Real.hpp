@@ -2,8 +2,8 @@
 // Created by will on 9/17/25.
 //
 
-#ifndef PDEAPPROX_REAL_H
-#define PDEAPPROX_REAL_H
+#ifndef PDENCLOSE_REAL_H
+#define PDENCLOSE_REAL_H
 #include <cstdint>
 #include <iosfwd>
 
@@ -53,4 +53,4 @@ private:
 std::ostream& operator<<(std::ostream& os, Real rhs);
 
 
-#endif //PDEAPPROX_REAL_H
+#endif //PDENCLOSE_REAL_H

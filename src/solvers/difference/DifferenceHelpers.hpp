@@ -2,8 +2,8 @@
 // Created by will on 10/27/25.
 //
 
-#ifndef PDEAPPROX_DIFFERENCEHELPERS_H
-#define PDEAPPROX_DIFFERENCEHELPERS_H
+#ifndef PDENCLOSE_DIFFERENCEHELPERS_H
+#define PDENCLOSE_DIFFERENCEHELPERS_H
 #include "domains/Numeric.hpp"
 #include "meshes/RectangularMesh.hpp"
 #include "meshes/CflCheck.hpp"
@@ -30,4 +30,4 @@ static void cfl_check_row(const RectangularMesh<T> &mesh, FluxFunction<T> *flux,
 }
 
 
-#endif //PDEAPPROX_DIFFERENCEHELPERS_H
+#endif //PDENCLOSE_DIFFERENCEHELPERS_H

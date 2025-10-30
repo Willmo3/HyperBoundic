@@ -2,8 +2,8 @@
 // Created by will on 9/17/25.
 //
 
-#ifndef PDEAPPROX_NUMERIC_H
-#define PDEAPPROX_NUMERIC_H
+#ifndef PDENCLOSE_NUMERIC_H
+#define PDENCLOSE_NUMERIC_H
 #include <cstdint>
 
 /**
@@ -42,4 +42,4 @@ concept Numeric = requires(T a, uint32_t power, double scalar, std::ostream& out
     out << a;
 };
 
-#endif //PDEAPPROX_NUMERIC_H
+#endif //PDENCLOSE_NUMERIC_H

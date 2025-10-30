@@ -2,8 +2,8 @@
 // Created by will on 9/18/25.
 //
 
-#ifndef PDEAPPROX_CFL_CHECK_H
-#define PDEAPPROX_CFL_CHECK_H
+#ifndef PDENCLOSE_CFL_CHECK_H
+#define PDENCLOSE_CFL_CHECK_H
 #include <cstdint>
 
 #include "domains/Numeric.hpp"
@@ -25,4 +25,4 @@ bool cfl_check(FluxFunction<T> *f, T mesh_point, double delta_t, double delta_x)
     return true;
 }
 
-#endif //PDEAPPROX_CFL_CHECK_H
+#endif //PDENCLOSE_CFL_CHECK_H

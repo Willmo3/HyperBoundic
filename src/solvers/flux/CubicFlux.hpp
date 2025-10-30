@@ -2,8 +2,8 @@
 // Created by will on 9/18/25.
 //
 
-#ifndef PDEAPPROX_CUBICFLUX_H
-#define PDEAPPROX_CUBICFLUX_H
+#ifndef PDENCLOSE_CUBICFLUX_H
+#define PDENCLOSE_CUBICFLUX_H
 
 #include "FluxFunction.hpp"
 
@@ -22,4 +22,4 @@ public:
         return value.pow(2) * 3;
     }
 };
-#endif //PDEAPPROX_CUBICFLUX_H
+#endif //PDENCLOSE_CUBICFLUX_H
