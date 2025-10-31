@@ -6,6 +6,8 @@
 #include "solvers/flux/CubicFlux.hpp"
 #include "solvers/volume/LocalLaxFriedrichsSolver.hpp"
 #include "DualDomain/MixedForm.hpp"
+#include "solvers/difference/LaxFriedrichsSolver.hpp"
+#include "solvers/flux/BurgersFlux.hpp"
 
 void test_llf_real() {
     auto discretization_size = 4;

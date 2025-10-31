@@ -49,8 +49,8 @@ public:
      */
     void copy_initial_conditions(const std::vector<T> &initial_conditions) {
         assert(initial_conditions.size() == discretization_size());
-        for (auto timestep = 0; timestep < _num_timesteps; timestep++) {
-            _system[timestep] = initial_conditions[timestep];
+        for (auto index = 0; index < _discretization_size; index++) {
+            _system[index] = initial_conditions[index];
         }
     }
     /**
