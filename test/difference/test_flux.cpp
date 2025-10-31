@@ -11,6 +11,7 @@
 
 #include "domains/Real.hpp"
 #include "solvers/difference/LaxFriedrichsSolver.hpp"
+#include "solvers/flux/BuckleyLeverettFlux.hpp"
 #include "solvers/flux/BurgersFlux.hpp"
 #include "solvers/flux/LwrFlux.hpp"
 
@@ -44,4 +45,12 @@ TEST(flux, lwr_flux) {
     ASSERT_NEAR(solution_matrix.get(4, 1).value(), 2.999900, 0.000001);
     ASSERT_NEAR(solution_matrix.get(4, 2).value(), 2.000013, 0.000001);
     ASSERT_NEAR(solution_matrix.get(4, 3).value(), 3.000100, 0.000001);
+}
+
+TEST(flux, buckley_lev_flux) {
+    auto solution_matrix = solve_flux(new BuckleyLeverett<Real>());
+    ASSERT_NEAR(solution_matrix.get(2, 0).value(), 2.000001, 0.000001);
+    ASSERT_NEAR(solution_matrix.get(2, 1).value(), 3.000000, 0.000001);
+    ASSERT_NEAR(solution_matrix.get(2, 2).value(), 1.999999, 0.000001);
+    ASSERT_NEAR(solution_matrix.get(2, 3).value(), 3.000000, 0.000001);
 }

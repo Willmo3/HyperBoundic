@@ -26,8 +26,8 @@ tar -xzf 'winterval-v0.0.7.tar.gz' && rm 'winterval-v0.0.7.tar.gz'
 if [ -d 'Caffeine' ]; then
   rm -r 'Caffeine'
 fi
-wget 'https://github.com/Willmo3/Caffeine/raw/refs/heads/main/release/caffeine-v0.0.1.tar.gz'
-tar -xzf 'caffeine-v0.0.1.tar.gz' && rm 'caffeine-v0.0.1.tar.gz'
+wget 'https://github.com/Willmo3/Caffeine/raw/refs/heads/main/release/caffeine-release.tar.gz'
+tar -xzf 'caffeine-release.tar.gz' && rm 'caffeine-release.tar.gz'
 
 if [ -d 'DualDomain' ]; then
   rm -r 'DualDomain'

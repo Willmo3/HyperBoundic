@@ -24,6 +24,9 @@ concept Numeric = requires(T a, uint32_t power, double scalar, std::ostream& out
     a.pow(power);
     a.abs();
 
+    // TODO: log
+    // TODO: sqrt
+
     /*
      * Numeric-scalar operations
      */

@@ -17,6 +17,8 @@ void assert_eq_bounded_interval(Winterval a, Winterval b) {
     ASSERT_NEAR(a.max(), b.max(), 1e-5);
 }
 
+// TODO: tests weak, not wide enough -- too many boundary conditions
+
 // Note: with cubic flux, delta_t must be very low -- this function is highly vulnerable to blowup!
 TEST(friedrichs, real_approx_cubic_flux) {
     uint32_t discretization_size = 4;

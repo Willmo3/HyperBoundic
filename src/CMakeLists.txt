@@ -10,6 +10,7 @@ add_library(fluxes
         solvers/flux/CubicFlux.hpp
         solvers/flux/BurgersFlux.hpp
         solvers/flux/LwrFlux.hpp
+        solvers/flux/BuckleyLeverettFlux.hpp
         domains/Numeric.hpp
 )
 set_target_properties(fluxes PROPERTIES LINKER_LANGUAGE CXX)
