@@ -8,6 +8,7 @@
 #include "DualDomain/MixedForm.hpp"
 #include "solvers/difference/LaxFriedrichsSolver.hpp"
 #include "solvers/flux/BurgersFlux.hpp"
+#include "solvers/flux/LwrFlux.hpp"
 
 void test_llf_real() {
     auto discretization_size = 4;
@@ -32,8 +33,25 @@ void test_llf_real() {
     solution_matrix.print_system();
 }
 
+void test_flux() {
+    uint32_t discretization_size = 4;
+    uint32_t num_timesteps = 10;
+    double delta_t = 0.02; // Spacing of time. Assuming operating over 4 logical time split into 4 timesteps = 1.
+    double delta_x = 1; // Spatial discretization. Assuming total space of four split into 4 parts = 1.
+
+    auto initial_conditions = std::vector<Real>(discretization_size);
+
+    initial_conditions[0] = 1.0;
+    initial_conditions[1] = 2.0;
+    initial_conditions[2] = 3.0;
+    initial_conditions[3] = 4.0;
+
+    auto solution_matrix = LaxFriedrichsSolver<Real>::solve(initial_conditions, discretization_size, num_timesteps, delta_t, delta_x, new LwrFlux<Real>());
+    solution_matrix.print_system();
+}
+
 int main() {
-    test_llf_real();
+    test_flux();
 
     return 0;
 }

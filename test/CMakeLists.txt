@@ -8,17 +8,24 @@ set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(googletest)
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ../../out/tests)
+
+# Scheme tests
 add_executable(test_friedrichs difference/test_friedrichs.cpp)
 target_link_libraries(test_friedrichs GTest::gtest_main)
 add_executable(test_leapfrog difference/test_leapfrog.cpp)
 target_link_libraries(test_leapfrog GTest::gtest_main)
 add_executable(test_serialization difference/test_serialization.cpp)
 target_link_libraries(test_serialization GTest::gtest_main)
-include(GoogleTest)
 
+# Flux tests
+add_executable(test_flux difference/test_flux.cpp)
+target_link_libraries(test_flux GTest::gtest_main)
+
+include(GoogleTest)
 target_link_libraries(test_friedrichs friedrichs)
 target_link_libraries(test_leapfrog leapfrog)
 target_link_libraries(test_serialization friedrichs)
+target_link_libraries(test_flux friedrichs)
 
 # Visualization executables
 add_executable(visualize_leapfrog viz/visualize_leapfrog.cpp)
