@@ -1,14 +1,15 @@
 
-#include "meshes/RectangularMesh.hpp"
-#include "domains/Real.hpp"
-#include "solvers/flux/CubicFlux.hpp"
-#include "solvers/volume/LocalLaxFriedrichsSolver.hpp"
+#include "../meshes/RectangularMesh.hpp"
+#include "../domains/Real.hpp"
+#include "../solvers/flux/CubicFlux.hpp"
+#include "../solvers/volume/LocalLaxFriedrichsSolver.hpp"
 #include "DualDomain/MixedForm.hpp"
-#include "io/save_initial_conditions.hpp"
-#include "solvers/difference/LaxFriedrichsSolver.hpp"
-#include "solvers/flux/BuckleyLeverettFlux.hpp"
-#include "solvers/flux/BurgersFlux.hpp"
-#include "solvers/flux/LwrFlux.hpp"
+#include "initial_conditions.hpp"
+#include "SimulationConfig.hpp"
+#include "../solvers/difference/LaxFriedrichsSolver.hpp"
+#include "../solvers/flux/BuckleyLeverettFlux.hpp"
+#include "../solvers/flux/BurgersFlux.hpp"
+#include "../solvers/flux/LwrFlux.hpp"
 
 // void test_llf_real() {
 //     auto discretization_size = 4;
@@ -55,6 +56,10 @@
  * Write a small sanity test of initial conditions.
  */
 void write_sanity_conditions() {
+    // Write input config.
+    auto cfg = SimulationConfig("burgers", "real", 4, 4);
+
+    // Write actual initial conditions.
     std::vector<Real> initial_conditions = std::vector<Real>(4);
     initial_conditions[0] = 1;
     initial_conditions[1] = 2;
@@ -62,15 +67,18 @@ void write_sanity_conditions() {
     initial_conditions[3] = 4;
 
     write_initial_conditions("sanity_conditions.json", initial_conditions);
+    write_config("sanity_config.json", cfg);
 }
 
 /**
  * Run a small simulation with 4 timesteps.
- * @param source_file File to get initial conditions from.
+ * @param cfg_path Path to configuration file.
+ * @param initial_conds_path Path to string with initial conditions.
  */
-void run_simulation(const std::string &source_file) {
-    auto initial_conditions = read_initial_conditions<Real>(source_file);
-    auto solution = LaxFriedrichsSolver<Real>::solve(initial_conditions, initial_conditions.size(), 4, 0.01, 0.5, new CubicFlux<Real>());
+void run_simulation(const std::string &cfg_path, const std::string &initial_conds_path) {
+    auto config = read_config(cfg_path);
+    auto initial_conditions = read_initial_conditions<Real>(initial_conds_path);
+    auto solution = LaxFriedrichsSolver<Real>::solve(initial_conditions, config.discretization_size, config.num_timesteps, 0.01, 0.5, new CubicFlux<Real>());
     solution.print_system();
 }
 
@@ -79,18 +87,22 @@ void run_simulation(const std::string &source_file) {
  * @param argc Number of arguments
  * @param argv Argument vector
  * @param write_test Pointer to option about whether to write out a sanity test file.
- * @param src_file Pointer to string to place discretization src in.
+ * @param cfg_path Pointer to string where path of discretization config will be placed.
+ * @param initial_conds_path Pointer to string where path of initial conditions will be placed.
  * @return whether no invalid arguments were provided
  */
-static bool get_args(int argc, char *argv[], bool *write_test, std::string *src_file) {
+static bool get_args(int argc, char *argv[], bool *write_test, std::string *cfg_path, std::string *initial_conds_path) {
     int ch = 0;
-    while ((ch = getopt(argc, argv, "ws:")) != -1) {
+    while ((ch = getopt(argc, argv, "wc:s:")) != -1) {
         switch (ch) {
             case 'w':
                 *write_test = true;
                 break;
             case 's':
-                *src_file = optarg;
+                *initial_conds_path = optarg;
+                break;
+            case 'c':
+                *cfg_path = optarg;
                 break;
             default:
                 return false;
@@ -101,18 +113,23 @@ static bool get_args(int argc, char *argv[], bool *write_test, std::string *src_
 
 // Note: for now, assume only real-valued.
 int main(int argc, char *argv[]) {
-    std::string src_file = "";
+    std::string cfg_path = "";
+    std::string initial_conds_path = "";
     bool write_test = false;
 
     // Read command line args.
-    if (!get_args(argc, argv, &write_test, &src_file)) {
+    if (!get_args(argc, argv, &write_test, &cfg_path, &initial_conds_path)) {
         std::cerr << "Invalid arguments." << std::endl;
         exit(EXIT_FAILURE);
     }
 
     // Validate command line args.
-    if (write_test != src_file.empty()) {
+    if (write_test != cfg_path.empty()) {
         std::cerr << "Either write a sanity test or run a simulation." << std::endl;
+        exit(EXIT_FAILURE);
+    }
+    if (cfg_path.empty() != initial_conds_path.empty()) {
+        std::cerr << "Specify both an initial conditions file and a configuration file." << std::endl;
         exit(EXIT_FAILURE);
     }
 
@@ -120,7 +137,7 @@ int main(int argc, char *argv[]) {
         // Put out a small sanity test.
         write_sanity_conditions();
     } else {
-        run_simulation(src_file);
+        run_simulation(cfg_path, initial_conds_path);
     }
 
     return 0;

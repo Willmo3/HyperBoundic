@@ -32,12 +32,12 @@ target_link_libraries(leapfrog domains fluxes discretizations)
 add_library(local_friedrichs solvers/volume/LocalLaxFriedrichsSolver.hpp)
 target_link_libraries(local_friedrichs domains fluxes discretizations)
 
-# Serialization
-add_library(io io/save_initial_conditions.hpp)
-target_link_libraries(io domains)
-
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ../../out)
 
-add_executable(PDEapprox main.cpp visualization/MeshVisualizer.hpp)
-target_link_libraries(PDEapprox friedrichs leapfrog local_friedrichs io)
+add_executable(PDEapprox
+        exe/main.cpp
+        exe/initial_conditions.hpp
+        exe/SimulationConfig.hpp
+        visualization/MeshVisualizer.hpp)
+target_link_libraries(PDEapprox friedrichs leapfrog local_friedrichs)
 target_link_libraries(PDEapprox matplot)
