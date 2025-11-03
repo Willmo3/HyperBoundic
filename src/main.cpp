@@ -4,6 +4,7 @@
 #include "solvers/flux/CubicFlux.hpp"
 #include "solvers/volume/LocalLaxFriedrichsSolver.hpp"
 #include "DualDomain/MixedForm.hpp"
+#include "io/save_initial_conditions.hpp"
 #include "solvers/difference/LaxFriedrichsSolver.hpp"
 #include "solvers/flux/BuckleyLeverettFlux.hpp"
 #include "solvers/flux/BurgersFlux.hpp"
@@ -50,7 +51,12 @@ void test_flux() {
 }
 
 int main() {
-    test_flux();
+    std::vector<Real> initial_conditions = std::vector<Real>(4);
+    initial_conditions[0] = 1;
+    initial_conditions[1] = 2;
+    initial_conditions[2] = 3;
+    initial_conditions[3] = 4;
 
+    write_initial_conditions("initial_conditions.json", initial_conditions);
     return 0;
 }
