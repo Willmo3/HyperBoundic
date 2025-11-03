@@ -57,7 +57,7 @@
  */
 void write_sanity_conditions() {
     // Write input config.
-    auto cfg = SimulationConfig("burgers", "real", 4, 4);
+    auto cfg = SimulationConfig("burgers", "real", 4, 4, 1, 0.01);
 
     // Write actual initial conditions.
     std::vector<Real> initial_conditions = std::vector<Real>(4);
@@ -76,10 +76,21 @@ void write_sanity_conditions() {
  * @param initial_conds_path Path to string with initial conditions.
  */
 void run_simulation(const std::string &cfg_path, const std::string &initial_conds_path) {
+    // Read config
     auto config = read_config(cfg_path);
-    auto initial_conditions = read_initial_conditions<Real>(initial_conds_path);
-    auto solution = LaxFriedrichsSolver<Real>::solve(initial_conditions, config.discretization_size, config.num_timesteps, 0.01, 0.5, new CubicFlux<Real>());
-    solution.print_system();
+
+    // TODO: dictionary mapping strings to fluxes.
+
+    // TODO: generate flux function
+    if (config.domain == "real") {
+        auto initial_conditions = read_initial_conditions<Real>(initial_conds_path);
+        // TODO: require delta_t, delta_x
+        auto solution = LaxFriedrichsSolver<Real>::solve(initial_conditions, config.discretization_size, config.num_timesteps, config.delta_t, config.delta_x, new CubicFlux<Real>());
+        solution.print_system();
+    } else {
+        std::cerr << "Invalid domain!" << std::endl;
+        exit(EXIT_FAILURE);
+    }
 }
 
 /**

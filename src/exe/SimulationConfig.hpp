@@ -25,13 +25,16 @@ struct SimulationConfig {
      * @param domain Name of abstract domain serialized over. Options: real, interval, affine, mixed
      * @param discretization_size Size of the discretization being serialized.
      * @param num_timesteps Number of timesteps to run simulation for.
+     * @param delta_x spatial step
+     * @param delta_t timestep
      */
     SimulationConfig(
-        std::string flux, std::string domain, uint32_t discretization_size, uint32_t num_timesteps):
+        std::string flux, std::string domain, uint32_t discretization_size, uint32_t num_timesteps, double delta_x, double delta_t):
           flux(std::move(flux)),
           domain(std::move(domain)),
           discretization_size(discretization_size),
-          num_timesteps(num_timesteps) {}
+          num_timesteps(num_timesteps),
+          delta_t(delta_t), delta_x(delta_x) {}
 
     /**
      * Empty default constructor allows serialization.
@@ -43,7 +46,9 @@ struct SimulationConfig {
         archive(cereal::make_nvp("flux", flux),
                 cereal::make_nvp("domain", domain),
                 cereal::make_nvp("discretization_size", discretization_size),
-                cereal::make_nvp("timesteps", num_timesteps));
+                cereal::make_nvp("timesteps", num_timesteps),
+                cereal::make_nvp("delta_x", delta_x),
+                cereal::make_nvp("delta_t", delta_t));
     }
 
     /*
@@ -53,6 +58,8 @@ struct SimulationConfig {
     std::string domain;
     uint32_t discretization_size;
     uint32_t num_timesteps;
+    double delta_t;
+    double delta_x;
 };
 
 /*
