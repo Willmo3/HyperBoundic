@@ -10,6 +10,7 @@
 #include "../solvers/flux/BuckleyLeverettFlux.hpp"
 #include "../solvers/flux/BurgersFlux.hpp"
 #include "../solvers/flux/LwrFlux.hpp"
+#include "solvers/flux/match_flux.hpp"
 
 // void test_llf_real() {
 //     auto discretization_size = 4;
@@ -59,6 +60,9 @@ void write_sanity_conditions() {
     // Write input config.
     auto cfg = SimulationConfig("burgers", "real", 4, 4, 1, 0.01);
 
+    // TODO: separate initial conditions writer.
+    // - function to write all of them.
+
     // Write actual initial conditions.
     std::vector<Real> initial_conditions = std::vector<Real>(4);
     initial_conditions[0] = 1;
@@ -79,13 +83,13 @@ void run_simulation(const std::string &cfg_path, const std::string &initial_cond
     // Read config
     auto config = read_config(cfg_path);
 
-    // TODO: dictionary mapping strings to fluxes.
+    // TODO: separate runner
+    // Nested conditionals. It sucks, but we've got to do it.
 
-    // TODO: generate flux function
     if (config.domain == "real") {
         auto initial_conditions = read_initial_conditions<Real>(initial_conds_path);
-        // TODO: require delta_t, delta_x
-        auto solution = LaxFriedrichsSolver<Real>::solve(initial_conditions, config.discretization_size, config.num_timesteps, config.delta_t, config.delta_x, new CubicFlux<Real>());
+        auto flux = match_flux<Real>(config.flux);
+        auto solution = LaxFriedrichsSolver<Real>::solve(initial_conditions, config.discretization_size, config.num_timesteps, config.delta_t, config.delta_x, flux);
         solution.print_system();
     } else {
         std::cerr << "Invalid domain!" << std::endl;
