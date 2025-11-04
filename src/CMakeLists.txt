@@ -27,6 +27,7 @@ add_library(difference_solvers
         solvers/difference/LaxFriedrichsSolver.hpp
         solvers/difference/LeapfrogSolver.hpp
         solvers/difference/DifferenceSolver.hpp
+        solvers/difference/match_difference.hpp
 )
 target_link_libraries(difference_solvers domains fluxes discretizations)
 add_library(volume_solvers

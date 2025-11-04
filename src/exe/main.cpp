@@ -11,6 +11,7 @@
 #include "flux/BurgersFlux.hpp"
 #include "flux/LwrFlux.hpp"
 #include "flux/match_flux.hpp"
+#include "solvers/difference/match_difference.hpp"
 
 // void test_llf_real() {
 //     auto discretization_size = 4;
@@ -58,7 +59,7 @@
  */
 void write_sanity_conditions() {
     // Write input config.
-    auto cfg = SimulationConfig("burgers", "real", 4, 4, 1, 0.01);
+    auto cfg = SimulationConfig("real", "burgers", "lax_friedrichs", 4, 4, 1, 0.01);
 
     // TODO: separate initial conditions writer.
     // - function to write all of them.
@@ -89,8 +90,13 @@ void run_simulation(const std::string &cfg_path, const std::string &initial_cond
     if (config.domain == "real") {
         auto initial_conditions = read_initial_conditions<Real>(initial_conds_path);
         auto flux = match_flux<Real>(config.flux);
-        auto solution = LaxFriedrichsSolver<Real>().solve(initial_conditions, config.discretization_size, config.num_timesteps, config.delta_t, config.delta_x, flux);
+        // For now, only difference solvers.
+        auto solver = match_difference<Real>(config.solver);
+        auto solution = solver->solve(initial_conditions, config.discretization_size, config.num_timesteps, config.delta_t, config.delta_x, flux);
         solution.print_system();
+
+        delete solver;
+        delete flux;
     } else {
         std::cerr << "Invalid domain!" << std::endl;
         exit(EXIT_FAILURE);
