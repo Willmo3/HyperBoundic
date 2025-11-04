@@ -76,7 +76,7 @@ struct SimulationConfig {
  * @param file_name Name of file to read config in from.
  * @return A config tuple for a simulation.
  */
-SimulationConfig read_config(const std::string &file_name) {
+inline SimulationConfig read_config(const std::string &file_name) {
     std::ifstream f;
     f.open(file_name);
 
@@ -97,7 +97,7 @@ SimulationConfig read_config(const std::string &file_name) {
  * @param file_name Name of file to write configuration to.
  * @param config Configuration to write.
  */
-void write_config(const std::string &file_name, const SimulationConfig &config) {
+inline void write_config(const std::string &file_name, const SimulationConfig &config) {
     std::ofstream f;
     f.open(file_name);
     {

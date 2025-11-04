@@ -37,7 +37,10 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ../../out)
 
 add_executable(PDEapprox
         exe/main.cpp
-        exe/initial_conditions.hpp
-        exe/SimulationConfig.hpp
+        exe/io/initial_conditions.hpp
+        exe/io/SimulationConfig.hpp
+        exe/io/generate_source_files.cpp
+        exe/io/generate_source_files.h
+        exe/args/match_names.hpp
         visualization/MeshVisualizer.hpp)
 target_link_libraries(PDEapprox difference_solvers volume_solvers matplot)

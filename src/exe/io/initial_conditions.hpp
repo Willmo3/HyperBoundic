@@ -8,6 +8,7 @@
 #include <string>
 
 #include "cereal/archives/json.hpp"
+#include "cereal/types/vector.hpp"
 #include "domains/Numeric.hpp"
 
 /**

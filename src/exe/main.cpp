@@ -11,6 +11,7 @@
 #include "flux/BurgersFlux.hpp"
 #include "flux/LwrFlux.hpp"
 #include "args/match_names.hpp"
+#include "io/generate_source_files.h"
 
 // void test_llf_real() {
 //     auto discretization_size = 4;
@@ -83,14 +84,42 @@ void run_simulation(const std::string &cfg_path, const std::string &initial_cond
     // Read config
     auto config = read_config(cfg_path);
 
-    // TODO: separate runner
-    // Nested conditionals. It sucks, but we've got to do it.
-
+    // Note: duplicated logic between these branches because we can only initialize once we know the templated type.
     if (config.domain == "real") {
         auto initial_conditions = read_initial_conditions<Real>(initial_conds_path);
         auto flux = match_flux<Real>(config.flux);
         // For now, only difference solvers.
         auto solver = match_difference<Real>(config.solver);
+        auto solution = solver->solve(initial_conditions, config.discretization_size, config.num_timesteps, config.delta_t, config.delta_x, flux);
+        solution.print_system();
+
+        delete solver;
+        delete flux;
+    } else if (config.domain == "interval") {
+        auto initial_conditions = read_initial_conditions<Winterval>(initial_conds_path);
+        auto flux = match_flux<Winterval>(config.flux);
+        // For now, only difference solvers.
+        auto solver = match_difference<Winterval>(config.solver);
+        auto solution = solver->solve(initial_conditions, config.discretization_size, config.num_timesteps, config.delta_t, config.delta_x, flux);
+        solution.print_system();
+
+        delete solver;
+        delete flux;
+    } else if (config.domain == "affine") {
+        auto initial_conditions = read_initial_conditions<AffineForm>(initial_conds_path);
+        auto flux = match_flux<AffineForm>(config.flux);
+        // For now, only difference solvers.
+        auto solver = match_difference<AffineForm>(config.solver);
+        auto solution = solver->solve(initial_conditions, config.discretization_size, config.num_timesteps, config.delta_t, config.delta_x, flux);
+        solution.print_system();
+
+        delete solver;
+        delete flux;
+    } else if (config.domain == "mixed") {
+        auto initial_conditions = read_initial_conditions<MixedForm>(initial_conds_path);
+        auto flux = match_flux<MixedForm>(config.flux);
+        // For now, only difference solvers.
+        auto solver = match_difference<MixedForm>(config.solver);
         auto solution = solver->solve(initial_conditions, config.discretization_size, config.num_timesteps, config.delta_t, config.delta_x, flux);
         solution.print_system();
 
@@ -135,16 +164,16 @@ static bool get_args(int argc, char *argv[], bool *write_test, std::string *cfg_
 int main(int argc, char *argv[]) {
     std::string cfg_path = "";
     std::string initial_conds_path = "";
-    bool write_test = false;
+    bool gen_sources = false;
 
     // Read command line args.
-    if (!get_args(argc, argv, &write_test, &cfg_path, &initial_conds_path)) {
+    if (!get_args(argc, argv, &gen_sources, &cfg_path, &initial_conds_path)) {
         std::cerr << "Invalid arguments." << std::endl;
         exit(EXIT_FAILURE);
     }
 
     // Validate command line args.
-    if (write_test != cfg_path.empty()) {
+    if (gen_sources != cfg_path.empty()) {
         std::cerr << "Either write a sanity test or run a simulation." << std::endl;
         exit(EXIT_FAILURE);
     }
@@ -153,9 +182,9 @@ int main(int argc, char *argv[]) {
         exit(EXIT_FAILURE);
     }
 
-    if (write_test) {
-        // Put out a small sanity test.
-        write_sanity_conditions();
+    if (gen_sources) {
+        // write t
+        generate_source_files();
     } else {
         run_simulation(cfg_path, initial_conds_path);
     }
