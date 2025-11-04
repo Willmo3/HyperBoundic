@@ -10,7 +10,7 @@ if not os.path.isfile('run_sanity_tests.py'):
 
 # check if the executable is placed in out
 if not os.path.isfile('out/PDEapprox'):
-    print("Error: The executable 'out/executable' was not found. Please build the project first.")
+    print("Error: The executable 'out/PDEapprox' was not found. Please build the project first.")
     exit(1)
 
 # generate files
