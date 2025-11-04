@@ -4,13 +4,13 @@
 #include "flux/CubicFlux.hpp"
 #include "solvers/volume/LocalLaxFriedrichsSolver.hpp"
 #include "DualDomain/MixedForm.hpp"
-#include "initial_conditions.hpp"
-#include "SimulationConfig.hpp"
+#include "io/initial_conditions.hpp"
+#include "io/SimulationConfig.hpp"
 #include "solvers/difference/LaxFriedrichsSolver.hpp"
 #include "flux/BuckleyLeverettFlux.hpp"
 #include "flux/BurgersFlux.hpp"
 #include "flux/LwrFlux.hpp"
-#include "match_names.hpp"
+#include "args/match_names.hpp"
 
 // void test_llf_real() {
 //     auto discretization_size = 4;
