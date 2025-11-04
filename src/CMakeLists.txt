@@ -11,7 +11,6 @@ add_library(fluxes
         flux/BurgersFlux.hpp
         flux/LwrFlux.hpp
         flux/BuckleyLeverettFlux.hpp
-        flux/match_flux.hpp
         domains/Numeric.hpp
 )
 set_target_properties(fluxes PROPERTIES LINKER_LANGUAGE CXX)
@@ -27,7 +26,6 @@ add_library(difference_solvers
         solvers/difference/LaxFriedrichsSolver.hpp
         solvers/difference/LeapfrogSolver.hpp
         solvers/difference/DifferenceSolver.hpp
-        solvers/difference/match_difference.hpp
 )
 target_link_libraries(difference_solvers domains fluxes discretizations)
 add_library(volume_solvers

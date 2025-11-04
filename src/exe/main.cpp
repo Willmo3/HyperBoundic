@@ -10,8 +10,7 @@
 #include "flux/BuckleyLeverettFlux.hpp"
 #include "flux/BurgersFlux.hpp"
 #include "flux/LwrFlux.hpp"
-#include "flux/match_flux.hpp"
-#include "solvers/difference/match_difference.hpp"
+#include "match_names.hpp"
 
 // void test_llf_real() {
 //     auto discretization_size = 4;
