@@ -95,6 +95,7 @@ void run_simulation(const std::string &cfg_path, const std::string &initial_cond
 
         delete solver;
         delete flux;
+
     } else if (config.domain == "interval") {
         auto initial_conditions = read_initial_conditions<Winterval>(initial_conds_path);
         auto flux = match_flux<Winterval>(config.flux);
@@ -105,6 +106,7 @@ void run_simulation(const std::string &cfg_path, const std::string &initial_cond
 
         delete solver;
         delete flux;
+
     } else if (config.domain == "affine") {
         auto initial_conditions = read_initial_conditions<AffineForm>(initial_conds_path);
         auto flux = match_flux<AffineForm>(config.flux);
@@ -115,6 +117,7 @@ void run_simulation(const std::string &cfg_path, const std::string &initial_cond
 
         delete solver;
         delete flux;
+
     } else if (config.domain == "mixed") {
         auto initial_conditions = read_initial_conditions<MixedForm>(initial_conds_path);
         auto flux = match_flux<MixedForm>(config.flux);
@@ -125,6 +128,7 @@ void run_simulation(const std::string &cfg_path, const std::string &initial_cond
 
         delete solver;
         delete flux;
+
     } else {
         std::cerr << "Invalid domain!" << std::endl;
         exit(EXIT_FAILURE);
