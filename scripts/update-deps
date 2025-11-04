@@ -5,7 +5,7 @@ echo "installing and updating PDEapprox dependencies"
 cd ..
 
 parentname="$(basename "$(pwd)")"
-if [ ! $parentname = "PDEapprox" ]; then
+if [ ! $parentname = "PDEapprox" ] && [ ! $parentname = "PDEnclose" ]; then
   echo "Attempted setup from wrong directory -- move to PDEapprox/bin!"
   exit 1
 fi
