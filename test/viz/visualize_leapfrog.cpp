@@ -3,12 +3,9 @@
 //
 
 
-#include <cassert>
-#include <cstdint>
-#include <memory>
-#include "../../src/solvers/difference/LeapfrogSolver.hpp"
+#include "solvers/difference/LeapfrogSolver.hpp"
 #include "domains/Real.hpp"
-#include "solvers/flux/CubicFlux.hpp"
+#include "flux/CubicFlux.hpp"
 #include "visualization/MeshVisualizer.hpp"
 
 int main() {

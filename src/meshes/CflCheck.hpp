@@ -7,7 +7,7 @@
 #include <cstdint>
 
 #include "domains/Numeric.hpp"
-#include "solvers/flux/FluxFunction.hpp"
+#include "flux/FluxFunction.hpp"
 
 /*
  * For explicit schemes, c_max is defined as one.

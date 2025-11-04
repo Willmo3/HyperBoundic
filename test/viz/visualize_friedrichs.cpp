@@ -2,12 +2,9 @@
 // Created by will on 10/17/25.
 //
 
-#include <cassert>
-#include <cstdint>
-#include <memory>
-#include "../../src/solvers/difference/LaxFriedrichsSolver.hpp"
+#include "solvers/difference/LaxFriedrichsSolver.hpp"
 #include "domains/Real.hpp"
-#include "solvers/flux/CubicFlux.hpp"
+#include "flux/CubicFlux.hpp"
 #include "visualization/MeshVisualizer.hpp"
 
 int main() {

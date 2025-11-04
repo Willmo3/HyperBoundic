@@ -1,16 +1,16 @@
 
-#include "../meshes/RectangularMesh.hpp"
-#include "../domains/Real.hpp"
-#include "../solvers/flux/CubicFlux.hpp"
-#include "../solvers/volume/LocalLaxFriedrichsSolver.hpp"
+#include "meshes/RectangularMesh.hpp"
+#include "domains/Real.hpp"
+#include "flux/CubicFlux.hpp"
+#include "solvers/volume/LocalLaxFriedrichsSolver.hpp"
 #include "DualDomain/MixedForm.hpp"
 #include "initial_conditions.hpp"
 #include "SimulationConfig.hpp"
-#include "../solvers/difference/LaxFriedrichsSolver.hpp"
-#include "../solvers/flux/BuckleyLeverettFlux.hpp"
-#include "../solvers/flux/BurgersFlux.hpp"
-#include "../solvers/flux/LwrFlux.hpp"
-#include "solvers/flux/match_flux.hpp"
+#include "solvers/difference/LaxFriedrichsSolver.hpp"
+#include "flux/BuckleyLeverettFlux.hpp"
+#include "flux/BurgersFlux.hpp"
+#include "flux/LwrFlux.hpp"
+#include "flux/match_flux.hpp"
 
 // void test_llf_real() {
 //     auto discretization_size = 4;

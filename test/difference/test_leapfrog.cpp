@@ -3,9 +3,9 @@
 //
 
 #include "Caffeine/AffineForm.hpp"
-#include "../../src/domains/Real.hpp"
-#include "../../src/solvers/difference/LeapfrogSolver.hpp"
-#include "../../src/solvers/flux/CubicFlux.hpp"
+#include "domains/Real.hpp"
+#include "solvers/difference/LeapfrogSolver.hpp"
+#include "flux/CubicFlux.hpp"
 #include "Winterval/Winterval.hpp"
 #include "DualDomain/MixedForm.hpp"
 #include "gtest/gtest.h"

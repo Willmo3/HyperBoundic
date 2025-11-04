@@ -6,12 +6,12 @@ add_library(domains
 target_link_libraries(domains winterval caffeine dualdomain)
 
 add_library(fluxes
-        solvers/flux/FluxFunction.hpp
-        solvers/flux/CubicFlux.hpp
-        solvers/flux/BurgersFlux.hpp
-        solvers/flux/LwrFlux.hpp
-        solvers/flux/BuckleyLeverettFlux.hpp
-        solvers/flux/match_flux.hpp
+        flux/FluxFunction.hpp
+        flux/CubicFlux.hpp
+        flux/BurgersFlux.hpp
+        flux/LwrFlux.hpp
+        flux/BuckleyLeverettFlux.hpp
+        flux/match_flux.hpp
         domains/Numeric.hpp
 )
 set_target_properties(fluxes PROPERTIES LINKER_LANGUAGE CXX)

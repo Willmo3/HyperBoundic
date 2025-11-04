@@ -7,10 +7,10 @@
 #include "Caffeine/AffineForm.hpp"
 #include "domains/Real.hpp"
 #include "../../src/solvers/difference/LaxFriedrichsSolver.hpp"
-#include "solvers/flux/CubicFlux.hpp"
+#include "flux/CubicFlux.hpp"
+#include "flux/BurgersFlux.hpp"
 #include "Winterval/Winterval.hpp"
 #include "DualDomain/MixedForm.hpp"
-#include "solvers/flux/BurgersFlux.hpp"
 
 void assert_eq_bounded_interval(Winterval a, Winterval b) {
     ASSERT_NEAR(a.min(), b.min(), 1e-5);
@@ -60,6 +60,8 @@ TEST(friedrichs, real_approx_burgers_flux) {
     ASSERT_NEAR(solution_matrix.get(4, 2).value(), 2.000003, 0.000001);
     ASSERT_NEAR(solution_matrix.get(4, 3).value(), 3.000013, 0.000001);
 }
+
+// TODO: sanity tests for other fluxes
 
 TEST(friedrichs, interval_approx) {
     uint32_t discretization_size = 4;

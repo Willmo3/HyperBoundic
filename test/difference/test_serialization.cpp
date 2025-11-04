@@ -6,8 +6,8 @@
 
 #include "domains/Real.hpp"
 #include "gtest/gtest.h"
-#include "../../src/solvers/difference/LaxFriedrichsSolver.hpp"
-#include "solvers/flux/CubicFlux.hpp"
+#include "solvers/difference/LaxFriedrichsSolver.hpp"
+#include "flux/CubicFlux.hpp"
 #include "Caffeine/AffineForm.hpp"
 #include "Winterval/Winterval.hpp"
 #include "DualDomain/MixedForm.hpp"

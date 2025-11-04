@@ -5,6 +5,7 @@
 #ifndef PDENCLOSE_NUMERIC_H
 #define PDENCLOSE_NUMERIC_H
 #include <cstdint>
+#include <ostream>
 
 /**
  * Numeric data suitable for approximation schemes.

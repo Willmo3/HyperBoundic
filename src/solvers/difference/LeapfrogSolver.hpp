@@ -9,7 +9,7 @@
 #include "LaxFriedrichsSolver.hpp"
 #include "domains/Numeric.hpp"
 #include "meshes/RectangularMesh.hpp"
-#include "../flux/FluxFunction.hpp"
+#include "flux/FluxFunction.hpp"
 #include "DifferenceHelpers.hpp"
 
 template<typename T>

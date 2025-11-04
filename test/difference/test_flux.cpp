@@ -11,9 +11,9 @@
 
 #include "domains/Real.hpp"
 #include "solvers/difference/LaxFriedrichsSolver.hpp"
-#include "solvers/flux/BuckleyLeverettFlux.hpp"
-#include "solvers/flux/BurgersFlux.hpp"
-#include "solvers/flux/LwrFlux.hpp"
+#include "flux/BuckleyLeverettFlux.hpp"
+#include "flux/BurgersFlux.hpp"
+#include "flux/LwrFlux.hpp"
 
 RectangularMesh<Real> solve_flux(FluxFunction<Real> * f) {
     uint32_t discretization_size = 4;
