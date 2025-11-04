@@ -30,7 +30,7 @@ TEST(serialization, serialize_real) {
     initial_conditions[2] = 3.0;
     initial_conditions[3] = 4.0;
 
-    auto solution_matrix = LaxFriedrichsSolver<Real>::solve(initial_conditions, discretization_size, num_timesteps, delta_t, delta_x, new CubicFlux<Real>());
+    auto solution_matrix = LaxFriedrichsSolver<Real>().solve(initial_conditions, discretization_size, num_timesteps, delta_t, delta_x, new CubicFlux<Real>());
 
     // Now, serialize this.
 
@@ -53,7 +53,7 @@ TEST(serialization, serialize_interval) {
     initial_conditions[2] = Winterval(2, 3);
     initial_conditions[3] = Winterval(3, 4);
 
-    auto solution_matrix = LaxFriedrichsSolver<Winterval>::solve(initial_conditions, discretization_size, num_timesteps, delta_t, delta_x, new CubicFlux<Winterval>());
+    auto solution_matrix = LaxFriedrichsSolver<Winterval>().solve(initial_conditions, discretization_size, num_timesteps, delta_t, delta_x, new CubicFlux<Winterval>());
 
     // Now, serialize this.
 
@@ -76,7 +76,7 @@ TEST(serialization, serialize_affine) {
     initial_conditions[2] = AffineForm(Winterval(2, 3));
     initial_conditions[3] = AffineForm(Winterval(3, 4));
 
-    auto solution_matrix = LaxFriedrichsSolver<AffineForm>::solve(initial_conditions, discretization_size, num_timesteps, delta_t, delta_x, new CubicFlux<AffineForm>());
+    auto solution_matrix = LaxFriedrichsSolver<AffineForm>().solve(initial_conditions, discretization_size, num_timesteps, delta_t, delta_x, new CubicFlux<AffineForm>());
 
     // Now, serialize this.
 
@@ -98,7 +98,7 @@ TEST(serialization, serialize_mixed) {
     initial_conditions[2] = MixedForm(Winterval(2, 3));
     initial_conditions[3] = MixedForm(Winterval(3, 4));
 
-    auto solution_matrix = LaxFriedrichsSolver<MixedForm>::solve(initial_conditions, discretization_size, num_timesteps, delta_t, delta_x, new CubicFlux<MixedForm>());
+    auto solution_matrix = LaxFriedrichsSolver<MixedForm>().solve(initial_conditions, discretization_size, num_timesteps, delta_t, delta_x, new CubicFlux<MixedForm>());
 
     auto strrep = solution_matrix.to_json_string();
 

@@ -22,14 +22,14 @@ add_executable(test_flux difference/test_flux.cpp)
 target_link_libraries(test_flux GTest::gtest_main)
 
 include(GoogleTest)
-target_link_libraries(test_friedrichs solvers)
-target_link_libraries(test_leapfrog solvers)
-target_link_libraries(test_serialization solvers)
-target_link_libraries(test_flux solvers)
+target_link_libraries(test_friedrichs difference_solvers)
+target_link_libraries(test_leapfrog difference_solvers)
+target_link_libraries(test_serialization difference_solvers)
+target_link_libraries(test_flux difference_solvers)
 
 # Visualization executables
 add_executable(visualize_leapfrog viz/visualize_leapfrog.cpp)
-target_link_libraries(visualize_leapfrog solvers matplot)
+target_link_libraries(visualize_leapfrog difference_solvers matplot)
 
 add_executable(visualize_friedrichs viz/visualize_friedrichs.cpp)
-target_link_libraries(visualize_friedrichs solvers matplot)
+target_link_libraries(visualize_friedrichs difference_solvers matplot)

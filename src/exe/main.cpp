@@ -31,7 +31,7 @@
 //     width_values[3] = 1;
 //
 //     // TODO: free flux fns when finished.
-//     auto solution_matrix = LocalLaxFriedrichsSolver<Real>::solve(initial_conditions, width_values, discretization_size, num_timesteps, delta_t, new CubicFlux<Real>);
+//     auto solution_matrix = LocalLaxFriedrichsSolver<Real>().solve(initial_conditions, width_values, discretization_size, num_timesteps, delta_t, new CubicFlux<Real>);
 //     solution_matrix.print_system();
 // }
 //
@@ -48,7 +48,7 @@
 //     initial_conditions[2] = 3;
 //     initial_conditions[3] = 4;
 //
-//     auto solution_matrix = LaxFriedrichsSolver<Real>::solve(initial_conditions, discretization_size, num_timesteps, delta_t, delta_x, new BuckleyLeverett<Real>());
+//     auto solution_matrix = LaxFriedrichsSolver<Real>().solve(initial_conditions, discretization_size, num_timesteps, delta_t, delta_x, new BuckleyLeverett<Real>());
 //     solution_matrix.print_system();
 // }
 
@@ -89,7 +89,7 @@ void run_simulation(const std::string &cfg_path, const std::string &initial_cond
     if (config.domain == "real") {
         auto initial_conditions = read_initial_conditions<Real>(initial_conds_path);
         auto flux = match_flux<Real>(config.flux);
-        auto solution = LaxFriedrichsSolver<Real>::solve(initial_conditions, config.discretization_size, config.num_timesteps, config.delta_t, config.delta_x, flux);
+        auto solution = LaxFriedrichsSolver<Real>().solve(initial_conditions, config.discretization_size, config.num_timesteps, config.delta_t, config.delta_x, flux);
         solution.print_system();
     } else {
         std::cerr << "Invalid domain!" << std::endl;

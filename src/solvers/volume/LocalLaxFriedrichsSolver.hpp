@@ -72,7 +72,7 @@ public:
         return solution;
     }
 
-    // LLF stenci stencil derived from: https://diogenes.bg/ijam/contents/2022-35-4/7/7.pdf
+    // LLF stencil derived from: https://diogenes.bg/ijam/contents/2022-35-4/7/7.pdf
     // Control flow is the same as Lax Friedrichs. Big Rusanov contribution is the flux fn, which we haven't yet implemented.
     // This stencil imposes the discretization on the flux.
     static T local_lax_friedrichs_stencil(T u_i_plus_1, T u_i_minus_1, double k, FluxFunction<T> *flux) {
