@@ -66,9 +66,9 @@ void write_config_files(const std::string &root) {
     std::string fluxes[] = {"cubic", "burgers", "lwr", "buckley_leverett"};
     std::string solvers[] = {"lax_friedrichs", "leapfrog" };
 
-    for (auto domain: domains) {
-        for (auto flux: fluxes) {
-            for (auto solver: solvers) {
+    for (const auto& domain: domains) {
+        for (const auto& flux: fluxes) {
+            for (const auto& solver: solvers) {
                 auto cfg = SimulationConfig(domain, flux, solver, 20, 25, 1, 0.01);
                 auto file_name = root + "/" + domain + "_" + flux + "_" + solver + "_config.json";
                 write_config(file_name, cfg);
