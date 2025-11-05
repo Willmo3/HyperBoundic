@@ -13,6 +13,28 @@
 #include "args/match_names.hpp"
 #include "io/generate_source_files.h"
 
+/**
+ * Run a small simulation with 4 timesteps.
+ * @param cfg_path Path to configuration file
+ * @param initial_conds_path Path to string with initial conditions.
+ */
+void run_simulation(const std::string &cfg_path, const std::string &initial_conds_path);
+/**
+ *
+ * @param argc Number of arguments
+ * @param argv Argument vector
+ * @param write_test Pointer to option about whether to write out a sanity test file.
+ * @param cfg_path Pointer to string where path of discretization config will be placed.
+ * @param initial_conds_path Pointer to string where path of initial conditions will be placed.
+ * @return whether no invalid arguments were provided
+ */
+static bool get_args(int argc, char *argv[], bool *write_test, std::string *cfg_path, std::string *initial_conds_path);
+
+/**
+ * Print usage information to stdout.
+ */
+static void usage();
+
 void test_llf_real() {
     auto discretization_size = 4;
     auto num_timesteps = 4;
@@ -36,11 +58,74 @@ void test_llf_real() {
     solution_matrix.print_system();
 }
 
-/**
- * Run a small simulation with 4 timesteps.
- * @param cfg_path Path to configuration file.
- * @param initial_conds_path Path to string with initial conditions.
- */
+// Note: for now, assume only real-valued.
+int main(int argc, char *argv[]) {
+    std::string cfg_path = "";
+    std::string initial_conds_path = "";
+    bool gen_sources = false;
+
+    if (argc == 1) {
+        std::cout << "No arguments provided, running sanity test." << std::endl;
+        // replace with sanity test
+        test_llf_real();
+        exit(EXIT_SUCCESS);
+    }
+
+    // Read command line args.
+    if (!get_args(argc, argv, &gen_sources, &cfg_path, &initial_conds_path)) {
+        std::cerr << "Invalid arguments." << std::endl;
+        usage();
+        exit(EXIT_FAILURE);
+    }
+
+    // Validate command line args.
+    if (gen_sources != cfg_path.empty()) {
+        std::cerr << "Either write a sanity test or run a simulation." << std::endl;
+        usage();
+        exit(EXIT_FAILURE);
+    }
+    if (cfg_path.empty() != initial_conds_path.empty()) {
+        std::cerr << "Specify both an initial conditions file and a configuration file." << std::endl;
+        usage();
+        exit(EXIT_FAILURE);
+    }
+
+    if (gen_sources) {
+        generate_source_files();
+    } else {
+        run_simulation(cfg_path, initial_conds_path);
+    }
+
+    return 0;
+}
+
+static void usage() {
+    std::cout << R"(Usage: "PDEnclose -w" OR "PDEnclose -c <config_path> -s <initial_conditions_path>")" << std::endl;
+    std::cout << "\t-w: Write out source files for testing." << std::endl;
+    std::cout << "\t-c: Path to configuration file." << std::endl;
+    std::cout << "\t-s: Path to initial conditions file." << std::endl;
+}
+
+static bool get_args(int argc, char *argv[], bool *write_test, std::string *cfg_path, std::string *initial_conds_path) {
+    int ch = 0;
+    while ((ch = getopt(argc, argv, "wc:s:")) != -1) {
+        switch (ch) {
+            case 'w':
+                *write_test = true;
+                break;
+            case 's':
+                *initial_conds_path = optarg;
+                break;
+            case 'c':
+                *cfg_path = optarg;
+                break;
+            default:
+                return false;
+        }
+    }
+    return true;
+}
+
 void run_simulation(const std::string &cfg_path, const std::string &initial_conds_path) {
     // Read config
     auto config = read_config(cfg_path);
@@ -94,72 +179,4 @@ void run_simulation(const std::string &cfg_path, const std::string &initial_cond
         std::cerr << "Invalid domain!" << std::endl;
         exit(EXIT_FAILURE);
     }
-}
-
-/**
- *
- * @param argc Number of arguments
- * @param argv Argument vector
- * @param write_test Pointer to option about whether to write out a sanity test file.
- * @param cfg_path Pointer to string where path of discretization config will be placed.
- * @param initial_conds_path Pointer to string where path of initial conditions will be placed.
- * @return whether no invalid arguments were provided
- */
-static bool get_args(int argc, char *argv[], bool *write_test, std::string *cfg_path, std::string *initial_conds_path) {
-    int ch = 0;
-    while ((ch = getopt(argc, argv, "wc:s:")) != -1) {
-        switch (ch) {
-            case 'w':
-                *write_test = true;
-                break;
-            case 's':
-                *initial_conds_path = optarg;
-                break;
-            case 'c':
-                *cfg_path = optarg;
-                break;
-            default:
-                return false;
-        }
-    }
-    return true;
-}
-
-// Note: for now, assume only real-valued.
-int main(int argc, char *argv[]) {
-    std::string cfg_path = "";
-    std::string initial_conds_path = "";
-    bool gen_sources = false;
-
-    if (argc == 1) {
-        std::cout << "No arguments provided, running sanity test." << std::endl;
-        // replace with sanity test
-        test_llf_real();
-        exit(EXIT_SUCCESS);
-    }
-
-    // Read command line args.
-    if (!get_args(argc, argv, &gen_sources, &cfg_path, &initial_conds_path)) {
-        std::cerr << "Invalid arguments." << std::endl;
-        exit(EXIT_FAILURE);
-    }
-
-    // Validate command line args.
-    if (gen_sources != cfg_path.empty()) {
-        std::cerr << "Either write a sanity test or run a simulation." << std::endl;
-        exit(EXIT_FAILURE);
-    }
-    if (cfg_path.empty() != initial_conds_path.empty()) {
-        std::cerr << "Specify both an initial conditions file and a configuration file." << std::endl;
-        exit(EXIT_FAILURE);
-    }
-
-    if (gen_sources) {
-        // write t
-        generate_source_files();
-    } else {
-        run_simulation(cfg_path, initial_conds_path);
-    }
-
-    return 0;
 }
