@@ -48,13 +48,13 @@ void test_llf_real() {
     // Mesh more fine grained in the center.
     auto delta_t = 0.02;
     auto width_values = std::vector<double>(discretization_size);
-    width_values[0] = 1;
-    width_values[1] = 1;
-    width_values[2] = 1;
-    width_values[3] = 1;
+    width_values[0] = 100;
+    width_values[1] = 100;
+    width_values[2] = 100;
+    width_values[3] = 100;
 
     // TODO: free flux fns when finished.
-    auto solution_matrix = LocalLaxFriedrichsSolver<Real>::solve(initial_conditions, width_values, discretization_size, num_timesteps, delta_t, new CubicFlux<Real>);
+    auto solution_matrix = LocalLaxFriedrichsSolver<Real>::solve(initial_conditions, width_values, discretization_size, num_timesteps, delta_t, new BurgersFlux<Real>);
     solution_matrix.print_system();
 }
 

@@ -18,11 +18,7 @@ template<typename T>
 requires Numeric<T>
 bool cfl_check(FluxFunction<T> *f, T mesh_point, double delta_t, double delta_x) {
     auto cfl_value = f->derivative_flux(mesh_point).abs() * delta_t / delta_x;
-    if (cfl_value >= c_max) {
-        std::cerr << "CFL check failed with value: " << cfl_value << std::endl;
-        return false;
-    }
-    return true;
+    return cfl_value < c_max;
 }
 
 #endif //PDENCLOSE_CFL_CHECK_H
