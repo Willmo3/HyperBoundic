@@ -69,7 +69,7 @@ void write_config_files(const std::string &root) {
     for (auto domain: domains) {
         for (auto flux: fluxes) {
             for (auto solver: solvers) {
-                auto cfg = SimulationConfig(domain, flux, solver, 20, 20, 1, 0.01);
+                auto cfg = SimulationConfig(domain, flux, solver, 20, 25, 1, 0.01);
                 auto file_name = root + "/" + domain + "_" + flux + "_" + solver + "_config.json";
                 write_config(file_name, cfg);
             }

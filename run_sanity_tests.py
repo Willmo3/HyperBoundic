@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 import os
 import subprocess
+import time
 from sys import stdout
 
 # check if the script is run from the correct directory
@@ -26,10 +27,15 @@ for domain in domains:
     for flux in fluxes:
         for solver in solvers:
             print(f'Running test: Domain={domain}, Flux={flux}, Solver={solver}')
+            print()
             stdout.flush() # ensure output is printed in order if redirected to file
             config = f'simulations/{domain}_{flux}_{solver}_config.json'
 
             cmd = f'./out/PDEapprox -c {config} -s {conds}'
+
+            time_before = time.perf_counter()
             subprocess.run(['./out/PDEapprox', '-c', config, '-s', conds], check=True)
+            time_after = time.perf_counter()
             print()
+            print(f'Test completed in {time_after - time_before:.4f} seconds.\n')
             stdout.flush() # ensure output is printed in order if redirected to file
