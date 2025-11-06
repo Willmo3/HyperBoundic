@@ -44,8 +44,7 @@ protected:
         assert(timestep >= 0 && timestep < mesh.num_timesteps());
         for (auto point = 0; point < mesh.discretization_size(); point++) {
             if (!cfl_check(flux, mesh.get(timestep, point), delta_t, delta_x)) {
-                std::cerr << "System blowup detected, exiting." << std::endl;
-                exit(1);
+                std::cerr << "System blowup detected at timestep " << timestep << ", point " << point << std::endl;
             }
         }
     }

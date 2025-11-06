@@ -45,7 +45,6 @@ void test_llf_real() {
     initial_conditions[2] = 3.0;
     initial_conditions[3] = 4.0;
 
-    // Mesh more fine grained in the center.
     auto delta_t = 0.02;
     auto width_values = std::vector<double>(discretization_size);
     width_values[0] = 100;
