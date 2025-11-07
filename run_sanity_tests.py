@@ -23,8 +23,8 @@ fluxes = ['cubic', 'burgers', 'lwr', 'buckley_leverett']
 solvers = ['lax_friedrichs', 'leapfrog']
 
 for domain in domains:
-    conds = f'simulations/{domain}_conds.json'
     for flux in fluxes:
+        conds = f'simulations/{flux}_{domain}_conds.json'
         for solver in solvers:
             print(f'Running test: Domain={domain}, Flux={flux}, Solver={solver}')
             print()

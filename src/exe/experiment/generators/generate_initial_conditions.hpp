@@ -1,15 +1,22 @@
 //
-// Created by will on 11/3/25.
+// Created by will on 11/7/25.
 //
 
-#ifndef PDENCLOSE_READ_DISCRETIZATIONS_H
-#define PDENCLOSE_READ_DISCRETIZATIONS_H
+#ifndef PDENCLOSE_GENERATE_INITIAL_CONDITIONS_H
+#define PDENCLOSE_GENERATE_INITIAL_CONDITIONS_H
+
 #include <fstream>
 #include <string>
 
 #include "cereal/archives/json.hpp"
 #include "cereal/types/vector.hpp"
 #include "domains/Numeric.hpp"
+
+/**
+ * Write out source files for initial conditions for different simulations.
+ * @param root Directory to place initial condition files in.
+ */
+void generate_initial_conds(const std::string &root);
 
 /**
  *
@@ -51,4 +58,4 @@ void write_initial_conditions(const std::string& file_name, const std::vector<T>
     f.close();
 }
 
-#endif //PDENCLOSE_READ_DISCRETIZATIONS_H
+#endif //PDENCLOSE_GENERATE_INITIAL_CONDITIONS_H

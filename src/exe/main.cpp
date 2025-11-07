@@ -4,14 +4,14 @@
 #include "flux/CubicFlux.hpp"
 #include "solvers/volume/LocalLaxFriedrichsSolver.hpp"
 #include "DualDomain/MixedForm.hpp"
-#include "io/initial_conditions.hpp"
-#include "io/SimulationConfig.hpp"
+#include "experiment/SimulationConfig.hpp"
 #include "solvers/difference/LaxFriedrichsSolver.hpp"
 #include "flux/BuckleyLeverettFlux.hpp"
 #include "flux/BurgersFlux.hpp"
 #include "flux/LwrFlux.hpp"
 #include "args/match_names.hpp"
-#include "io/generate_source_files.h"
+#include "experiment/generators/generate_initial_conditions.hpp"
+#include "experiment/generators/generate_source_files.h"
 
 /**
  * Run a small simulation with 4 timesteps.
