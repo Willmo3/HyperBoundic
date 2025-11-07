@@ -1,3 +1,0 @@
-#!/usr/bin/env bash
-
-cd ../out/tests && ./test_friedrichs && ./test_leapfrog
