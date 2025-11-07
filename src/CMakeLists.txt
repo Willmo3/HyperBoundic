@@ -40,6 +40,8 @@ add_executable(PDEapprox
         exe/experiment/SimulationConfig.hpp
         exe/experiment/generators/generate_source_files.cpp
         exe/experiment/generators/generate_source_files.h
+        exe/experiment/generators/generate_config_files.cpp
+        exe/experiment/generators/generate_config_files.h
         exe/experiment/generators/generate_initial_conditions.cpp
         exe/experiment/generators/generate_initial_conditions.hpp
         exe/args/match_names.hpp

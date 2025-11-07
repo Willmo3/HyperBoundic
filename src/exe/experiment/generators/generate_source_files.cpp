@@ -5,8 +5,8 @@
 #include <filesystem>
 #include <iostream>
 
+#include "generate_config_files.h"
 #include "generate_initial_conditions.hpp"
-#include "../SimulationConfig.hpp"
 
 // Create a simulations directory in the current working directory if it does not exist.
 void create_dir() {
@@ -28,22 +28,7 @@ void create_dir() {
 }
 
 // Write out all the config files for the various combinations.
-void generate_config_files(const std::string &root) {
-    std::string domains[] = {"real", "interval", "affine", "mixed"};
-    std::string fluxes[] = {"cubic", "burgers", "lwr", "buckley_leverett"};
-    std::string solvers[] = {"lax_friedrichs", "leapfrog" };
-    // TODO: configure different timesteps for each
 
-    for (const auto& domain: domains) {
-        for (const auto& flux: fluxes) {
-            for (const auto& solver: solvers) {
-                auto cfg = SimulationConfig(domain, flux, solver, 20, 25, 1, 0.01);
-                auto file_name = root + "/" + domain + "_" + flux + "_" + solver + "_config.json";
-                write_config(file_name, cfg);
-            }
-        }
-    }
-}
 
 void generate_source_files() {
     create_dir();
