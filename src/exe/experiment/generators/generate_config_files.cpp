@@ -19,11 +19,10 @@ void write_single_cfg(const std::string &domain_name, const std::string &solver_
 
 void generate_config_files(const std::string &root) {
     std::string domains[] = {"real", "interval", "affine", "mixed"};
-    std::string fluxes[] = {"cubic", "burgers", "lwr", "buckley_leverett"};
     std::string solvers[] = {"lax_friedrichs", "leapfrog" };
 
     for (const auto& domain: domains) {
-        for (const auto& solver: fluxes) {
+        for (const auto& solver: solvers) {
             auto burgers_timestep = 1;
             auto lwr_timestep = 25;
             // Cubic is highly nonlinear. For now, we're going to use a smaller timestep than Phocus.
