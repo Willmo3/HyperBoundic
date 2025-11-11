@@ -17,7 +17,7 @@ requires Numeric<T>
 class LwrFlux final : public FluxFunction<T> {
 public:
     T flux(T value) override {
-        return value * (value - 1);
+        return value * (value * -1 + 1);
     }
     T derivative_flux(T value) override {
         return value * -2 + 1;
