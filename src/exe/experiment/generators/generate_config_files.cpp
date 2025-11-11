@@ -24,7 +24,7 @@ void generate_config_files(const std::string &root) {
     for (const auto& domain: domains) {
         for (const auto& solver: solvers) {
             auto burgers_timestep = 1;
-            auto lwr_timestep = 25;
+            auto lwr_timestep = 0.275;
             // Cubic is highly nonlinear. For now, we're going to use a smaller timestep than Phocus.
             // Note that Phocus used different timesteps for the different solvers here.
             auto cubic_timestep = 0.01;
