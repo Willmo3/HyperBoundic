@@ -33,16 +33,10 @@ add_library(volume_solvers
 )
 target_link_libraries(volume_solvers domains fluxes discretizations)
 
-add_library(omp_difference
-           solvers/difference/LaxFriedrichsSolver.hpp
-           solvers/difference/LeapfrogSolver.hpp
-           solvers/difference/DifferenceSolver.hpp)
-target_link_libraries(omp_difference domains fluxes discretizations OpenMP::OpenMP_CXX)  
-
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ../../out)
 
-# Execution environments
-add_library(exe
+add_executable(PDEapprox
+        exe/main.cpp
         exe/experiment/SimulationConfig.hpp
         exe/experiment/generators/generate_source_files.cpp
         exe/experiment/generators/generate_source_files.h
@@ -52,11 +46,4 @@ add_library(exe
         exe/experiment/generators/generate_initial_conditions.hpp
         exe/args/match_names.hpp
         visualization/MeshVisualizer.hpp)
-
-add_executable(PDEapprox
-        exe/main.cpp)
-target_link_libraries(PDEapprox exe difference_solvers)
-
-add_executable(PDEapprox_omp
-        exe/main.cpp)
-target_link_libraries(PDEapprox_omp exe omp_difference)
+target_link_libraries(PDEapprox difference_solvers volume_solvers matplot)
