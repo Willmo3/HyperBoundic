@@ -28,9 +28,7 @@ RectangularMesh<Real> solve_flux(FluxFunction<Real> * f) {
     initial_conditions[2] = 3.0;
     initial_conditions[3] = 4.0;
 
-    auto solver = LaxFriedrichsSolver<Real>(initial_conditions, discretization_size, num_timesteps, delta_t, delta_x, f);\
-    solver.solve();
-    return LaxFriedrichsSolver(initial_conditions, discretization_size, num_timesteps, delta_t, delta_x, f).solve();
+    return LaxFriedrichsSolver<Real>().solve(initial_conditions, discretization_size, num_timesteps, delta_t, delta_x, f);
 }
 
 TEST(flux, burgers_flux) {

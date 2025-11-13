@@ -20,7 +20,7 @@ int main() {
     initial_conditions[2] = 3.0;
     initial_conditions[3] = 4.0;
 
-    auto solution_matrix = LaxFriedrichsSolver(initial_conditions, discretization_size, num_timesteps, delta_t, delta_x, new CubicFlux<Real>()).solve();
+    auto solution_matrix = LaxFriedrichsSolver<Real>().solve(initial_conditions, discretization_size, num_timesteps, delta_t, delta_x, new CubicFlux<Real>());
     solution_matrix.print_system();
     show_real_surface(&solution_matrix);
 

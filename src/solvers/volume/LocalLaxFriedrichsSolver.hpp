@@ -9,7 +9,6 @@
 #include "meshes/RectangularMesh.hpp"
 #include "meshes/CflCheck.hpp"
 
-// TODO: Update to new API as demonstrated by difference solver
 template<typename T>
 requires Numeric<T>
 class LocalLaxFriedrichsSolver {
