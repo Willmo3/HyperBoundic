@@ -37,7 +37,7 @@ for domain in domains:
             cmd = f'./PDEapprox -c {config} -s {conds}'
 
             time_before = time.perf_counter()
-            subprocess.run(['./PDEapprox', '-c', config, '-s', conds], check=True)
+            subprocess.run(['./PDEapprox', '-c', config, '-s', conds, '-t'], check=True)
             time_after = time.perf_counter()
             print()
             print(f'Test completed in {time_after - time_before:.4f} seconds.\n')

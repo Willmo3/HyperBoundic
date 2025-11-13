@@ -41,20 +41,26 @@ public:
 
     /**
      * @brief Perform a CFL check over an entire solution mesh.
+     * If fails, prints out the timestep and point of failure.
      *
      * @param solution Solution to check over.
      * @param flux Flux function to check CFL satisfiability.
      * @param delta_t Temporal discretization constant.
      * @param delta_x Spatial discretization constant.
+     *
+     * @return Whether the CFL check passed for the entire mesh.
      */
-    void    cfl_check_mesh(const RectangularMesh<T> &solution, FluxFunction<T> *flux, double delta_t, double delta_x) {
+    bool cfl_check_mesh(const RectangularMesh<T> &solution, FluxFunction<T> *flux, double delta_t, double delta_x) {
         for (auto timestep = 0; timestep < solution.num_timesteps(); timestep++) {
             for (auto point = 0; point < solution.discretization_size(); point++) {
                 if (!cfl_check(flux, solution.get(timestep, point), delta_t, delta_x)) {
-                    std::cerr << "System blowup detected at timestep " << timestep << ", point " << point << std::endl;
+                    std::cout << "First CFL violation at timestep " << timestep << ", point " << point << std::endl;
+                    return false;
                 }
             }
         }
+        std::cout << "No CFL violations found." << std::endl;
+        return true;
     }
 };
 
