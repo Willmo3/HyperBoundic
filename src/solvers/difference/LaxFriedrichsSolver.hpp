@@ -42,9 +42,6 @@ public:
                 solution.get(timestep, 0),
                 solution.get(timestep, discretization_size - 2),
                 k, flux));
-
-            // After each run through, check that CFL satisfied.
-            this->cfl_check_row(solution, flux, delta_t, delta_x, timestep);
         }
 
         return solution;

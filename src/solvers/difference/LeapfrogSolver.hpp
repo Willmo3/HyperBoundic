@@ -30,7 +30,6 @@ public:
         for (auto x = 0; x < discretization_size; x++) {
             solution.set(1, x, first_row.get(1, x));
         }
-       this->cfl_check_row(solution, flux, delta_t, delta_x, 1);
 
         // With first timestep primed, move to leapfrog.
         for (auto timestep = 1; timestep < num_timesteps - 1; timestep++) {
@@ -52,9 +51,6 @@ public:
                 solution.get(timestep, discretization_size - 2),
                 solution.get(timestep - 1, discretization_size - 1),
                 k, flux));
-
-            // After each run through, check that CFL satisfied.
-            this->cfl_check_row(solution, flux, delta_t, delta_x, timestep);
         }
 
         return solution;

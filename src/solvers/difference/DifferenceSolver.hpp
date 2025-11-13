@@ -39,12 +39,20 @@ public:
         double delta_x,
         FluxFunction<T>* flux) = 0;
 
-protected:
-    void cfl_check_row(const RectangularMesh<T> &mesh, FluxFunction<T> *flux, double delta_t, double delta_x, int timestep) {
-        assert(timestep >= 0 && timestep < mesh.num_timesteps());
-        for (auto point = 0; point < mesh.discretization_size(); point++) {
-            if (!cfl_check(flux, mesh.get(timestep, point), delta_t, delta_x)) {
-                std::cerr << "System blowup detected at timestep " << timestep << ", point " << point << std::endl;
+    /**
+     * @brief Perform a CFL check over an entire solution mesh.
+     *
+     * @param solution Solution to check over.
+     * @param flux Flux function to check CFL satisfiability.
+     * @param delta_t Temporal discretization constant.
+     * @param delta_x Spatial discretization constant.
+     */
+    void    cfl_check_mesh(const RectangularMesh<T> &solution, FluxFunction<T> *flux, double delta_t, double delta_x) {
+        for (auto timestep = 0; timestep < solution.num_timesteps(); timestep++) {
+            for (auto point = 0; point < solution.discretization_size(); point++) {
+                if (!cfl_check(flux, solution.get(timestep, point), delta_t, delta_x)) {
+                    std::cerr << "System blowup detected at timestep " << timestep << ", point " << point << std::endl;
+                }
             }
         }
     }
