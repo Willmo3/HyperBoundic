@@ -134,8 +134,8 @@ void run_simulation(const std::string &cfg_path, const std::string &initial_cond
         auto initial_conditions = read_initial_conditions<Real>(initial_conds_path);
         auto flux = match_flux<Real>(config.flux);
         // For now, only difference solvers.
-        auto solver = match_difference<Real>(config.solver);
-        auto solution = solver->solve(initial_conditions, config.discretization_size, config.num_timesteps, config.delta_t, config.delta_x, flux);
+        auto solver = match_difference<Real>(config.solver, initial_conditions, config.discretization_size, config.num_timesteps, config.delta_t, config.delta_x, flux);
+        auto solution = solver->solve();
         solution.print_system();
 
         delete solver;
@@ -145,8 +145,8 @@ void run_simulation(const std::string &cfg_path, const std::string &initial_cond
         auto initial_conditions = read_initial_conditions<Winterval>(initial_conds_path);
         auto flux = match_flux<Winterval>(config.flux);
         // For now, only difference solvers.
-        auto solver = match_difference<Winterval>(config.solver);
-        auto solution = solver->solve(initial_conditions, config.discretization_size, config.num_timesteps, config.delta_t, config.delta_x, flux);
+        auto solver = match_difference<Winterval>(config.solver, initial_conditions, config.discretization_size, config.num_timesteps, config.delta_t, config.delta_x, flux);
+        auto solution = solver->solve();
         solution.print_system();
 
         delete solver;
@@ -156,9 +156,9 @@ void run_simulation(const std::string &cfg_path, const std::string &initial_cond
         auto initial_conditions = read_initial_conditions<AffineForm>(initial_conds_path);
         auto flux = match_flux<AffineForm>(config.flux);
         // For now, only difference solvers.
-        auto solver = match_difference<AffineForm>(config.solver);
-        auto solution = solver->solve(initial_conditions, config.discretization_size, config.num_timesteps, config.delta_t, config.delta_x, flux);
-        solution.print_system();
+        auto solver = match_difference<AffineForm>(config.solver, initial_conditions, config.discretization_size, config.num_timesteps, config.delta_t, config.delta_x, flux);
+        solver->solve();
+        solver->get_mesh().print_system();
 
         delete solver;
         delete flux;
@@ -167,8 +167,8 @@ void run_simulation(const std::string &cfg_path, const std::string &initial_cond
         auto initial_conditions = read_initial_conditions<MixedForm>(initial_conds_path);
         auto flux = match_flux<MixedForm>(config.flux);
         // For now, only difference solvers.
-        auto solver = match_difference<MixedForm>(config.solver);
-        auto solution = solver->solve(initial_conditions, config.discretization_size, config.num_timesteps, config.delta_t, config.delta_x, flux);
+        auto solver = match_difference<MixedForm>(config.solver, initial_conditions, config.discretization_size, config.num_timesteps, config.delta_t, config.delta_x, flux);
+        auto solution = solver->solve();
         solution.print_system();
 
         delete solver;

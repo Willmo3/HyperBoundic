@@ -8,7 +8,7 @@
 #include <cmath>
 
 #include "domains/Numeric.hpp"
-#include "meshes/RectangularMesh.hpp"
+#include "meshes/Rectangularmesh.hpp"
 #include "flux/FluxFunction.hpp"
 #include "DifferenceSolver.hpp"
 
@@ -17,37 +17,53 @@ requires Numeric<T>
 class LaxFriedrichsSolver final : public DifferenceSolver<T> {
 
 public:
-    RectangularMesh<T> solve(const std::vector<T> &initial_state, uint32_t discretization_size, uint32_t num_timesteps, double delta_t, double delta_x, FluxFunction<T>* flux) override {
-        assert(delta_t > 0 && delta_t < INFINITY);
-        assert(delta_x > 0 && delta_x < INFINITY);
+    /*
+     * Constructor
+     */
+    LaxFriedrichsSolver(const std::vector<T> &initial_state,
+                        uint32_t discretization_size,
+                        uint32_t num_timesteps,
+                        double delta_t,
+                        double delta_x,
+                        FluxFunction<T> *flux):
+        DifferenceSolver<T>(initial_state, discretization_size, num_timesteps, delta_t, delta_x, flux) {}
 
+    /*
+     * Super fields
+     */
+    using DifferenceSolver<T>::delta_t;
+    using DifferenceSolver<T>::delta_x;
+    using DifferenceSolver<T>::mesh;
+    using DifferenceSolver<T>::flux;
+
+    /*
+     * Solver
+     */
+    void solve() override {
         auto k = delta_t / delta_x * 1/2;
-        auto solution = RectangularMesh<T>(discretization_size, num_timesteps);
-        solution.copy_initial_conditions(initial_state);
 
-        for (auto timestep = 0; timestep < num_timesteps - 1; timestep++) {
-            for (auto x = 1; x < discretization_size - 1; x++) {
-                auto u_x_plus_1 = solution.get(timestep, x + 1);
-                auto u_x_minus_1 = solution.get(timestep, x - 1);
-                solution.set(timestep + 1, x, lax_friedrichs_stencil(u_x_plus_1, u_x_minus_1, k, flux));
+        for (auto timestep = 0; timestep < mesh.num_timesteps() - 1; timestep++) {
+            for (auto x = 1; x < mesh.discretization_size() - 1; x++) {
+                auto u_x_plus_1 = mesh.get(timestep, x + 1);
+                auto u_x_minus_1 = mesh.get(timestep, x - 1);
+                mesh.set(timestep + 1, x, lax_friedrichs_stencil(u_x_plus_1, u_x_minus_1, k, flux));
             }
 
             // Currently, only support periodic boundary conditions.
-            solution.set(timestep + 1, 0, lax_friedrichs_stencil(
-                solution.get(timestep, 1),
-                solution.get(timestep, solution.discretization_size() - 1),
+            mesh.set(timestep + 1, 0, lax_friedrichs_stencil(
+                mesh.get(timestep, 1),
+                mesh.get(timestep, mesh.discretization_size() - 1),
                 k, flux));
 
-            solution.set(timestep + 1, solution.discretization_size() - 1, lax_friedrichs_stencil(
-                solution.get(timestep, 0),
-                solution.get(timestep, discretization_size - 2),
+            mesh.set(timestep + 1, mesh.discretization_size() - 1, lax_friedrichs_stencil(
+                mesh.get(timestep, 0),
+                mesh.get(timestep, mesh.discretization_size() - 2),
                 k, flux));
 
             // After each run through, check that CFL satisfied.
-            this->cfl_check_row(solution, flux, delta_t, delta_x, timestep);
+            // TODO: remove redundant CFL checks.
+            this->cfl_check_row(mesh, flux, delta_t, delta_x, timestep);
         }
-
-        return solution;
     }
 
     /*

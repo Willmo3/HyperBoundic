@@ -43,16 +43,30 @@ FluxFunction<T> *match_flux(const std::string &name) {
  *
  * @tparam T Numeric type to operate over
  * @param name Name of finite difference scheme to match
+ * @param initial_state Initial state of the system
+ * @param discretization_size Size of spatial discretization
+ * @param num_timesteps Number of timesteps for the approximation
+ * @param delta_t Time discretization
+ * @param delta_x Space discretization
+ * @param flux Flux function to use for this solver
  * @return An initialized finite difference solver for a given domain
  */
 template<typename T>
 requires Numeric<T>
-DifferenceSolver<T> *match_difference(const std::string &name) {
+// TODO: add new fields to generate solvers
+DifferenceSolver<T> *match_difference(const std::string &name,
+    const std::vector<T> &initial_state,
+    uint32_t discretization_size,
+    uint32_t num_timesteps,
+    double delta_t,
+    double delta_x,
+    FluxFunction<T> *flux) {
+
     if (name == "lax_friedrichs") {
-        return new LaxFriedrichsSolver<T>();
+        return new LaxFriedrichsSolver<T>(initial_state, discretization_size, num_timesteps, delta_t, delta_x, flux);
     }
     if (name == "leapfrog") {
-        return new LeapfrogSolver<T>();
+        return new LeapfrogSolver<T>(initial_state, discretization_size, num_timesteps, delta_t, delta_x, flux);
     }
     std::cerr << "Unsupported PDE solvers!" << std::endl;
     exit(EXIT_FAILURE);

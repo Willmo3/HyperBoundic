@@ -33,7 +33,7 @@ TEST(friedrichs, real_approx_cubic_flux) {
     initial_conditions[2] = 3.0;
     initial_conditions[3] = 4.0;
 
-    auto solution_matrix = LaxFriedrichsSolver<Real>().solve(initial_conditions, discretization_size, num_timesteps, delta_t, delta_x, new CubicFlux<Real>());
+    auto solution_matrix = LaxFriedrichsSolver(initial_conditions, discretization_size, num_timesteps, delta_t, delta_x, new CubicFlux<Real>()).solve();
     // test the third row of the discretization.
     ASSERT_NEAR(solution_matrix.get(2, 0).value(), 2.062752, 0.001);
     ASSERT_NEAR(solution_matrix.get(2, 1).value(), 3.305912, 0.001);
@@ -54,7 +54,7 @@ TEST(friedrichs, real_approx_burgers_flux) {
     initial_conditions[2] = 3.0;
     initial_conditions[3] = 4.0;
 
-    auto solution_matrix = LaxFriedrichsSolver<Real>().solve(initial_conditions, discretization_size, num_timesteps, delta_t, delta_x, new BurgersFlux<Real>());
+    auto solution_matrix = LaxFriedrichsSolver(initial_conditions, discretization_size, num_timesteps, delta_t, delta_x, new BurgersFlux<Real>()).solve();
     ASSERT_NEAR(solution_matrix.get(4, 0).value(), 1.999997, 0.000001);
     ASSERT_NEAR(solution_matrix.get(4, 1).value(), 2.999987, 0.000001);
     ASSERT_NEAR(solution_matrix.get(4, 2).value(), 2.000003, 0.000001);
@@ -76,7 +76,7 @@ TEST(friedrichs, interval_approx) {
     initial_conditions[2] = Winterval(2, 3);
     initial_conditions[3] = Winterval(3, 4);
 
-    auto solution_matrix = LaxFriedrichsSolver<Winterval>().solve(initial_conditions, discretization_size, num_timesteps, delta_t, delta_x, new CubicFlux<Winterval>());
+    auto solution_matrix = LaxFriedrichsSolver(initial_conditions, discretization_size, num_timesteps, delta_t, delta_x, new CubicFlux<Winterval>()).solve();
     assert_eq_bounded_interval(solution_matrix.get(2, 0), Winterval(0.840360, 2.213081));
     assert_eq_bounded_interval(solution_matrix.get(2, 1), Winterval(1.663154, 3.672608));
     assert_eq_bounded_interval(solution_matrix.get(2, 2), Winterval(0.786919, 2.159640));
@@ -96,7 +96,7 @@ TEST(friedrichs, affine_approx) {
     initial_conditions[2] = AffineForm(Winterval(2, 3));
     initial_conditions[3] = AffineForm(Winterval(3, 4));
 
-    auto solution_matrix = LaxFriedrichsSolver<AffineForm>().solve(initial_conditions, discretization_size, num_timesteps, delta_t, delta_x, new CubicFlux<AffineForm>());
+    auto solution_matrix = LaxFriedrichsSolver(initial_conditions, discretization_size, num_timesteps, delta_t, delta_x, new CubicFlux<AffineForm>()).solve();
     assert_eq_bounded_interval(solution_matrix.get(2, 0).to_interval(), Winterval(0.939509, 2.102490));
     assert_eq_bounded_interval(solution_matrix.get(2, 1).to_interval(), Winterval(1.932881, 3.365835));
     assert_eq_bounded_interval(solution_matrix.get(2, 2).to_interval(), Winterval(0.951364, 2.006637));
@@ -115,7 +115,7 @@ TEST(friedrichs, mixed_approx) {
     initial_conditions[2] = MixedForm(Winterval(2, 3));
     initial_conditions[3] = MixedForm(Winterval(3, 4));
 
-    auto solution_matrix = LaxFriedrichsSolver<MixedForm>().solve(initial_conditions, discretization_size, num_timesteps, delta_t, delta_x, new CubicFlux<MixedForm>());
+    auto solution_matrix = LaxFriedrichsSolver(initial_conditions, discretization_size, num_timesteps, delta_t, delta_x, new CubicFlux<MixedForm>()).solve();
     // Notice that mixed approximation is slighly tighter than pure affine at index (2,0).
     assert_eq_bounded_interval(solution_matrix.get(2, 0).interval_bounds(), Winterval(0.951795, 2.102490));
     assert_eq_bounded_interval(solution_matrix.get(2, 1).interval_bounds(), Winterval(1.932881, 3.365835));

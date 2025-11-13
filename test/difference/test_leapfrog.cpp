@@ -28,7 +28,7 @@ TEST(leapfrog, real_approx) {
     initial_conditions[2] = 3.0;
     initial_conditions[3] = 4.0;
 
-    auto solution_matrix = LeapfrogSolver<Real>().solve(initial_conditions, discretization_size, num_timesteps, delta_t, delta_x, new CubicFlux<Real>());
+    auto solution_matrix = LeapfrogSolver(initial_conditions, discretization_size, num_timesteps, delta_t, delta_x, new CubicFlux<Real>()).solve();
     // test the third row of the discretization.
     ASSERT_NEAR(solution_matrix.get(2, 0).value(), 1.125503, 0.001);
     ASSERT_NEAR(solution_matrix.get(2, 1).value(), 2.611825, 0.001);
@@ -49,7 +49,7 @@ TEST(leapfrog, interval_approx) {
     initial_conditions[2] = Winterval(2, 3);
     initial_conditions[3] = Winterval(3, 4);
 
-    auto solution_matrix = LeapfrogSolver<Winterval>().solve(initial_conditions, discretization_size, num_timesteps, delta_t, delta_x, new CubicFlux<Winterval>());
+    auto solution_matrix = LeapfrogSolver(initial_conditions, discretization_size, num_timesteps, delta_t, delta_x, new CubicFlux<Winterval>()).solve();
     assert_eq_bounded_interval(Winterval(-0.119280, 1.226161), solution_matrix.get(2, 0));
     assert_eq_bounded_interval(Winterval(0.766308, 2.905216), solution_matrix.get(2, 1));
     assert_eq_bounded_interval(Winterval(1.773839, 3.119280), solution_matrix.get(2, 2));
@@ -69,7 +69,7 @@ TEST(leapfrog, affine_approx) {
     initial_conditions[2] = AffineForm(Winterval(2, 3));
     initial_conditions[3] = AffineForm(Winterval(3, 4));
 
-    auto solution_matrix = LeapfrogSolver<AffineForm>().solve(initial_conditions, discretization_size, num_timesteps, delta_t, delta_x, new CubicFlux<AffineForm>());
+    auto solution_matrix = LeapfrogSolver(initial_conditions, discretization_size, num_timesteps, delta_t, delta_x, new CubicFlux<AffineForm>()).solve();
     assert_eq_bounded_interval(solution_matrix.get(2, 0).to_interval(), Winterval(-0.076409, 1.160407));
     assert_eq_bounded_interval(solution_matrix.get(2, 1).to_interval(), Winterval(0.924492, 2.672938));
     assert_eq_bounded_interval(solution_matrix.get(2, 2).to_interval(), Winterval(1.918658, 2.997344));
@@ -89,7 +89,7 @@ TEST(leapfrog, affine_approx_mixed) {
     initial_conditions[2] = MixedForm(Winterval(2, 3));
     initial_conditions[3] = MixedForm(Winterval(3, 4));
 
-    auto solution_matrix = LeapfrogSolver<MixedForm>().solve(initial_conditions, discretization_size, num_timesteps, delta_t, delta_x, new CubicFlux<MixedForm>());
+    auto solution_matrix = LeapfrogSolver(initial_conditions, discretization_size, num_timesteps, delta_t, delta_x, new CubicFlux<MixedForm>()).solve();
     assert_eq_bounded_interval(solution_matrix.get(2, 0).interval_bounds(), Winterval(-0.076409,1.160407));
     assert_eq_bounded_interval(solution_matrix.get(2, 1).interval_bounds(), Winterval(0.924492, 2.672938));
     assert_eq_bounded_interval(solution_matrix.get(2, 2).interval_bounds(), Winterval(1.918658, 2.997344));
