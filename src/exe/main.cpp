@@ -9,6 +9,7 @@
 #include "args/match_names.hpp"
 #include "experiment/generators/generate_initial_conditions.hpp"
 #include "experiment/generators/generate_source_files.h"
+#include "visualization/MeshVisualizer.hpp"
 
 /**
  * Run a user-configured simulation
@@ -56,6 +57,42 @@ void test_llf_real() {
     solution_matrix.print_system();
 }
 
+void show_pathological_leverett() {
+    auto delta_x = 0.01;
+    auto delta_t = 1.0;
+
+    auto discretization_size = 5;
+    auto num_timesteps = 5;
+
+    auto initial_conditions = std::vector<Real>(discretization_size);
+    initial_conditions[0] = 0.39;
+    initial_conditions[1] = 0.66;
+    initial_conditions[2] = 0.84;
+    initial_conditions[3] = 0.75;
+    initial_conditions[4] = 0.21;
+
+    auto solution_matrix = LeapfrogSolver<Real>().solve(initial_conditions, discretization_size, num_timesteps, delta_t, delta_x, new BuckleyLeverett<Real>());
+    save_real_surface(&solution_matrix, "pathological_leverett_leapfrog.png");
+}
+
+void show_acceptable_leverett() {
+    auto delta_x = 0.01;
+    auto delta_t = 0.01;
+
+    auto discretization_size = 5;
+    auto num_timesteps = 5;
+
+    auto initial_conditions = std::vector<Real>(discretization_size);
+    initial_conditions[0] = 0.39;
+    initial_conditions[1] = 0.66;
+    initial_conditions[2] = 0.84;
+    initial_conditions[3] = 0.75;
+    initial_conditions[4] = 0.21;
+
+    auto solution_matrix = LeapfrogSolver<Real>().solve(initial_conditions, discretization_size, num_timesteps, delta_t, delta_x, new BuckleyLeverett<Real>());
+    save_real_surface(&solution_matrix, "acceptable_leverett_leapfrog.png");
+}
+
 // Note: for now, assume only real-valued.
 int main(int argc, char *argv[]) {
     std::string cfg_path = "";
@@ -66,7 +103,9 @@ int main(int argc, char *argv[]) {
     if (argc == 1) {
         std::cout << "No arguments provided, running sanity test." << std::endl;
         // replace with sanity test
-        test_llf_real();
+        // test_llf_real();
+        show_pathological_leverett();
+        show_acceptable_leverett();
         exit(EXIT_SUCCESS);
     }
 

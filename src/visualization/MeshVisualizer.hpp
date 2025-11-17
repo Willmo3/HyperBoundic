@@ -12,7 +12,7 @@
  * Note: we use individual functions, as opposed to a shared class,
  * to allow the transform lambda to capture the system.
  */
-inline void show_real_surface(RectangularMesh<Real> *system) {
+inline void prepare_matplot(RectangularMesh<Real> *system) {
     using namespace matplot;
     auto [X, Y] = meshgrid(iota(0, 1, 3));
 
@@ -26,7 +26,20 @@ inline void show_real_surface(RectangularMesh<Real> *system) {
     xlabel("timestep");
     ylabel("space");
     zlabel("wave height");
+}
+
+
+
+inline void show_real_surface(RectangularMesh<Real> *system) {
+    using namespace matplot;
+    prepare_matplot(system);
     show();
+}
+
+inline void save_real_surface(RectangularMesh<Real> *system, const std::string &filename) {
+    using namespace matplot;
+    prepare_matplot(system);
+    save(filename);
 }
 
 #endif //PDENCLOSE_DISCRETIZATIONVISUALIZER_H
