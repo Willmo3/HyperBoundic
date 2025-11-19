@@ -5,6 +5,7 @@
 
 #include "solvers/difference/LeapfrogSolver.hpp"
 #include "domains/Real.hpp"
+#include "flux/BurgersFlux.hpp"
 #include "flux/CubicFlux.hpp"
 #include "visualization/MeshVisualizer.hpp"
 
@@ -21,7 +22,7 @@ int main() {
     initial_conditions[2] = 3.0;
     initial_conditions[3] = 4.0;
 
-    auto solution_matrix = LeapfrogSolver<Real>().solve(initial_conditions, discretization_size, num_timesteps, delta_t, delta_x, new CubicFlux<Real>());
+    auto solution_matrix = LeapfrogSolver<Real>().solve(initial_conditions, discretization_size, num_timesteps, delta_t, delta_x, new BurgersFlux<Real>());
     solution_matrix.print_system();
     show_real_surface(&solution_matrix);
 
