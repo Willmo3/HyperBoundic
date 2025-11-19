@@ -57,9 +57,9 @@ void test_llf_real() {
     solution_matrix.print_system();
 }
 
-void show_pathological_leverett() {
-    auto delta_x = 0.01;
-    auto delta_t = 1.0;
+void show_pathological_burgers() {
+    auto delta_x = 1.0;
+    auto delta_t = 10.0;
 
     auto discretization_size = 5;
     auto num_timesteps = 5;
@@ -71,13 +71,14 @@ void show_pathological_leverett() {
     initial_conditions[3] = 0.75;
     initial_conditions[4] = 0.21;
 
-    auto solution_matrix = LeapfrogSolver<Real>().solve(initial_conditions, discretization_size, num_timesteps, delta_t, delta_x, new BuckleyLeverett<Real>());
-    save_real_surface(&solution_matrix, "pathological_leverett_leapfrog.png");
+    auto solution_matrix = LeapfrogSolver<Real>().solve(initial_conditions, discretization_size, num_timesteps, delta_t, delta_x, new BurgersFlux<Real>());
+    save_real_surface(&solution_matrix, "pathological_burgers_leapfrog.svg");
+    // show_real_surface(&solution_matrix);
 }
 
-void show_acceptable_leverett() {
-    auto delta_x = 0.01;
-    auto delta_t = 0.01;
+void show_acceptable_burgers() {
+    auto delta_x = 1;
+    auto delta_t = 1;
 
     auto discretization_size = 5;
     auto num_timesteps = 5;
@@ -89,8 +90,9 @@ void show_acceptable_leverett() {
     initial_conditions[3] = 0.75;
     initial_conditions[4] = 0.21;
 
-    auto solution_matrix = LeapfrogSolver<Real>().solve(initial_conditions, discretization_size, num_timesteps, delta_t, delta_x, new BuckleyLeverett<Real>());
-    save_real_surface(&solution_matrix, "acceptable_leverett_leapfrog.png");
+    auto solution_matrix = LeapfrogSolver<Real>().solve(initial_conditions, discretization_size, num_timesteps, delta_t, delta_x, new BurgersFlux<Real>());
+    save_real_surface(&solution_matrix, "acceptable_burgers_leapfrog.svg");
+    // show_real_surface(&solution_matrix);
 }
 
 // Note: for now, assume only real-valued.
@@ -104,8 +106,8 @@ int main(int argc, char *argv[]) {
         std::cout << "No arguments provided, running sanity test." << std::endl;
         // replace with sanity test
         // test_llf_real();
-        show_pathological_leverett();
-        show_acceptable_leverett();
+        show_pathological_burgers();
+        show_acceptable_burgers();
         exit(EXIT_SUCCESS);
     }
 

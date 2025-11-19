@@ -14,7 +14,8 @@
  */
 inline void prepare_matplot(RectangularMesh<Real> *system) {
     using namespace matplot;
-    auto [X, Y] = meshgrid(iota(0, 1, 3));
+    auto [X, Y] =
+        meshgrid(iota(0, 1, std::min(system->discretization_size() - 1, system->num_timesteps() - 1)));
 
     auto Z = transform(X, Y, [system](double x_coord, double y_coord) {
         auto x_int = static_cast<uint32_t>(x_coord);
@@ -22,13 +23,13 @@ inline void prepare_matplot(RectangularMesh<Real> *system) {
         return system->get(x_int, y_int).value();
     });
 
-    auto data = surfc(X, Y, Z);
+    auto data = ribbon(X, Y, Z);
+    axis({0, static_cast<double>(system->num_timesteps()), 0, static_cast<double>(system->discretization_size())});
     xlabel("timestep");
     ylabel("space");
     zlabel("wave height");
+    colorbar();
 }
-
-
 
 inline void show_real_surface(RectangularMesh<Real> *system) {
     using namespace matplot;
