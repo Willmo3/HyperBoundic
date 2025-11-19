@@ -15,9 +15,8 @@
 template<typename T>
 requires Numeric<T>
 class LaxFriedrichsSolver final : public DifferenceSolver<T> {
-
 public:
-    RectangularMesh<T> solve(const std::vector<T> &initial_state, uint32_t discretization_size, uint32_t num_timesteps, double delta_t, double delta_x, FluxFunction<T>* flux) override {
+    RectangularMesh<T> solve(const std::vector<T> &initial_state, uint32_t discretization_size, uint32_t num_timesteps, double delta_t, double delta_x, FluxFunction<T> *flux) override {
         assert(delta_t > 0 && delta_t < INFINITY);
         assert(delta_x > 0 && delta_x < INFINITY);
 
@@ -25,23 +24,27 @@ public:
         auto solution = RectangularMesh<T>(discretization_size, num_timesteps);
         solution.copy_initial_conditions(initial_state);
 
+#       pragma omp parallel default(none) shared(solution, discretization_size, num_timesteps, k, flux)
         for (auto timestep = 0; timestep < num_timesteps - 1; timestep++) {
+#           pragma omp for
             for (auto x = 1; x < discretization_size - 1; x++) {
                 auto u_x_plus_1 = solution.get(timestep, x + 1);
                 auto u_x_minus_1 = solution.get(timestep, x - 1);
                 solution.set(timestep + 1, x, lax_friedrichs_stencil(u_x_plus_1, u_x_minus_1, k, flux));
             }
+#           pragma omp single
+            {
+                // Currently, only support periodic boundary conditions.
+                solution.set(timestep + 1, 0, lax_friedrichs_stencil(
+                    solution.get(timestep, 1),
+                    solution.get(timestep, solution.discretization_size() - 1),
+                    k, flux));
 
-            // Currently, only support periodic boundary conditions.
-            solution.set(timestep + 1, 0, lax_friedrichs_stencil(
-                solution.get(timestep, 1),
-                solution.get(timestep, solution.discretization_size() - 1),
-                k, flux));
-
-            solution.set(timestep + 1, solution.discretization_size() - 1, lax_friedrichs_stencil(
-                solution.get(timestep, 0),
-                solution.get(timestep, discretization_size - 2),
-                k, flux));
+                solution.set(timestep + 1, solution.discretization_size() - 1, lax_friedrichs_stencil(
+                    solution.get(timestep, 0),
+                    solution.get(timestep, discretization_size - 2),
+                    k, flux));
+            }
         }
 
         return solution;

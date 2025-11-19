@@ -1,0 +1,11 @@
+{
+    "value0": {
+        "domain": "mixed",
+        "flux": "burgers",
+        "solver": "lax_friedrichs",
+        "discretization_size": 20,
+        "timesteps": 2500,
+        "delta_x": 2.0,
+        "delta_t": 0.00001
+    }
+}

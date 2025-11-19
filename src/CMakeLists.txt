@@ -48,3 +48,24 @@ add_executable(PDEapprox
         exe/args/match_names.hpp
         visualization/MeshVisualizer.hpp)
 target_link_libraries(PDEapprox difference_solvers volume_solvers matplot)
+
+# openmp versions
+add_library(omp_difference_solvers
+        solvers/difference/LaxFriedrichsSolver.hpp
+        solvers/difference/LeapfrogSolver.hpp
+        solvers/difference/DifferenceSolver.hpp
+)
+target_link_libraries(omp_difference_solvers domains fluxes discretizations OpenMP::OpenMP_CXX)
+
+add_executable(PDEapprox_omp
+        exe/main.cpp
+        exe/experiment/SimulationConfig.hpp
+        exe/experiment/generators/generate_source_files.cpp
+        exe/experiment/generators/generate_source_files.h
+        exe/experiment/generators/generate_config_files.cpp
+        exe/experiment/generators/generate_config_files.h
+        exe/experiment/generators/generate_initial_conditions.cpp
+        exe/experiment/generators/generate_initial_conditions.hpp
+        exe/args/match_names.hpp
+        visualization/MeshVisualizer.hpp)
+target_link_libraries(PDEapprox_omp omp_difference_solvers volume_solvers matplot)
