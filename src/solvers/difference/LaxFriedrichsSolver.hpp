@@ -46,7 +46,6 @@ public:
                     k, flux));
             }
         }
-
         return solution;
     }
 

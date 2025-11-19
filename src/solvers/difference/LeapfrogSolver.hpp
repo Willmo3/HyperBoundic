@@ -14,7 +14,6 @@
 template<typename T>
 requires Numeric<T>
 class LeapfrogSolver final: public DifferenceSolver<T> {
-
 public:
     RectangularMesh<T> solve(const std::vector<T> &initial_state, uint32_t discretization_size, uint32_t num_timesteps, double delta_t, double delta_x, FluxFunction<T>* flux) override {
         assert(delta_t > 0 && delta_t < INFINITY);
@@ -25,6 +24,8 @@ public:
         auto solution = RectangularMesh<T>(discretization_size, num_timesteps);
         solution.copy_initial_conditions(initial_state);
 
+        // Note: if omp defined, then this will also be parallelized.
+        // Will result in an extra fork join, for two total in the solving process.
         auto first_row = LaxFriedrichsSolver<T>().solve(initial_state, discretization_size, 2, delta_t, delta_x, flux);
         // Copy first row of Lax-Friedrichs solution into our solution matrix.
         for (auto x = 0; x < discretization_size; x++) {
@@ -32,27 +33,31 @@ public:
         }
 
         // With first timestep primed, move to leapfrog.
+#       pragma omp parallel default(none) shared(solution, discretization_size, num_timesteps, k, flux)
         for (auto timestep = 1; timestep < num_timesteps - 1; timestep++) {
+#           pragma omp for
             for (auto x = 1; x < discretization_size - 1; x++) {
                 auto u_x_plus_1 = solution.get(timestep, x + 1);
                 auto u_x_minus_1 = solution.get(timestep, x - 1);
                 auto u_x_prev = solution.get(timestep - 1, x);
                 solution.set(timestep + 1, x, leapfrog_stencil(u_x_plus_1, u_x_minus_1, u_x_prev, k, flux));
             }
-            // Currently, only support periodic boundary conditions.
-            solution.set(timestep + 1, 0, leapfrog_stencil(
-                solution.get(timestep, 1),
-                solution.get(timestep, solution.discretization_size() - 1),
-                solution.get(timestep - 1, 0),
-                k, flux));
+#           pragma omp single
+            {
+                // Currently, only support periodic boundary conditions.
+                solution.set(timestep + 1, 0, leapfrog_stencil(
+                    solution.get(timestep, 1),
+                    solution.get(timestep, solution.discretization_size() - 1),
+                    solution.get(timestep - 1, 0),
+                    k, flux));
 
-            solution.set(timestep + 1, solution.discretization_size() - 1, leapfrog_stencil(
-                solution.get(timestep, 0),
-                solution.get(timestep, discretization_size - 2),
-                solution.get(timestep - 1, discretization_size - 1),
-                k, flux));
+                solution.set(timestep + 1, solution.discretization_size() - 1, leapfrog_stencil(
+                    solution.get(timestep, 0),
+                    solution.get(timestep, discretization_size - 2),
+                    solution.get(timestep - 1, discretization_size - 1),
+                    k, flux));
+            }
         }
-
         return solution;
     }
 
