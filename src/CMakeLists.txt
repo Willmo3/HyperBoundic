@@ -29,6 +29,7 @@ add_library(difference_solvers
 )
 target_link_libraries(difference_solvers domains fluxes discretizations)
 add_library(volume_solvers
+        solvers/volume/VolumeSolver.hpp
         solvers/volume/LocalLaxFriedrichsSolver.hpp
 )
 target_link_libraries(volume_solvers domains fluxes discretizations)

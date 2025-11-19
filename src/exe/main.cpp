@@ -53,7 +53,7 @@ void test_llf_real() {
     width_values[3] = 100;
 
     // TODO: free flux fns when finished.
-    auto solution_matrix = LocalLaxFriedrichsSolver<Real>::solve(initial_conditions, width_values, discretization_size, num_timesteps, delta_t, new BurgersFlux<Real>);
+    auto solution_matrix = LocalLaxFriedrichsSolver<Real>().solve(initial_conditions, width_values, discretization_size, num_timesteps, delta_t, new BurgersFlux<Real>);
     solution_matrix.print_system();
 }
 

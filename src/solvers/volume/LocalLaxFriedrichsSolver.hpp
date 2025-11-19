@@ -6,29 +6,15 @@
 #define PDENCLOSE_LOCALLAXFRIEDRICHSSOLVER_H
 #include <cmath>
 
+#include "VolumeSolver.hpp"
 #include "meshes/RectangularMesh.hpp"
-#include "meshes/CflCheck.hpp"
 
 template<typename T>
 requires Numeric<T>
-class LocalLaxFriedrichsSolver {
+class LocalLaxFriedrichsSolver final: public VolumeSolver<T> {
 public:
-    /**
-     * @brief Approximate a finite volume mesh of a discretized system using the local lax friedrichs solver.
-     * The key difference from the standard LF method is that the mesh may be irregular, so the discretization constant
-     * is calculated for each control volume cell.
-     *
-     * @param initial_state Initial values of system.
-     * @param width_values Width for each point in the initial state of the system -- irregular mesh.
-     * This subsumes delta_x in the standard lax friedrichs solver.
-     * @param discretization_size Number of control volume cells.
-     * @param num_timesteps Number of timesteps for simulation.
-     * @param delta_t Change in time at each point.
-     * @param flux Flux function to approximate system with.
-     * @return The approximation of the system.
-     */
-    static RectangularMesh<T> solve(const std::vector<T> &initial_state, const std::vector<double> &width_values, uint32_t discretization_size,
-                                    uint32_t num_timesteps, double delta_t, FluxFunction<T> *flux) {
+    RectangularMesh<T> solve(const std::vector<T> &initial_state, const std::vector<double> &width_values, uint32_t discretization_size,
+                                    uint32_t num_timesteps, double delta_t, FluxFunction<T> *flux) override {
         assert(delta_t > 0 && delta_t < INFINITY);
         // Each point in the discretization must have a corresponding delta_x
         assert(width_values.size() == discretization_size);
@@ -61,28 +47,15 @@ public:
                 solution.get(timestep, 0),
                 solution.get(timestep, discretization_size - 2),
                 k_n, flux));
-
-            // After each run through, check that CFL satisfied.
-            // TODO: cfl_check_row_irregular?
-            for (auto x = 0; x < solution.discretization_size(); x++) {
-                if (!cfl_check(flux, solution.get(timestep, x), delta_t, width_values[x])) {;
-                    std::cerr << "CFL check failed at point " << x << " at timestep " << timestep << "." << std::endl;
-                }
-            }
-        }
-
-        // CFL check last row
-        for (auto x = 0; x < solution.discretization_size(); x++) {
-            if (!cfl_check(flux, solution.get(num_timesteps - 1, x), delta_t, width_values[x])) {;
-                std::cerr << "CFL check failed at point " << x << " at timestep " << (num_timesteps - 1) << "." << std::endl;
-            }
         }
 
         return solution;
     }
 
+private:
+
     /*
-     * In general, the viscosity of a cel is defined by the eigenvalues of the flux's Jacobian at the left and right states.
+     * In general, the viscosity of a cell is defined by the eigenvalues of the flux's Jacobian at the left and right states.
      * However, since we have a 1D system, this reduces to the absolute values of the derivatives at the left and right states.
      */
     static T viscosity_coefficient(T u_i_plus_1, T u_i_minus_1, FluxFunction<T> *flux) {
