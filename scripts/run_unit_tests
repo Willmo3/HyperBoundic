@@ -5,4 +5,5 @@ cd ../out/tests
 ./test_leapfrog &
 ./test_flux &
 ./test_serialization &
+./test_local_lax_friedrichs &
 wait

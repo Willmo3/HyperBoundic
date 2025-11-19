@@ -35,28 +35,6 @@ static bool get_args(int argc, char *argv[], bool *write_test, bool *run_cfl, st
  */
 static void usage();
 
-void test_llf_real() {
-    auto discretization_size = 4;
-    auto num_timesteps = 4;
-
-    auto initial_conditions = std::vector<Real>(discretization_size);
-    initial_conditions[0] = 1.0;
-    initial_conditions[1] = 2.0;
-    initial_conditions[2] = 3.0;
-    initial_conditions[3] = 4.0;
-
-    auto delta_t = 0.02;
-    auto width_values = std::vector<double>(discretization_size);
-    width_values[0] = 100;
-    width_values[1] = 100;
-    width_values[2] = 100;
-    width_values[3] = 100;
-
-    // TODO: free flux fns when finished.
-    auto solution_matrix = LocalLaxFriedrichsSolver<Real>().solve(initial_conditions, width_values, discretization_size, num_timesteps, delta_t, new BurgersFlux<Real>);
-    solution_matrix.print_system();
-}
-
 void show_pathological_burgers() {
     auto delta_x = 1.0;
     auto delta_t = 10.0;
@@ -105,7 +83,6 @@ int main(int argc, char *argv[]) {
     if (argc == 1) {
         std::cout << "No arguments provided, running sanity test." << std::endl;
         // replace with sanity test
-        // test_llf_real();
         show_pathological_burgers();
         show_acceptable_burgers();
         exit(EXIT_SUCCESS);
