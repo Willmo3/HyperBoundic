@@ -1,0 +1,36 @@
+# atomic synchronization
+
+[DEBUG] Max noise symbol allocated: 537340
+[DEBUG] Max noise symbol allocated: 537290
+
+# no synchronization
+[DEBUG] Max noise symbol allocated: 525059
+[DEBUG] Max noise symbol allocated: 524259
+
+# serial
+[DEBUG] Max noise symbol allocated: 537240
+[DEBUG] Max noise symbol allocated: 537240
+
+# explicit locks
+[DEBUG] Max noise symbol allocated: 537290
+[DEBUG] Max noise symbol allocated: 537210
+
+# repeated fork join
+[DEBUG] Max noise symbol allocated: 537240
+[DEBUG] Max noise symbol allocated: 537240
+[DEBUG] Max noise symbol allocated: 537290
+
+others also oscillating between 40, 90
+really interesting. TODO: tighten control of noise symbols.
+
+# static serial
+[DEBUG] Current max noise symbol: 619740
+
+# 100000
+[DEBUG] Current max noise symbol: 6199740
+[DEBUG] Current max noise symbol: 6199740
+[DEBUG] Current max noise symbol: 6199740
+# with reduced fork/join setup
+[DEBUG] Current max noise symbol: 6199740
+[DEBUG] Current max noise symbol: 6199740
+

@@ -32,8 +32,8 @@ tar -xzf 'caffeine-release.tar.gz' && rm 'caffeine-release.tar.gz'
 if [ -d 'DualDomain' ]; then
   rm -r 'DualDomain'
 fi
-wget 'https://github.com/Willmo3/DualDomain/raw/refs/heads/main/release/dualdomain-v0.0.1.tar.gz'
-tar -xzf 'dualdomain-v0.0.1.tar.gz' && rm 'dualdomain-v0.0.1.tar.gz'
+wget 'https://github.com/Willmo3/DualDomain/raw/refs/heads/main/release/dualdomain.tar.gz'
+tar -xzf 'dualdomain.tar.gz' && rm 'dualdomain.tar.gz'
 
 # Cereal is required for wixed, waffine, and winterval
 if [[ -d "cereal" ]]; then

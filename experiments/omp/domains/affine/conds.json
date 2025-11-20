@@ -1,0 +1,184 @@
+{
+    "value0": [
+        {
+            "center": 0.0,
+            "noise_symbols": [
+                {
+                    "key": 120,
+                    "value": -0.05
+                }
+            ]
+        },
+        {
+            "center": 0.39,
+            "noise_symbols": [
+                {
+                    "key": 121,
+                    "value": -0.04999999999999999
+                }
+            ]
+        },
+        {
+            "center": 0.6599999999999999,
+            "noise_symbols": [
+                {
+                    "key": 122,
+                    "value": -0.050000000000000047
+                }
+            ]
+        },
+        {
+            "center": 0.8099999999999999,
+            "noise_symbols": [
+                {
+                    "key": 123,
+                    "value": -0.050000000000000047
+                }
+            ]
+        },
+        {
+            "center": 0.84,
+            "noise_symbols": [
+                {
+                    "key": 124,
+                    "value": -0.050000000000000047
+                }
+            ]
+        },
+        {
+            "center": 0.75,
+            "noise_symbols": [
+                {
+                    "key": 125,
+                    "value": -0.050000000000000047
+                }
+            ]
+        },
+        {
+            "center": 0.54,
+            "noise_symbols": [
+                {
+                    "key": 126,
+                    "value": -0.05000000000000002
+                }
+            ]
+        },
+        {
+            "center": 0.21,
+            "noise_symbols": [
+                {
+                    "key": 127,
+                    "value": -0.05000000000000002
+                }
+            ]
+        },
+        {
+            "center": 0.0,
+            "noise_symbols": [
+                {
+                    "key": 128,
+                    "value": -0.05
+                }
+            ]
+        },
+        {
+            "center": 0.0,
+            "noise_symbols": [
+                {
+                    "key": 129,
+                    "value": -0.05
+                }
+            ]
+        },
+        {
+            "center": 0.0,
+            "noise_symbols": [
+                {
+                    "key": 130,
+                    "value": -0.05
+                }
+            ]
+        },
+        {
+            "center": 0.0,
+            "noise_symbols": [
+                {
+                    "key": 131,
+                    "value": -0.05
+                }
+            ]
+        },
+        {
+            "center": 0.0,
+            "noise_symbols": [
+                {
+                    "key": 132,
+                    "value": -0.05
+                }
+            ]
+        },
+        {
+            "center": 0.0,
+            "noise_symbols": [
+                {
+                    "key": 133,
+                    "value": -0.05
+                }
+            ]
+        },
+        {
+            "center": 0.0,
+            "noise_symbols": [
+                {
+                    "key": 134,
+                    "value": -0.05
+                }
+            ]
+        },
+        {
+            "center": 0.0,
+            "noise_symbols": [
+                {
+                    "key": 135,
+                    "value": -0.05
+                }
+            ]
+        },
+        {
+            "center": 0.0,
+            "noise_symbols": [
+                {
+                    "key": 136,
+                    "value": -0.05
+                }
+            ]
+        },
+        {
+            "center": 0.0,
+            "noise_symbols": [
+                {
+                    "key": 137,
+                    "value": -0.05
+                }
+            ]
+        },
+        {
+            "center": 0.0,
+            "noise_symbols": [
+                {
+                    "key": 138,
+                    "value": -0.05
+                }
+            ]
+        },
+        {
+            "center": 0.0,
+            "noise_symbols": [
+                {
+                    "key": 139,
+                    "value": -0.05
+                }
+            ]
+        }
+    ]
+}

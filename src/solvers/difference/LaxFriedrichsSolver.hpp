@@ -24,27 +24,34 @@ public:
         auto solution = RectangularMesh<T>(discretization_size, num_timesteps);
         solution.copy_initial_conditions(initial_state);
 
-#       pragma omp parallel default(none) shared(solution, discretization_size, num_timesteps, k, flux)
         for (auto timestep = 0; timestep < num_timesteps - 1; timestep++) {
-#           pragma omp for
+            /*
+             * Note: I considered parallelizing the outermost loop with a parallel directive,
+             * then splitting the threads between this inner loop.
+             *
+             * This would reduce fork-joins, however, it also requires the rest of the function to be synchronzied
+             * with pragma omp single
+             *
+             * Additionally, I found the performance advantage of an early fork negligible (if even present) in prelim testing.
+             * My suspicion is that the additional barriers subsumed any performance gains
+             */
+#           pragma omp parallel for default(none) shared(solution, discretization_size, timestep, k, flux)
             for (auto x = 1; x < discretization_size - 1; x++) {
                 auto u_x_plus_1 = solution.get(timestep, x + 1);
                 auto u_x_minus_1 = solution.get(timestep, x - 1);
                 solution.set(timestep + 1, x, lax_friedrichs_stencil(u_x_plus_1, u_x_minus_1, k, flux));
             }
-#           pragma omp single
-            {
-                // Currently, only support periodic boundary conditions.
-                solution.set(timestep + 1, 0, lax_friedrichs_stencil(
-                    solution.get(timestep, 1),
-                    solution.get(timestep, solution.discretization_size() - 1),
-                    k, flux));
 
-                solution.set(timestep + 1, solution.discretization_size() - 1, lax_friedrichs_stencil(
-                    solution.get(timestep, 0),
-                    solution.get(timestep, discretization_size - 2),
-                    k, flux));
-            }
+            // Currently, only support periodic boundary conditions.
+            solution.set(timestep + 1, 0, lax_friedrichs_stencil(
+                solution.get(timestep, 1),
+                solution.get(timestep, solution.discretization_size() - 1),
+                k, flux));
+
+            solution.set(timestep + 1, solution.discretization_size() - 1, lax_friedrichs_stencil(
+                solution.get(timestep, 0),
+                solution.get(timestep, discretization_size - 2),
+                k, flux));
         }
         return solution;
     }

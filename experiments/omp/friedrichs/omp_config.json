@@ -4,7 +4,7 @@
         "flux": "burgers",
         "solver": "lax_friedrichs",
         "discretization_size": 20,
-        "timesteps": 2500,
+        "timesteps": 100000,
         "delta_x": 2.0,
         "delta_t": 0.00001
     }

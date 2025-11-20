@@ -50,12 +50,20 @@ add_executable(PDEapprox
 target_link_libraries(PDEapprox difference_solvers volume_solvers matplot)
 
 # openmp versions
+
+add_library(domains_omp
+        domains/Real.cpp
+        domains/Real.hpp
+        domains/Numeric.hpp
+)
+target_link_libraries(domains_omp winterval caffeine_omp dualdomain_omp)
+
 add_library(omp_difference_solvers
         solvers/difference/LaxFriedrichsSolver.hpp
         solvers/difference/LeapfrogSolver.hpp
         solvers/difference/DifferenceSolver.hpp
 )
-target_link_libraries(omp_difference_solvers domains fluxes discretizations OpenMP::OpenMP_CXX)
+target_link_libraries(omp_difference_solvers domains_omp fluxes discretizations)
 
 add_executable(PDEapprox_omp
         exe/main.cpp
